@@ -5,7 +5,7 @@
 ## نظرة عامة على المراحل
 
 يمر المسار بـ 12 مرحلة متكاملة:
-0. **00-introduction**: المفاهيم الأساسية، مميزات RAG، أثر حالات الاستخدام، ومقارنة (Prompting vs Fine-Tuning vs RAG).
+0. **00-rag-fundamentals**: شرح فكرة وأساسيات RAG، المزايا، أثر حالات الاستخدام، المقارنة الثلاثية، وتفكيك المعمارية.
 1. **01-ingestion**: استيراد وتجزئة وتحليل مختلف أنواع البيانات والمستندات (PDF/Word/CSV/SQL).
 2. **02-indexing**: تحويل النصوص لتمثيلات شعاعية وفهرستها مع إثراء البيانات الوصفية (Embeddings, Vector Stores, Metadata Enrichment).
 3. **03-retrieval**: البحث عن المعلومات الأكثر صلة بالاستعلام باستخدام تقنيات مطابقة وإعادة ترتيب متعددة (Similarity, Hybrid, MMR, Reranking).
@@ -31,7 +31,7 @@
 
 | المرحلة | الوصف | الحالة | الملاحظات | الـ Playground المنظم |
 | :--- | :--- | :---: | :---: | :---: |
-| [00-introduction](./00-introduction/) | مقدمة RAG والمفاهيم والمقارنات | [ ] | [notes](./notes/) | - |
+| [00-rag-fundamentals](./00-rag-fundamentals/) | أساسيات ومفاهيم وشرح فكرة RAG | [ ] | [notes](./00-rag-fundamentals/) | - |
 | [01-ingestion](./01-ingestion/) | معالجة وإدخال البيانات | [ ] | [notes](./notes/) | - |
 | [02-indexing](./02-indexing/) | التضمينات وفهارس المتجهات | [ ] | [notes](./notes/) | - |
 | [03-retrieval](./03-retrieval/) | الاسترجاع وإعادة الترتيب | [ ] | [notes](./notes/) | - |
