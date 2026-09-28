@@ -1,0 +1,31 @@
+# ==========================================
+# Core Framework & LangChain Ecosystem
+# ==========================================
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-openai>=0.2.0
+langchain-groq>=0.2.0
+
+# ==========================================
+# Embeddings & Vector Stores
+# ==========================================
+sentence-transformers>=3.0.0
+faiss-cpu>=1.8.0
+tiktoken>=0.7.0
+
+# ==========================================
+# Document Loaders & Data Ingestion (PDF, Word, CSV, Excel, SQL, Web)
+# ==========================================
+pypdf>=5.0.0
+python-docx>=1.1.0
+docx2txt>=0.8
+pandas>=2.2.0
+openpyxl>=3.1.0
+beautifulsoup4>=4.12.0
+sqlalchemy>=2.0.0
+
+# ==========================================
+# Environment & Development Tools
+# ==========================================
+python-dotenv>=1.0.0
+ipykernel>=6.29.0

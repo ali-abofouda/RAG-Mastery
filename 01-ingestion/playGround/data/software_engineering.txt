@@ -1,0 +1,142 @@
+TITLE: Software Engineering Fundamentals
+
+AUTHOR: Omar Mahmoud
+CATEGORY: Software Engineering
+DATE: September 2026
+
+---
+
+1. Introduction
+
+Software Engineering is the systematic approach to designing, developing, testing, deploying, and maintaining software systems.
+
+Unlike simply writing code, software engineering involves planning, requirements analysis, architecture, testing, documentation, version control, security, and maintenance.
+
+The goal is to build software that is reliable, maintainable, scalable, secure, and suitable for its intended users.
+
+
+
+2. Software Development Life Cycle
+
+The Software Development Life Cycle, commonly called SDLC, describes the major stages involved in creating software.
+
+Typical stages include:
+
+1. Requirements Analysis
+2. System Design
+3. Implementation
+4. Testing
+5. Deployment
+6. Maintenance
+
+During requirements analysis, developers and stakeholders determine what the system should accomplish.
+
+During system design, the architecture, components, database structure, and communication between systems are planned.
+
+Implementation is the stage where developers write the actual source code.
+
+Testing is used to identify defects and verify that the system behaves according to its requirements.
+
+Deployment makes the application available to its users.
+
+Maintenance continues after deployment and includes fixing bugs, improving performance, adding features, and adapting the system to changing requirements.
+
+
+
+3. Agile Software Development
+
+Agile is a software development approach that emphasizes iterative development, continuous feedback, and collaboration.
+
+Instead of attempting to define every detail of a project before development begins, Agile teams usually divide the work into smaller increments.
+
+One popular Agile framework is Scrum.
+
+A Scrum team commonly includes:
+
+- Product Owner
+- Scrum Master
+- Developers
+
+Work is organized into iterations called Sprints. At the beginning of a Sprint, the team selects tasks from the product backlog.
+
+At the end of the Sprint, the team reviews the completed work and discusses improvements for the next iteration.
+
+
+
+4. Software Architecture
+
+Software architecture describes the high-level structure of a software system.
+
+A well-designed architecture separates responsibilities between different components.
+
+For example, a web application might contain:
+
+Presentation Layer
+Business Logic Layer
+Data Access Layer
+Database
+
+The presentation layer handles interaction with users.
+
+The business logic layer implements application rules.
+
+The data access layer communicates with the database.
+
+This separation can make the system easier to understand, test, and maintain.
+
+
+
+5. Software Testing
+
+Testing is an essential part of software engineering.
+
+Unit testing focuses on individual functions or components.
+
+Integration testing verifies that multiple components work correctly together.
+
+System testing evaluates the complete application.
+
+Acceptance testing determines whether the system satisfies the requirements of its users.
+
+Automated testing is especially useful because tests can be executed repeatedly whenever the software changes.
+
+
+
+6. Version Control
+
+Version control systems allow developers to track changes to source code.
+
+Git is one of the most widely used version control systems.
+
+Common Git commands include:
+
+git init
+git clone
+git add
+git commit
+git push
+git pull
+git branch
+git merge
+
+Platforms such as GitHub and GitLab provide collaboration features around Git repositories.
+
+Developers can use branches to work on features independently and later merge those changes into the main codebase.
+
+
+
+7. Maintainability and Scalability
+
+Software should not only work today; it should also be maintainable as requirements change.
+
+Maintainable code is usually organized into small, understandable components with clear responsibilities.
+
+Scalability refers to the ability of a system to handle increasing workloads.
+
+For example, an application that works well for one thousand users may require architectural improvements when it needs to support one million users.
+
+Caching, database optimization, load balancing, horizontal scaling, and distributed systems are some techniques used to improve scalability.
+
+---
+
+END OF DOCUMENT
