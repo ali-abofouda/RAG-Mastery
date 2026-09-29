@@ -13,3 +13,10 @@ wheels/
 *.crdownload
 .ipynb_checkpoints/
 
+# Media & large binary video files
+*.mp4
+*.mkv
+*.avi
+*.mov
+
+

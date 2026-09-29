@@ -1,0 +1,48 @@
+{
+  "company_name": "Tech Corp",
+  "departments": [
+    "AI & Innovation",
+    "Cloud Infrastructure",
+    "Security"
+  ],
+  "employees": [
+    {
+      "id": 1,
+      "name": "Sarah Chen",
+      "role": "Lead AI Engineer",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "LangChain",
+        "RAG Architecture"
+      ],
+      "projects": [
+        {
+          "name": "RAG Knowledge Base",
+          "status": "In Progress"
+        },
+        {
+          "name": "Agentic Workflow Engine",
+          "status": "Completed"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Alex Rodriguez",
+      "role": "Senior Cloud Architect",
+      "skills": [
+        "Kubernetes",
+        "AWS",
+        "Terraform",
+        "FastAPI"
+      ],
+      "projects": [
+        {
+          "name": "Enterprise Vector DB Cluster",
+          "status": "In Progress"
+        }
+      ]
+    }
+  ]
+}
