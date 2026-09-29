@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Temporary browser downloads and notebook checkpoints
+*.crdownload
+.ipynb_checkpoints/
+

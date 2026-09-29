@@ -28,7 +28,7 @@
 | 05 | **[05-pdf-parsing](./05-pdf-parsing/)** | قراءة واستخراج مستندات الـ PDF | [README](./05-pdf-parsing/README.md) | [Notebook](./05-pdf-parsing/05-pdf-parsing.ipynb) | [x] مكتمل |
 | 06 | **[06-pdf-advanced-issues](./06-pdf-advanced-issues/)** | حل المشكلات المعقدة في الـ PDF (جداول، تنسيقات) | [README](./06-pdf-advanced-issues/README.md) | [Notebook](./06-pdf-advanced-issues/06-pdf-advanced-issues.ipynb) | [x] مكتمل |
 | 07 | **[07-word-documents](./07-word-documents/)** | قراءة وتحليل مستندات Word (DOCX) | [README](./07-word-documents/README.md) | [Notebook](./07-word-documents/07-word-documents.ipynb) | [x] مكتمل |
-| 08 | **[08-csv-excel](./08-csv-excel/)** | معالجة ملفات الجداول CSV و Excel | [README](./08-csv-excel/) | - | [ ] قيد البدء |
+| 08 | **[08-csv-excel](./08-csv-excel/)** | معالجة ملفات الجداول CSV و Excel | [README](./08-csv-excel/README.md) | [Notebook](./08-csv-excel/08-csv-excel.ipynb) | [x] مكتمل |
 | 09 | **[09-json-processing](./09-json-processing/)** | قراءة وتحليل بيانات JSON المهيكلة | [README](./09-json-processing/) | - | [ ] قيد البدء |
 | 10 | **[10-sql-databases](./10-sql-databases/)** | ربط واستخراج البيانات من قواعد بيانات SQL | [README](./10-sql-databases/) | - | [ ] قيد البدء |
 

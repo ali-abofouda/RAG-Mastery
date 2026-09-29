@@ -24,7 +24,8 @@
      - `01-text-parsing.ipynb`: تجارب قراءة وتجزئة النصوص.
      - `02-pdf-parsing.ipynb`: تجارب استخراج وتحليل الـ PDF.
      - `03-word-parsing.ipynb`: تجارب مستندات الـ Word (.docx).
-   * مجلد البيانات التجريبية `data/` مقسم نوعياً: `data/txt/`, `data/pdf/`, `data/docx/`.
+     - `04-csv-excel-parsing.ipynb`: تجارب البيانات الجدولية (CSV & Excel).
+   * مجلد البيانات التجريبية `data/` مقسم نوعياً: `data/txt/`, `data/pdf/`, `data/docx/`, `data/csv/`, `data/excel/`.
 
 ---
 
