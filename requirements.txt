@@ -17,8 +17,10 @@ tiktoken>=0.7.0
 # Document Loaders & Data Ingestion (PDF, Word, CSV, Excel, SQL, Web)
 # ==========================================
 pypdf>=5.0.0
+pymupdf>=1.24.0
 python-docx>=1.1.0
 docx2txt>=0.8
+unstructured[docx]>=0.15.0
 pandas>=2.2.0
 openpyxl>=3.1.0
 beautifulsoup4>=4.12.0

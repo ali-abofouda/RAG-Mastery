@@ -25,9 +25,9 @@
 | 02 | **[02-document-structure](./02-document-structure/)** | بنية كائن الـ Document والميتا-داتا في LangChain | [README](./02-document-structure/README.md) | [Notebook](./02-document-structure/02-document-structure.ipynb) | [x] مكتمل |
 | 03 | **[03-text-loaders](./03-text-loaders/)** | قراءة وتحليل الملفات النصية باستخدام Document Loaders | [README](./03-text-loaders/README.md) | [Notebook](./03-text-loaders/03-text-loaders.ipynb) | [x] مكتمل |
 | 04 | **[04-text-splitting](./04-text-splitting/)** | تقنيات واستراتيجيات تجزئة النصوص (Text Splitting) | [README](./04-text-splitting/README.md) | [Notebook](./04-text-splitting/04-text-splitting.ipynb) | [x] مكتمل |
-| 05 | **[05-pdf-parsing](./05-pdf-parsing/)** | قراءة واستخراج مستندات الـ PDF | [README](./05-pdf-parsing/) | - | [ ] قيد البدء |
-| 06 | **[06-pdf-advanced-issues](./06-pdf-advanced-issues/)** | حل المشكلات المعقدة في الـ PDF (جداول، تنسيقات) | [README](./06-pdf-advanced-issues/) | - | [ ] قيد البدء |
-| 07 | **[07-word-documents](./07-word-documents/)** | قراءة وتحليل مستندات Word (DOCX) | [README](./07-word-documents/) | - | [ ] قيد البدء |
+| 05 | **[05-pdf-parsing](./05-pdf-parsing/)** | قراءة واستخراج مستندات الـ PDF | [README](./05-pdf-parsing/README.md) | [Notebook](./05-pdf-parsing/05-pdf-parsing.ipynb) | [x] مكتمل |
+| 06 | **[06-pdf-advanced-issues](./06-pdf-advanced-issues/)** | حل المشكلات المعقدة في الـ PDF (جداول، تنسيقات) | [README](./06-pdf-advanced-issues/README.md) | [Notebook](./06-pdf-advanced-issues/06-pdf-advanced-issues.ipynb) | [x] مكتمل |
+| 07 | **[07-word-documents](./07-word-documents/)** | قراءة وتحليل مستندات Word (DOCX) | [README](./07-word-documents/README.md) | [Notebook](./07-word-documents/07-word-documents.ipynb) | [x] مكتمل |
 | 08 | **[08-csv-excel](./08-csv-excel/)** | معالجة ملفات الجداول CSV و Excel | [README](./08-csv-excel/) | - | [ ] قيد البدء |
 | 09 | **[09-json-processing](./09-json-processing/)** | قراءة وتحليل بيانات JSON المهيكلة | [README](./09-json-processing/) | - | [ ] قيد البدء |
 | 10 | **[10-sql-databases](./10-sql-databases/)** | ربط واستخراج البيانات من قواعد بيانات SQL | [README](./10-sql-databases/) | - | [ ] قيد البدء |
