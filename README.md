@@ -2,6 +2,20 @@
 
 مستودع عملي لتوثيق وتطبيق مسار تعلّم أنظمة توليد النصوص المعزز بالاسترجاع (Retrieval-Augmented Generation - RAG)، يغطي المراحل من الأساسيات النظرية حتى الأنظمة المتقدمة والجاهزية للإنتاج.
 
+> [!TIP]
+> **مختبر التجارب الحرة (Interactive Playground Branch)**:  
+> لضمان بقاء الفرع الرئيسي (`main`) مرجعاً هندسياً وتعليمياً نقياً ومنظماً، تم تخصيص فرع مستقل لكافة مساحات التجارب الحرة ونوتبوكس الـ Playground:  
+> للتبديل وتجربة الأكواد التفاعلية:
+> ```bash
+> git checkout playground
+> ```
+> يحتوي فرع `playground` على:
+> - `playground/playground.ipynb`: المختبر الشامل لكامل دورة حياة الـ RAG خطوة بخطوة.
+> - `playground/01-ingestion/`: مساحات تجارب تفريغ المستندات (PDF, Word, CSV, SQL, JSON).
+> - `playground/02-indexing/`: مساحات تجارب نماذج التضمين السحابية وفهرس FAISS.
+
+---
+
 ## نظرة عامة على المراحل
 
 يمر المسار بـ 12 مرحلة متكاملة:
@@ -29,17 +43,17 @@
 
 ## جدول التقدّم
 
-| المرحلة | الوصف | الحالة | الملاحظات | الـ Playground المنظم |
-| :--- | :--- | :---: | :---: | :---: |
-| [00-rag-fundamentals](./00-rag-fundamentals/) | أساسيات ومفاهيم وشرح فكرة RAG | [x] | [notes](./00-rag-fundamentals/) | - |
-| [01-ingestion](./01-ingestion/) | معالجة وإدخال البيانات | [x] | [guides](./01-ingestion/) | [playground](./01-ingestion/playground/) |
-| [02-indexing](./02-indexing/) | التضمينات وفهارس المتجهات | [ ] | [notes](./notes/) | - |
-| [03-retrieval](./03-retrieval/) | الاسترجاع وإعادة الترتيب | [ ] | [notes](./notes/) | - |
-| [04-query-understanding](./04-query-understanding/) | فهم وتحسين الاستعلامات | [ ] | [notes](./notes/) | - |
-| [05-generation](./05-generation/) | توليد الإجابات وسلاسل LCEL | [ ] | [notes](./notes/) | - |
-| [06-agentic-rag](./06-agentic-rag/) | وكلاء RAG واتخاذ القرار | [ ] | [notes](./notes/) | - |
-| [07-self-correcting-rag](./07-self-correcting-rag/) | أنماط RAG المصححة ذاتياً | [ ] | [notes](./notes/) | - |
-| [08-knowledge-graphs](./08-knowledge-graphs/) | الرسوم البيانية المعرفية | [ ] | [notes](./notes/) | - |
-| [09-evaluation](./09-evaluation/) | التقييم ومقاييس الأداء | [ ] | [notes](./notes/) | - |
-| [10-production-readiness](./10-production-readiness/) | الحماية والمراقبة والإنتاج | [ ] | [notes](./notes/) | - |
-| [capstone](./capstone/) | المشروع الختامي المتكامل | [ ] | - | - |
+| المرحلة | الوصف | الحالة | الدليل والتوثيق |
+| :--- | :--- | :---: | :---: |
+| [00-rag-fundamentals](./00-rag-fundamentals/) | أساسيات ومفاهيم وشرح فكرة RAG | [x] | [README.md](./00-rag-fundamentals/README.md) |
+| [01-ingestion](./01-ingestion/) | معالجة وإدخال البيانات بمختلف الصيغ | [x] | [README.md](./01-ingestion/README.md) |
+| [02-indexing](./02-indexing/) | التضمينات وفهارس المتجهات السحابية | [x] | [README.md](./02-indexing/README.md) |
+| [03-retrieval](./03-retrieval/) | الاسترجاع وإعادة الترتيب | [ ] | [README.md](./03-retrieval/README.md) |
+| [04-query-understanding](./04-query-understanding/) | فهم وتحسين الاستعلامات | [ ] | [README.md](./04-query-understanding/README.md) |
+| [05-generation](./05-generation/) | توليد الإجابات وسلاسل LCEL | [ ] | [README.md](./05-generation/README.md) |
+| [06-agentic-rag](./06-agentic-rag/) | وكلاء RAG واتخاذ القرار | [ ] | [README.md](./06-agentic-rag/README.md) |
+| [07-self-correcting-rag](./07-self-correcting-rag/) | أنماط RAG المصححة ذاتياً | [ ] | [README.md](./07-self-correcting-rag/README.md) |
+| [08-knowledge-graphs](./08-knowledge-graphs/) | الرسوم البيانية المعرفية | [ ] | [README.md](./08-knowledge-graphs/README.md) |
+| [09-evaluation](./09-evaluation/) | التقييم ومقاييس الأداء | [ ] | [README.md](./09-evaluation/README.md) |
+| [10-production-readiness](./10-production-readiness/) | الحماية والمراقبة والإنتاج | [ ] | [README.md](./10-production-readiness/README.md) |
+| [capstone](./capstone/) | المشروع الختامي المتكامل | [ ] | [README.md](./capstone/README.md) |
