@@ -33,7 +33,7 @@ flowchart LR
 ```python
 from langchain_community.document_loaders import PyPDFLoader
 
-loader = PyPDFLoader("data/sample_paper.pdf")
+loader = PyPDFLoader("data/pdf/sample_paper.pdf")
 pages = loader.load()
 
 print(f"إجمالي عدد الصفحات: {len(pages)}")
@@ -61,7 +61,7 @@ uv pip install pymupdf
 ```python
 from langchain_community.document_loaders import PyMuPDFLoader
 
-loader = PyMuPDFLoader("data/sample_paper.pdf")
+loader = PyMuPDFLoader("data/pdf/sample_paper.pdf")
 pages = loader.load()
 
 print(f"تم تحميل {len(pages)} صفحة بسرعة فائقة عبر PyMuPDF.")

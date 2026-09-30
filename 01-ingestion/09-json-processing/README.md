@@ -50,7 +50,7 @@ pip install jq
 ```python
 from langchain_community.document_loaders import JSONLoader
 
-json_path = "data/company_data.json"
+json_path = "data/json/company_data.json"
 
 # استخراج كل موظف ككائن Document مستقل
 loader = JSONLoader(
@@ -128,7 +128,7 @@ def parse_company_json_intelligently(file_path: str) -> List[Document]:
         
     return documents
 
-custom_docs = parse_company_json_intelligently("data/company_data.json")
+custom_docs = parse_company_json_intelligently("data/json/company_data.json")
 print(f"[+] Created {len(custom_docs)} semantically enriched documents.")
 ```
 

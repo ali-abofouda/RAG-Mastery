@@ -45,7 +45,7 @@ pip install pandas openpyxl "unstructured[csv,xlsx]"
 ```python
 from langchain_community.document_loaders import CSVLoader
 
-csv_path = "data/products.csv"
+csv_path = "data/tabular/products.csv"
 
 # إعداد اللودر مع تحديد الترميز ومحددات الأعمدة
 loader = CSVLoader(
@@ -71,7 +71,7 @@ category: Laptops
 price: 2499
 description: High-performance laptop with M3 Max chip and 36GB unified memory.
 
-Metadata: {'source': 'data/products.csv', 'row': 0}
+Metadata: {'source': 'data/tabular/products.csv', 'row': 0}
 ```
 
 * **المزايا:** سريعة جداً، كود بسيط من سطرين، وتضيف رقم الصف `row` تلقائياً في الميتا-داتا.
@@ -115,7 +115,7 @@ def process_csv_intelligently(file_path: str) -> List[Document]:
         
     return documents
 
-custom_docs = process_csv_intelligently("data/products.csv")
+custom_docs = process_csv_intelligently("data/tabular/products.csv")
 print(f"[+] Processed {len(custom_docs)} documents with rich metadata.")
 ```
 
@@ -149,7 +149,7 @@ def process_multisheet_excel(excel_path: str) -> List[Document]:
             
     return all_docs
 
-excel_docs = process_multisheet_excel("data/inventory.xlsx")
+excel_docs = process_multisheet_excel("data/tabular/inventory.xlsx")
 print(f"[+] Extracted {len(excel_docs)} rows across all sheets.")
 ```
 

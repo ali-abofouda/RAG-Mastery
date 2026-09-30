@@ -46,7 +46,7 @@ pip install python-docx docx2txt "unstructured[docx]"
 ```python
 from langchain_community.document_loaders import Docx2txtLoader
 
-file_path = "data/proposal.docx"
+file_path = "data/docx/proposal.docx"
 
 try:
     loader = Docx2txtLoader(file_path)
@@ -61,7 +61,7 @@ except Exception as e:
 
 ### الخصائص والملاحظات:
 1. **عدد المستندات الناتجة:** مستند واحد (`len = 1`) يضم كامل محتوى الملف كنص حر.
-2. **الميتا-داتا:** تحتوي على مسار الملف المصدر (`{"source": "data/proposal.docx"}`).
+2. **الميتا-داتا:** تحتوي على مسار الملف المصدر (`{"source": "data/docx/proposal.docx"}`).
 3. **التجزئة اللاحقة:** يتطلب تمرير الناتج على `RecursiveCharacterTextSplitter` لتقطيعه إلى قطع صغيرة (Chunks) مناسبة للـ Embedding.
 
 ---
@@ -74,7 +74,7 @@ except Exception as e:
 ```python
 from langchain_community.document_loaders import UnstructuredWordDocumentLoader
 
-file_path = "data/proposal.docx"
+file_path = "data/docx/proposal.docx"
 
 try:
     loader = UnstructuredWordDocumentLoader(file_path, mode="elements")
