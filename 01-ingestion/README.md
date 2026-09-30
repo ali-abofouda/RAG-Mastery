@@ -30,7 +30,7 @@
 | 07 | **[07-word-documents](./07-word-documents/)** | قراءة وتحليل مستندات Word (DOCX) | [README](./07-word-documents/README.md) | [Notebook](./07-word-documents/07-word-documents.ipynb) | [x] مكتمل |
 | 08 | **[08-csv-excel](./08-csv-excel/)** | معالجة ملفات الجداول CSV و Excel | [README](./08-csv-excel/README.md) | [Notebook](./08-csv-excel/08-csv-excel.ipynb) | [x] مكتمل |
 | 09 | **[09-json-processing](./09-json-processing/)** | قراءة وتحليل بيانات JSON المهيكلة | [README](./09-json-processing/README.md) | [Notebook](./09-json-processing/09-json-processing.ipynb) | [x] مكتمل |
-| 10 | **[10-sql-databases](./10-sql-databases/)** | ربط واستخراج البيانات من قواعد بيانات SQL | [README](./10-sql-databases/) | - | [ ] قيد البدء |
+| 10 | **[10-sql-databases](./10-sql-databases/)** | ربط واستخراج البيانات من قواعد بيانات SQL | [README](./10-sql-databases/README.md) | [Notebook](./10-sql-databases/10-sql-databases.ipynb) | [x] مكتمل |
 
 ---
 

@@ -31,8 +31,8 @@
 
 | المرحلة | الوصف | الحالة | الملاحظات | الـ Playground المنظم |
 | :--- | :--- | :---: | :---: | :---: |
-| [00-rag-fundamentals](./00-rag-fundamentals/) | أساسيات ومفاهيم وشرح فكرة RAG | [ ] | [notes](./00-rag-fundamentals/) | - |
-| [01-ingestion](./01-ingestion/) | معالجة وإدخال البيانات | [ ] | [guides](./01-ingestion/) | [playground](./01-ingestion/playground/) |
+| [00-rag-fundamentals](./00-rag-fundamentals/) | أساسيات ومفاهيم وشرح فكرة RAG | [x] | [notes](./00-rag-fundamentals/) | - |
+| [01-ingestion](./01-ingestion/) | معالجة وإدخال البيانات | [x] | [guides](./01-ingestion/) | [playground](./01-ingestion/playground/) |
 | [02-indexing](./02-indexing/) | التضمينات وفهارس المتجهات | [ ] | [notes](./notes/) | - |
 | [03-retrieval](./03-retrieval/) | الاسترجاع وإعادة الترتيب | [ ] | [notes](./notes/) | - |
 | [04-query-understanding](./04-query-understanding/) | فهم وتحسين الاستعلامات | [ ] | [notes](./notes/) | - |
