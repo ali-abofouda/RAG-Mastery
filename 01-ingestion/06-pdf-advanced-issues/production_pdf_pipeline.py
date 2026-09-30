@@ -335,7 +335,9 @@ class RobustTextPDFPipeline:
 # Self-Test Execution
 # =============================================================================
 if __name__ == "__main__":
-    sample_pdf = Path(__file__).parent / "data" / "sample_financial_report.pdf"
+    # Resolve path to centralized root data directory
+    root_data_pdf = Path(__file__).resolve().parents[2] / "data" / "pdf" / "sample_financial_report.pdf"
+    sample_pdf = root_data_pdf if root_data_pdf.exists() else Path("data/pdf/sample_financial_report.pdf")
 
     if not sample_pdf.exists():
         print(f"Sample PDF not found at {sample_pdf}.")
