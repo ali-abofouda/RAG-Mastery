@@ -10,6 +10,11 @@ dependencies = [
     "ipywidgets>=8.1.9",
     "jupyter>=1.1.1",
     "langchain-huggingface>=1.2.2",
+    "langchain-openai>=1.6.7",
     "langchain-text-splitters>=1.1.2",
     "matplotlib>=3.11.2",
+    "python-dotenv>=1.2.3",
+    "sentence-transformers>=6.1.0",
+    "torch>=2.14.1",
+    "transformers>=5.18.0",
 ]
