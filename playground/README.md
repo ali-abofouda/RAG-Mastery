@@ -10,20 +10,26 @@
 ```
 playground/
 │
-├── playground.ipynb                # المختبر العام الشامل للمشروع ككل (End-to-End)
-├── IMPORTS_REFERENCE.md            # الدليل الشامل لجميع الاستيرادات الحديثة وشرحها
-├── README.md                       # دليل المختبرات وطريقة الاستخدام
+├── playground.ipynb                             # المختبر العام الشامل للمشروع ككل (End-to-End)
+├── IMPORTS_REFERENCE.md                         # الدليل الشامل لجميع الاستيرادات الحديثة وشرحها
+├── README.md                                    # دليل المختبرات وطريقة الاستخدام
 │
-├── 01-ingestion/                   # تجارب المرحلة الأولى: استيراد وتفريغ المستندات
-│   ├── 01-text-parsing.ipynb       # تفريغ وقراءة الملفات النصية الخام (.txt)
-│   ├── 02-pdf-parsing.ipynb        # معالجة وتفريغ ملفات الـ PDF
-│   ├── 03-word-parsing.ipynb       # استخراج النصوص من ملفات Word (.docx)
-│   ├── 04-csv-excel-parsing.ipynb  # قراءة ومعالجة البيانات الجدولية (CSV / Excel)
-│   ├── 05-json-parsing.ipynb       # معالجة وتحليل ملفات JSON وهياكلها
-│   └── 06-sql-parsing.ipynb        # الاتصال بقواعد البيانات واستخراج السجلات
+├── 01-ingestion/                                # تجارب المرحلة الأولى: استيراد وتفريغ المستندات
+│   ├── 01-text-parsing.ipynb                    # تفريغ وقراءة الملفات النصية الخام (.txt)
+│   ├── 02-pdf-parsing.ipynb                     # معالجة وتفريغ ملفات الـ PDF
+│   ├── 03-word-parsing.ipynb                    # استخراج النصوص من ملفات Word (.docx)
+│   ├── 04-csv-excel-parsing.ipynb               # قراءة ومعالجة البيانات الجدولية (CSV / Excel)
+│   ├── 05-json-parsing.ipynb                    # معالجة وتحليل ملفات JSON وهياكلها
+│   └── 06-sql-parsing.ipynb                     # الاتصال بقواعد البيانات واستخراج السجلات
 │
-└── 02-indexing/                    # تجارب المرحلة الثانية: التضمين والفهرسة
-    └── 01-indexing.ipynb           # تجارب نماذج التضمين السحابية وفهرس FAISS
+├── 02-vector-embeddings/                        # تجارب المرحلة الثانية: التضمينات والتشابه الدلالي
+│   ├── 01-indexing.ipynb                        # تجارب التضمين السحابي
+│   ├── 02-huggingface-embedding.ipynb           # تجارب نماذج HuggingFace
+│   ├── 3-openai-embedding.ipynb                 # تجارب نماذج OpenAI
+│   └── 4-similarity-search.ipynb                # البحث الدلالي ومصفوفات التشابه
+│
+└── 03-vector-stores-and-databases/              # تجارب المرحلة الثالثة: فهارس وقواعد بيانات المتجهات
+    └── 01-vector-stores-vs-vector-databases.ipynb # المقارنة العملية وسرعة الاسترجاع
 ```
 
 ---
@@ -53,18 +59,14 @@ playground/
 
 ---
 
-### 3. قسم الفهرسة والبحث الدلالي ([`02-indexing/`](02-indexing/))
+### 3. قسم التضمينات الشعاعية ([`02-vector-embeddings/`](02-vector-embeddings/))
 مخصص لتجربة أداء المتجهات وعمليات البحث والتشابه:
-- **`01-indexing.ipynb`**:
-  - اختبار نماذج التضمين السحابية `HuggingFaceAPIEmbeddings`.
-  - حساب مصفوفات التشابه الكوزيني والمسافات المكانية ($L_2$).
-  - فهرسة المقاطع في `FAISS` والبحث بأقرب الجيران.
+- اختبار نماذج التضمين السحابية `HuggingFaceAPIEmbeddings`.
+- اختبار نماذج OpenAI Embeddings (`text-embedding-3-small`).
+- حساب مصفوفات التشابه الكوزيني والمسافات المكانية ($L_2$).
 
 ---
 
-## 🔒 التوافق مع سياسات الأمان (Windows Smart App Control)
-
-تم تصميم جميع الأكواد والنماذج في هذه المختبرات لتكون متوافقة بنسبة 100% مع بيئات العمل الصارمة:
-- **Zero Local PyTorch**: لا يتم استدعاء مكتبة `torch` أو `sentence-transformers` محلياً لمنع تعارض ملفات الـ DLL غير الموقعة (`torch_python.dll`).
-- **Remote Cloud Inference**: يتم استدعاء واجهة Hugging Face Inference API عبر الرمز السري المخزن بأمان في ملف `.env` (`HF_TOKEN`).
-- **Pure NumPy Math**: العمليات الرياضية وحسابات تفكيك الأبعاد (PCA) وتطبيع المتجهات تتم عبر مكتبة `numpy` القياسية.
+### 4. قسم فهارس وقواعد بيانات المتجهات ([`03-vector-stores-and-databases/`](03-vector-stores-and-databases/))
+مخصص لتجربة التخزين والاسترجاع السريع والفهرسة المتقدمة:
+- **`01-vector-stores-vs-vector-databases.ipynb`**: مقارنة عملية دقيقة بين Vector Stores المدمجة (In-Memory) وقواعد البيانات السحابية، وقياس السرعة بالأجزاء من المليون من الثانية والتصفية بالبيانات الوصفية (Metadata Filtering).
