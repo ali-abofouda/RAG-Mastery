@@ -26,6 +26,8 @@ wheels/
 # Local vector store data and temporary indexes
 chroma.sqlite3
 *_chroma_db*/
+my_chroma_db/
+chroma_vector_store/
 *chroma_persist*/
 chroma_sample_data/
 *.index
