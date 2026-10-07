@@ -1,52 +1,51 @@
-# الدرس 02: بناء نظام RAG تقليدي باستخدام ChromaDB — الأجزاء 1 و 2
-### Building Traditional RAG with ChromaDB: Ingestion, Persistence & Scored Retrieval
+# الدرس 02: بناء نظام RAG تقليدي متكامل باستخدام ChromaDB (الأجزاء 1، 2، 3)
+### Building Complete Traditional RAG Pipeline with ChromaDB, Retrievers & LLM
 
-مرحبًا بك في الدرس الثاني من مرحلة **فهارس وقواعد بيانات المتجهات (Vector Stores & Vector Databases)**، والمخصص للمحاضرتين **25 و 26** في الكورس.  
-هذا الدليل يغطي النصفين الأول والثاني من ثلاثية نظام الـ Traditional RAG باستخدام قاعدة بيانات **ChromaDB**:
+مرحبًا بك في الدرس الثاني من مرحلة **فهارس وقواعد بيانات المتجهات (Vector Stores & Vector Databases)**، والمخصص للمحاضرات **25 و 26 و 27** في الكورس.  
+هذا الدليل يغطي الثلاثية الكاملة لبناء نظام الـ Traditional RAG خطوة بخطوة باستخدام قاعدة بيانات **ChromaDB** ومكتبة **LangChain**:
 - **الجزء الأول (المحاضرة 25)**: تجهيز وتفريغ المستندات، التجزئة المتداخلة (Recursive Chunking)، ونماذج التضمين.
-- **الجزء الثاني (المحاضرة 26)**: حفظ المتجهات الدائم على القرص (`Persistence`)، استعلامات البحث الدلالي المتعددة، وفهم وتفسير درجات المسافة الإقليدية ($L_2$) مقابل تشابه جيب التمام.
+- **الجزء الثاني (المحاضرة 26)**: حفظ المتجهات الدائم على القرص (`persist_directory`)، استعلامات البحث الدلالي، ومقاييس المسافة الإقليدية ($L_2$).
+- **الجزء الثالث (المحاضرة 27)**: تحويل الفهرس إلى `Retriever`، تصميم قوالب التوجيه (`ChatPromptTemplate`)، وتجميع السلسلة بـ `create_retrieval_chain` لتوليد الإجابات المعتمدة على السياق.
 
 ---
 
 ## 📌 أهداف الدرس (Learning Objectives)
 
-1. **التخزين الدائم (Persistence)**: فهم كيفية عمل `persist_directory` في ChromaDB وكيف تحتفظ بالبيانات عبر قاعدة بيانات `SQLite` المدمجة وفهارس `HNSW`.
-2. **إدارة المجموعات (Collection Management)**: تنظيم الفهارس عبر `collection_name` داخل مساحة تخزين المتجهات.
-3. **البحث الدلالي (Semantic Similarity Search)**: تنفيذ استعلامات البحث بـ $k$ محدد واسترجاع المستندات مع بياناتها الوصفية (`Metadata`).
-4. **البحث المتقدم بالدرجات (`similarity_search_with_score`)**: قياس المسافة بين المتجهات رياضياً.
-5. **الرياضيات وراء درجات المسافة (Score Interpretation)**: إزالة اللبس حول مقياس المسافة الإقليدية $L_2$ (حيث الرقم الأصغر يعني تشابهاً أعلى) ومقارنته بجيب التمام.
+1. **التخزين الدائم (Persistence)**: فهم كيفية عمل `persist_directory` في ChromaDB وحفظ البيانات محلياً عبر قاعدة بيانات `SQLite` المدمجة وفهارس `HNSW`.
+2. **إدارة المجموعات (Collections)**: تنظيم واستدعاء الفهارس عبر `collection_name`.
+3. **البحث الدلالي بالدرجات (`similarity_search_with_score`)**: قياس المسافة الإقليدية ($L_2$) وفهم أن القيمة الأقل تعني تشابهاً أعلى.
+4. **تحويل الفهرس إلى مسترجع (`as_retriever`)**: ضبط معايير الاسترجاع مثل $k$ لتحديد عدد القطع الأكثر صلة.
+5. **تهيئة نموذج التوليد (LLM)**: استدعاء نماذج الدردشة (`ChatOpenAI` أو `ChatGroq`) مع درجات حرارة منخفضة لتقليل الهلوسة.
+6. **سلاسل المستندات والسحب (`create_stuff_documents_chain` & `create_retrieval_chain`)**: ربط المسترجع بالقالب والنموذج اللغوي للحصول على إجابة نهائية مدعومة بالمصادر.
 
 ---
 
-## 🏛️ المعمارية الهندسية لمسار RAG (Pipeline Architecture)
+## 🏛️ المعمارية الهندسية لمسار RAG الكامل (Pipeline Architecture)
 
 ```mermaid
 flowchart TD
     subgraph Part1 ["المحاضرة 25: التجهيز والتضمين (Ingestion & Chunking)"]
-        D1["📄 Multi-Topic Docs\n(ML, DL, NLP)"] --> D2["📂 DirectoryLoader\n(TextLoader)"]
-        D2 --> S1["✂️ RecursiveCharacterTextSplitter\n(chunk_size=500, overlap=50)"]
-        S1 --> E1["🧠 Embedding Model\n(OpenAI / HuggingFace Endpoint)"]
+        D1["📄 Raw Documents\n(ML, DL, NLP)"] --> D2["📂 DirectoryLoader\n(TextLoader)"]
+        D2 --> S1["✂️ RecursiveCharacterTextSplitter\n(chunk_size=250, overlap=30)"]
+        S1 --> E1["🧠 Embedding Model\n(OpenAI / FastEmbed Local)"]
     end
 
-    subgraph Part2 ["المحاضرة 26: التخزين الدائم والاسترجاع المقاس (Persistence & Scoring)"]
-        E1 --> V1[("🗄️ ChromaDB Vector Store\npersist_directory='./chroma_db'\ncollection_name='rag_collection'")]
+    subgraph Part2 ["المحاضرة 26: التخزين الدائم والفهرسة (ChromaDB Persistence)"]
+        E1 --> V1[("🗄️ ChromaDB Vector Store\npersist_directory='./my_chroma_db'\ncollection_name='rag_collection'")]
         V1 --> DB1["💾 chroma.sqlite3\n(Metadata & Documents)"]
-        V1 --> DB2["⚡ HNSW Index Files\n(Vector Graph on Disk)"]
-        
-        Q["❓ User Query\n'What is deep learning?'"] --> EQ["Query Vector"]
-        EQ --> V1
-        
-        V1 --> SS["🔍 similarity_search(k=3)"]
-        V1 --> SSS["📊 similarity_search_with_score(k=3)"]
-        
-        SSS --> RES["Rank 1: Score 0.23 (Closest match)\nRank 2: Score 0.35 (Partial match)\nRank 3: Score 0.40 (Distant match)"]
+        V1 --> DB2["⚡ HNSW Graph Files\n(Vector Index on Disk)"]
     end
 
-    subgraph Part3 ["المحاضرة 27: التوليد وربط الـ LLM (قادم)"]
-        RES --> CTX["Augmented Context"]
-        CTX & Q --> PROMPT["Prompt Template"]
-        PROMPT --> LLM["🤖 LLM (OpenAI / Groq)"]
-        LLM --> OUT["Final Natural Answer"]
+    subgraph Part3 ["المحاضرة 27: الاسترجاع والتوليد (Retriever & Generation)"]
+        V1 --> RET["🔍 Retriever\n(as_retriever k=3)"]
+        Q["❓ User Query\n'What is deep learning?'"] --> RET
+        RET --> CHUNKS["📚 Retrieved Chunks\n(Context)"]
+        
+        CHUNKS & Q --> PMT["📝 ChatPromptTemplate\n('Answer only from context...')"]
+        PMT --> CHN["⚙️ create_stuff_documents_chain"]
+        CHN --> RAG["🔗 create_retrieval_chain"]
+        RAG --> LLM["🤖 LLM (ChatOpenAI / Groq)"]
+        LLM --> OUT["💬 Grounded Response & Sources"]
     end
 ```
 
@@ -54,85 +53,75 @@ flowchart TD
 
 ## 📐 الرياضيات وراء درجات التشابه في ChromaDB: $L_2$ vs Cosine
 
-من أكبر مصادر اللبس لدى مهندسي الذكاء الاصطناعي هي قيمة الـ `score` الناتجة من دالة `similarity_search_with_score`:
-
-### 1. المسافة الإقليدية الافتراضية ($L_2$ Distance):
 تعتمد ChromaDB افتراضياً مقياس المسافة التربيعية الإقليدية (Squared Euclidean Distance):
 $$d(\vec{u}, \vec{v}) = \sum_{i=1}^{d} (u_i - v_i)^2$$
 
 * **القيمة $0.0$**: تعني أن المتجهين متطابقان تماماً ($\vec{u} = \vec{v}$).
 * **كلما قلت المسافة (Lower Score) $\rightarrow$ كلما زاد التشابه الدلالي (Higher Similarity)**.
-* لذلك، الرتبة الأولى (Rank 1) تكون دائماً صاحبة **أصغر درجة مسافة**.
-
-### 2. تشابه جيب التمام (Cosine Similarity):
-يحسب زاوية الفرق بين المتجهين بصرف النظر عن طولهما:
-$$\text{Cosine}(\vec{u}, \vec{v}) = \frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \|\vec{v}\|}$$
-* يتراوح بين $-1.0$ (معنى متناقض تماماً) و $+1.0$ (معنى متطابق).
-* **كلما زادت القيمة (Higher Score) $\rightarrow$ كلما زاد التشابه**.
-
-### 3. العلاقة الرياضية عند تطبيع المتجهات (Normalized Embeddings):
-إذا كانت متجهات التضمين موحدة الطول ($\|\vec{u}\| = \|\vec{v}\| = 1$) مثل متجهات OpenAI و HuggingFace:
-$$d_{L_2}^2 = 2 - 2 \cdot \text{Cosine}(\vec{u}, \vec{v})$$
-ومنها يمكن تحويل مسافة $L_2$ إلى معامل تشابه (Relevance Score):
+* عند استخدام متجهات مطبعة الطول (Normalized Embeddings)، ترتبط مسافة $L_2$ بـ Cosine Similarity بالمعادلة:
 $$\text{Relevance} = 1 - \frac{d_{L_2}^2}{2}$$
 
 ---
 
-## 💾 التخزين الدائم (Persistence) مقابل التخزين في الذاكرة (In-Memory)
+## 💻 أهم الشيفرات البرمجية لتشغيل الـ Pipeline
 
-| المعيار | التخزين المؤقت (In-Memory) | التخزين الدائم على القرص (Persistent) |
-| :--- | :--- | :--- |
-| **طريقة الإعلان** | `Chroma(collection_name="...")` | `Chroma(persist_directory="./chroma_db", ...)` |
-| **سرعة الإعداد** | فائقة بالميكروثانية | سريعة جداً مع حفظ على القرص |
-| **بقاء البيانات** | تزول بمجرد إغلاق جلسة Python | تبقى محفوظة دائماً في ملفات `chroma.sqlite3` |
-| **الاستخدام العملي** | اختبارات سريعة / Unit Tests | تطبيقات حقيقية، خوادم FastAPI، روبوتات المحادثة |
-
----
-
-## 💻 أهم الشيفرات البرمجية المطبقة في الدرس
-
-### 1. حفظ المتجهات في مسار دائم:
+### 1. حفظ وتخزين المتجهات في ChromaDB:
 ```python
 from langchain_chroma import Chroma
-
-persist_directory = "./chroma_db"
-collection_name = "rag_collection"
 
 vectorstore = Chroma.from_documents(
     documents=chunks,
     embedding=embeddings,
-    persist_directory=persist_directory,
-    collection_name=collection_name
-)
-print(f"Persisted {len(chunks)} chunks to {persist_directory}")
-```
-
-### 2. استدعاء الفهرس الموجود مسبقاً دون إعادة تضمينه:
-```python
-# إعادة فتح الفهرس من القرص مباشرة
-reloaded_db = Chroma(
-    persist_directory=persist_directory,
-    embedding_function=embeddings,
-    collection_name=collection_name
+    persist_directory="./my_chroma_db",
+    collection_name="rag_collection"
 )
 ```
 
-### 3. البحث المقاس بالدرجات:
+### 2. تحويل الفهرس إلى مسترجع (Retriever):
 ```python
-query = "What is deep learning?"
-results_with_scores = vectorstore.similarity_search_with_score(query, k=3)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+```
 
-for rank, (doc, score) in enumerate(results_with_scores, start=1):
-    print(f"Rank #{rank} [L2 Distance: {score:.4f}]:")
-    print(f"  Source: {doc.metadata.get('source')}")
-    print(f"  Content: {doc.page_content[:100]}...")
+### 3. إعداد القالب وسلسلة المستندات (Stuff Documents Chain):
+```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_classic.chains.combine_documents.stuff import create_stuff_documents_chain
+
+system_prompt = (
+    "You are an assistant for question-answering tasks. "
+    "Use the following pieces of retrieved context to answer the question. "
+    "If you don't know the answer, say that you don't know. "
+    "Use three sentences maximum and keep the answer concise.\n\n"
+    "Context:\n{context}"
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", system_prompt),
+    ("human", "{input}")
+])
+
+document_chain = create_stuff_documents_chain(llm, prompt)
+```
+
+### 4. بناء السلسلة الكاملة وتشغيل الاستعلام (Retrieval Chain):
+```python
+from langchain_classic.chains.retrieval import create_retrieval_chain
+
+rag_chain = create_retrieval_chain(retriever, document_chain)
+
+response = rag_chain.invoke({"input": "What is deep learning?"})
+
+print("💬 الإجابة:", response["answer"])
+print("📚 المصادر:", [doc.metadata["source"] for doc in response["context"]])
 ```
 
 ---
 
-## 🎯 ملخص الدرس والخطوة التالية (Part 3):
-- قمنا بنجاح ببناء الفهرس الدائم على القرص الصلب.
-- اختبرنا دقة الاسترجاع الدلالي وأثبتنا أن $L_2$ Distance الأصغر تعبر عن المحتوى الأقرب لسؤال المستخدم.
+## 🎯 ملخص مسار ChromaDB والخطوة التالية:
+- اكتمل مسار RAG التقليدي بالكامل: تحميل $\rightarrow$ تجزئة $\rightarrow$ تضمين $\rightarrow$ حفظ وفهرسة $\rightarrow$ استرجاع $\rightarrow$ توليد مؤكد السياق.
+- الدفتر العملي متاح ومنظم في:
+  - [`02-traditional-rag-chromadb.ipynb`](./02-traditional-rag-chromadb.ipynb)
+  - نسخة الـ Playground: [`playground/03-vector-stores-and-databases/02-traditional-rag-chromadb.ipynb`](../../../playground/03-vector-stores-and-databases/02-traditional-rag-chromadb.ipynb)
 
-في **المحاضرة 27 (Part 3)**:
-سنقوم بربط هذا الفهرس بمحرك استرجاع (`Retriever`) ونموذج لغوي كبير (`LLM`) عبر سلاسل لانج تشين (`LCEL`) وقوالب التوجيه (`Prompt Templates`) لإكمال مسار الـ RAG التوليدي من البداية حتى صياغة الجواب النهائي!
+**المحاضرة التالية (28)**:
+سنقوم ببناء نفس المسار المتكامل باستخدام **لغة تعبير لانج تشين الحديثة (`LCEL`)** باستخدام مشغلي الربط السريع (`|` Pipe Operator) لمرونة وتحكم أعمق في كل خطوة.
