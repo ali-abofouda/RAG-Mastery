@@ -3,17 +3,12 @@
 مستودع عملي وهندسي شامل لتوثيق وتطبيق مسار تعلّم أنظمة توليد النصوص المعزز بالاسترجاع (**Retrieval-Augmented Generation - RAG**)، متطابق بالكامل مع منهج ومحتوى الكورس العملي المتقدم (**Ultimate RAG Bootcamp using LangChain, LangGraph, LangSmith**).
 
 > [!TIP]
-> **مختبر التجارب الحرة (Interactive Playground Branch)**:  
-> لضمان بقاء الفرع الرئيسي (`main`) مرجعاً هندسياً وتعليمياً نقياً ومنظماً، تم تخصيص فرع مستقل لكافة مساحات التجارب الحرة ونوتبوكس الـ Playground:  
-> للتبديل وتجربة الأكواد التفاعلية:
-> ```bash
-> git checkout playground
-> ```
-> يحتوي فرع `playground` على:
+> **مختبر التجارب الحرة (Interactive Playground)**:  
+> يتضمن المشروع مجلداً تفاعلياً شاملاً [`playground/`](./playground/) يحتوي على نوتبوكس للتجربة الحرة والتطبيق السريع لكافة المراحل والتقنيات:
 > - `playground/playground.ipynb`: المختبر الشامل لكامل دورة حياة الـ RAG خطوة بخطوة.
 > - `playground/01-ingestion/`: مساحات تجارب تفريغ المستندات (PDF, Word, CSV, SQL, JSON).
 > - `playground/02-vector-embeddings/`: مساحات تجارب نماذج التضمين السحابية والمفتوحة وتشابه جيب التمام.
-> - `playground/03-vector-stores-and-databases/`: مساحات تجارب فهارس وقواعد بيانات المتجهات (FAISS, ChromaDB, إلخ).
+> - `playground/03-vector-stores-and-databases/`: مساحات تجارب فهارس وقواعد بيانات المتجهات (ChromaDB, FAISS).
 
 ---
 
