@@ -11,7 +11,7 @@
 | الرقم | المجلد الفرعي | عنوان الدرس (Topic) | المحاضرة المقابلة | الشرح (.md) | الدفتر المرجعي (.ipynb) | الحالة |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 01 | **[01-vector-stores-vs-vector-databases](./01-vector-stores-vs-vector-databases/)** | مقارنة فهارس المتجهات وقواعد بيانات المتجهات | Lecture 24 | [README](./01-vector-stores-vs-vector-databases/README.md) | [Notebook](./01-vector-stores-vs-vector-databases/01-vector-stores-vs-vector-databases.ipynb) | [x] مكتمل |
-| 02 | **02-traditional-rag-chromadb** | بناء نظام RAG تقليدي باستخدام ChromaDB (أجزاء 1، 2، 3) | Lectures 25-27 | قيد العمل | قيد العمل | [ ] قادم |
+| 02 | **[02-traditional-rag-chromadb](./02-traditional-rag-chromadb/)** | بناء نظام RAG تقليدي باستخدام ChromaDB (أجزاء 1، 2، 3) | Lectures 25-27 | [README](./02-traditional-rag-chromadb/README.md) | [Notebook](./02-traditional-rag-chromadb/02-traditional-rag-chromadb.ipynb) | [🔄] جاري (ج1 مكتمل) |
 | 03 | **03-rag-pipeline-lcel** | بناء خط أنابيب RAG متكامل باستخدام لغة تعبير لانج تشين (LCEL) | Lecture 28 | قيد العمل | قيد العمل | [ ] قادم |
 | 04 | **04-updating-vector-store** | إضافة وتحديث مستندات جديدة داخل فهرس متجهات موجود | Lecture 29 | قيد العمل | قيد العمل | [ ] قادم |
 | 05 | **05-conversational-memory-rag** | تقنيات RAG المتقدمة: إضافة ذاكرة المحادثة وسياق الحوار | Lecture 30 | قيد العمل | قيد العمل | [ ] قادم |

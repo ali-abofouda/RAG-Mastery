@@ -18,6 +18,14 @@ wheels/
 *.mkv
 *.avi
 *.mov
+
 # Environment variables and secrets
 .env
 *.env
+
+# Local vector store data and temporary indexes
+chroma.sqlite3
+*_chroma_db*/
+*chroma_persist*/
+chroma_sample_data/
+*.index

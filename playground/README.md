@@ -70,3 +70,4 @@ playground/
 ### 4. قسم فهارس وقواعد بيانات المتجهات ([`03-vector-stores-and-databases/`](03-vector-stores-and-databases/))
 مخصص لتجربة التخزين والاسترجاع السريع والفهرسة المتقدمة:
 - **`01-vector-stores-vs-vector-databases.ipynb`**: مقارنة عملية دقيقة بين Vector Stores المدمجة (In-Memory) وقواعد البيانات السحابية، وقياس السرعة بالأجزاء من المليون من الثانية والتصفية بالبيانات الوصفية (Metadata Filtering).
+- **`02-traditional-rag-chromadb.ipynb`**: بناء خط أنابيب الـ RAG الأولي وتجهيز النصوص بالـ DirectoryLoader والتجزئة الدلالية ثم الفهرسة في ChromaDB.
