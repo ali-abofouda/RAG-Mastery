@@ -31,7 +31,7 @@ flowchart TD
     end
 
     subgraph Part2 ["المحاضرة 26: التخزين الدائم والفهرسة (ChromaDB Persistence)"]
-        E1 --> V1[("🗄️ ChromaDB Vector Store\npersist_directory='./my_chroma_db'\ncollection_name='rag_collection'")]
+        E1 --> V1[("🗄️ ChromaDB Vector Store\npersist_directory='data/databases/chroma_vector_store'\ncollection_name='rag_mastery_collection'")]
         V1 --> DB1["💾 chroma.sqlite3\n(Metadata & Documents)"]
         V1 --> DB2["⚡ HNSW Graph Files\n(Vector Index on Disk)"]
     end
@@ -69,11 +69,14 @@ $$\text{Relevance} = 1 - \frac{d_{L_2}^2}{2}$$
 ```python
 from langchain_chroma import Chroma
 
-vectorstore = Chroma.from_documents(
-    documents=chunks,
+# حفظ الفهرس دائماً داخل مجلد data المركزي
+persist_directory = get_data_dir("databases/chroma_vector_store")
+
+vector_store = Chroma.from_documents(
+    documents=documents,
     embedding=embeddings,
-    persist_directory="./my_chroma_db",
-    collection_name="rag_collection"
+    persist_directory=persist_directory,
+    collection_name="rag_mastery_collection"
 )
 ```
 
