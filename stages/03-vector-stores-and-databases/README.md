@@ -15,7 +15,7 @@
 | 03 | **[03-rag-pipeline-lcel](./03-rag-pipeline-lcel/)** | بناء خط أنابيب RAG متكامل باستخدام لغة تعبير لانج تشين (LCEL) | Lecture 28 | [README](./03-rag-pipeline-lcel/README.md) | [Notebook](./03-rag-pipeline-lcel/03-rag-pipeline-lcel.ipynb) | [x] مكتمل |
 | 04 | **[04-updating-vector-store](./04-updating-vector-store/)** | إضافة وتحديث مستندات جديدة داخل فهرس متجهات موجود | Lecture 29 | [README](./04-updating-vector-store/README.md) | [Notebook](./04-updating-vector-store/04-updating-vector-store.ipynb) | [x] مكتمل |
 | 05 | **[05-conversational-memory-rag](./05-conversational-memory-rag/)** | تقنيات RAG المتقدمة: إضافة ذاكرة المحادثة وسياق الحوار | Lecture 30 | [README](./05-conversational-memory-rag/README.md) | [Notebook](./05-conversational-memory-rag/05-conversational-memory-rag.ipynb) | [x] مكتمل |
-| 06 | **06-groq-llm-integration** | ربط واستخدام نماذج اللغات فائقة السرعة مع Groq API | Lecture 31 | قيد العمل | قيد العمل | [ ] قادم |
+| 06 | **[06-groq-llm-integration](./06-groq-llm-integration/)** | ربط واستخدام نماذج اللغات فائقة السرعة مع Groq API | Lecture 31 | [README](./06-groq-llm-integration/README.md) | [Notebook](./06-groq-llm-integration/06-groq-llm-integration.ipynb) | [x] مكتمل |
 | 07 | **07-rag-faiss** | بناء نظام RAG محلي باستخدام مكتبة FAISS من فيسبوك (أجزاء 1 و 2) | Lectures 32-33 | قيد العمل | قيد العمل | [ ] قادم |
 | 08 | **08-in-memory-vector-store** | التخزين والفهرسة السريعة في الذاكرة الحية (InMemory Vector Store) | Lecture 34 | قيد العمل | قيد العمل | [ ] قادم |
 | 09 | **09-astradb-vector-database** | العمل مع قواعد البيانات السحابية المدارة DataStax AstraDB | Lecture 35 | قيد العمل | قيد العمل | [ ] قادم |
