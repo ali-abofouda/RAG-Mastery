@@ -32,6 +32,7 @@ chroma_vector_store/
 chroma_sample_data/
 **/chroma_vector_store/
 **/chroma_sample_data/
-data/databases/chroma*/
+data/databases/
 data/chroma_sample_data/
 *.index
+*.faiss

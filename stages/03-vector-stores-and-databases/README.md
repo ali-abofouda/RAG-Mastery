@@ -16,7 +16,7 @@
 | 04 | **[04-updating-vector-store](./04-updating-vector-store/)** | إضافة وتحديث مستندات جديدة داخل فهرس متجهات موجود | Lecture 29 | [README](./04-updating-vector-store/README.md) | [Notebook](./04-updating-vector-store/04-updating-vector-store.ipynb) | [x] مكتمل |
 | 05 | **[05-conversational-memory-rag](./05-conversational-memory-rag/)** | تقنيات RAG المتقدمة: إضافة ذاكرة المحادثة وسياق الحوار | Lecture 30 | [README](./05-conversational-memory-rag/README.md) | [Notebook](./05-conversational-memory-rag/05-conversational-memory-rag.ipynb) | [x] مكتمل |
 | 06 | **[06-groq-llm-integration](./06-groq-llm-integration/)** | ربط واستخدام نماذج اللغات فائقة السرعة مع Groq API | Lecture 31 | [README](./06-groq-llm-integration/README.md) | [Notebook](./06-groq-llm-integration/06-groq-llm-integration.ipynb) | [x] مكتمل |
-| 07 | **07-rag-faiss** | بناء نظام RAG محلي باستخدام مكتبة FAISS من فيسبوك (أجزاء 1 و 2) | Lectures 32-33 | قيد العمل | قيد العمل | [ ] قادم |
+| 07 | **[07-rag-faiss](./07-rag-faiss/)** | بناء نظام RAG محلي باستخدام مكتبة FAISS من فيسبوك (الجزء الأول: الفهرسة والبحث) | Lectures 32-33 | [README](./07-rag-faiss/README.md) | [Notebook](./07-rag-faiss/07-rag-faiss.ipynb) | [x] مكتمل (جـ 1) |
 | 08 | **08-in-memory-vector-store** | التخزين والفهرسة السريعة في الذاكرة الحية (InMemory Vector Store) | Lecture 34 | قيد العمل | قيد العمل | [ ] قادم |
 | 09 | **09-astradb-vector-database** | العمل مع قواعد البيانات السحابية المدارة DataStax AstraDB | Lecture 35 | قيد العمل | قيد العمل | [ ] قادم |
 | 10 | **10-pinecone-vector-database** | تخزين واسترجاع المتجهات على النطاق المؤسسي باستخدام Pinecone | Lecture 36 | قيد العمل | قيد العمل | [ ] قادم |
