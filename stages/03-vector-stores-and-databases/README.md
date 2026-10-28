@@ -18,7 +18,7 @@
 | 06 | **[06-groq-llm-integration](./06-groq-llm-integration/)** | ربط واستخدام نماذج اللغات فائقة السرعة مع Groq API | Lecture 31 | [README](./06-groq-llm-integration/README.md) | [Notebook](./06-groq-llm-integration/06-groq-llm-integration.ipynb) | [x] مكتمل |
 | 07 | **[07-rag-faiss](./07-rag-faiss/)** | بناء نظام RAG محلي باستخدام مكتبة FAISS من فيسبوك (أجزاء 1 و 2) | Lectures 32-33 | [README](./07-rag-faiss/README.md) | [جـ 1: الفهرسة](./07-rag-faiss/07-rag-faiss.ipynb) / [جـ 2: سلاسل LCEL](./07-rag-faiss/07-rag-faiss-lcel.ipynb) | [x] مكتمل |
 | 08 | **[08-in-memory-vector-store](./08-in-memory-vector-store/)** | التخزين والفهرسة السريعة في الذاكرة الحية (InMemory Vector Store) | Lecture 34 | [README](./08-in-memory-vector-store/README.md) | [Notebook](./08-in-memory-vector-store/08-in-memory-vector-store.ipynb) | [x] مكتمل |
-| 09 | **09-astradb-vector-database** | العمل مع قواعد البيانات السحابية المدارة DataStax AstraDB | Lecture 35 | قيد العمل | قيد العمل | [ ] قادم |
+| 09 | **[09-astradb-vector-database](./09-astradb-vector-database/)** | العمل مع قواعد البيانات السحابية المدارة DataStax AstraDB | Lecture 35 | [README](./09-astradb-vector-database/README.md) | [Notebook](./09-astradb-vector-database/09-astradb-vector-database.ipynb) | [x] مكتمل |
 | 10 | **10-pinecone-vector-database** | تخزين واسترجاع المتجهات على النطاق المؤسسي باستخدام Pinecone | Lecture 36 | قيد العمل | قيد العمل | [ ] قادم |
 
 ---
