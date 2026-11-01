@@ -19,7 +19,7 @@
 | **00** | **[00-rag-fundamentals](./stages/00-rag-fundamentals/)** | Sections 1–4 (محاضرات 1–8) | أساسيات ومفاهيم RAG، المقارنة مع Fine-tuning، وتجهيز البيئة | [x] | [README.md](./stages/00-rag-fundamentals/README.md) |
 | **01** | **[01-ingestion](./stages/01-ingestion/)** | Section 5 (محاضرات 9–18) | تفريغ وتجزئة المستندات بمختلف أنواعها (PDF, Word, CSV, SQL, JSON) | [x] | [README.md](./stages/01-ingestion/README.md) |
 | **02** | **[02-vector-embeddings](./stages/02-vector-embeddings/)** | Section 6 (محاضرات 19–23) | نماذج التضمين وفضاء المتجهات والتشابه الدلالي (HuggingFace, OpenAI) | [x] | [README.md](./stages/02-vector-embeddings/README.md) |
-| **03** | **[03-vector-stores-and-databases](./stages/03-vector-stores-and-databases/)** | Section 7 (محاضرات 24–36) | فهارس وقواعد بيانات المتجهات (ChromaDB, FAISS, AstraDB, Pinecone, LCEL) | [🔄] قيد العمل | [README.md](./stages/03-vector-stores-and-databases/README.md) |
+| **03** | **[03-vector-stores-and-databases](./stages/03-vector-stores-and-databases/)** | Section 7 (محاضرات 24–36) | فهارس وقواعد بيانات المتجهات (ChromaDB, FAISS, AstraDB, Pinecone, LCEL) | [x] مكتمل | [README.md](./stages/03-vector-stores-and-databases/README.md) |
 | **04** | **04-advanced-chunking** | Section 8 (محاضرات 37–40) | تقنيات التقطيع الدلالي المتقدم (Semantic Chunking with Python & LangChain) | [ ] قادم | — |
 | **05** | **05-hybrid-search-and-retrieval** | Section 9 (محاضرات 41–48) | استراتيجيات البحث الهجين (Dense + Sparse), Reranking, و MMR | [ ] قادم | — |
 | **06** | **06-query-enhancement** | Section 10 (محاضرات 49–52) | تحسين وتوسيع وتفكيك الاستعلامات (Expansion, Decomposition, HyDE) | [ ] قادم | — |
