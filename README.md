@@ -20,7 +20,7 @@
 | **01** | **[01-ingestion](./stages/01-ingestion/)** | Section 5 (محاضرات 9–18) | تفريغ وتجزئة المستندات بمختلف أنواعها (PDF, Word, CSV, SQL, JSON) | [x] | [README.md](./stages/01-ingestion/README.md) |
 | **02** | **[02-vector-embeddings](./stages/02-vector-embeddings/)** | Section 6 (محاضرات 19–23) | نماذج التضمين وفضاء المتجهات والتشابه الدلالي (HuggingFace, OpenAI) | [x] | [README.md](./stages/02-vector-embeddings/README.md) |
 | **03** | **[03-vector-stores-and-databases](./stages/03-vector-stores-and-databases/)** | Section 7 (محاضرات 24–36) | فهارس وقواعد بيانات المتجهات (ChromaDB, FAISS, AstraDB, Pinecone, LCEL) | [x] مكتمل | [README.md](./stages/03-vector-stores-and-databases/README.md) |
-| **04** | **04-advanced-chunking** | Section 8 (محاضرات 37–40) | تقنيات التقطيع الدلالي المتقدم (Semantic Chunking with Python & LangChain) | [ ] قادم | — |
+| **04** | **[04-advanced-chunking](./stages/04-advanced-chunking/)** | Section 8 (محاضرات 37–40) | تقنيات التقطيع الدلالي المتقدم (Semantic Chunking with Python & LangChain) | [🔄] قيد العمل | [README.md](./stages/04-advanced-chunking/README.md) |
 | **05** | **05-hybrid-search-and-retrieval** | Section 9 (محاضرات 41–48) | استراتيجيات البحث الهجين (Dense + Sparse), Reranking, و MMR | [ ] قادم | — |
 | **06** | **06-query-enhancement** | Section 10 (محاضرات 49–52) | تحسين وتوسيع وتفكيك الاستعلامات (Expansion, Decomposition, HyDE) | [ ] قادم | — |
 | **07** | **07-multimodal-rag** | Section 11 (محاضرات 53–54) | أنظمة RAG متعددة الوسائط للتعامل مع النصوص والصور معاً | [ ] قادم | — |
