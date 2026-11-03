@@ -12,7 +12,7 @@
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 01 | **[01-semantic-chunking-fundamentals](./01-semantic-chunking-fundamentals/)** | أساسيات وخوارزمية التقطيع الدلالي ونقاط الانفصال | Lecture 37 | [README](./01-semantic-chunking-fundamentals/README.md) | [Notebook](./01-semantic-chunking-fundamentals/01-semantic-chunking-fundamentals.ipynb) | [x] مكتمل |
 | 02 | **[02-semantic-chunking-python](./02-semantic-chunking-python/)** | بناء محرك التقطيع الدلالي بلغة بايثون من الصفر | Lecture 38 | [README](./02-semantic-chunking-python/README.md) | [Notebook](./02-semantic-chunking-python/02-semantic-chunking-python.ipynb) | [x] مكتمل |
-| 03 | **03-building-rag-semantic-chunker** | بناء مسار RAG كامل مدمج به الـ Semantic Chunker | Lecture 39 | قيد العمل | قيد العمل | [ ] قادم |
+| 03 | **[03-building-rag-semantic-chunker](./03-building-rag-semantic-chunker/)** | بناء مسار RAG كامل مدمج به الـ Semantic Chunker | Lecture 39 | [README](./03-building-rag-semantic-chunker/README.md) | [Notebook](./03-building-rag-semantic-chunker/03-building-rag-semantic-chunker.ipynb) | [x] مكتمل |
 | 04 | **04-semantic-chunking-langchain** | التقطيع الدلالي الجاهز باستخدام مكتبة LangChain | Lecture 40 | قيد العمل | قيد العمل | [ ] قادم |
 
 ---
