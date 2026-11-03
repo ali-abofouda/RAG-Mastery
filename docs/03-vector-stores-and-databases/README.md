@@ -1,0 +1,45 @@
+# 03 - فهارس وقواعد بيانات المتجهات (Vector Stores & Vector Databases)
+
+المرحلة الثالثة في مسار إتقان الـ RAG، وتغطي بالكامل **القسم السابع من الكورس (Section 7: Vector Stores And Vector Databases - المحاضرات 24 إلى 36)**.
+
+تتناول هذه المرحلة الانتقال من مجرد إنشاء المتجهات (Embeddings) إلى كيفية حفظها، وفهرستها، وإجراء عمليات البحث والاسترجاع الدلالي السريع عليها باستخدام أدوات التخزين الموضعية وقواعد البيانات السحابية العملاقة.
+
+---
+
+## 🧭 خارطة موضوعات المرحلة (Curriculum)
+
+| الرقم | المجلد الفرعي | عنوان الدرس (Topic) | المحاضرة المقابلة | الشرح (.md) | الدفتر المرجعي (.ipynb) | الحالة |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: |
+| 01 | **[01-vector-stores-vs-vector-databases](./01-vector-stores-vs-vector-databases/)** | مقارنة فهارس المتجهات وقواعد بيانات المتجهات | Lecture 24 | [README](./01-vector-stores-vs-vector-databases/README.md) | [Notebook](./01-vector-stores-vs-vector-databases/01-vector-stores-vs-vector-databases.ipynb) | [x] مكتمل |
+| 02 | **[02-traditional-rag-chromadb](./02-traditional-rag-chromadb/)** | بناء نظام RAG تقليدي باستخدام ChromaDB (أجزاء 1، 2، 3) | Lectures 25-27 | [README](./02-traditional-rag-chromadb/README.md) | [Notebook](./02-traditional-rag-chromadb/02-traditional-rag-chromadb.ipynb) | [x] مكتمل |
+| 03 | **[03-rag-pipeline-lcel](./03-rag-pipeline-lcel/)** | بناء خط أنابيب RAG متكامل باستخدام لغة تعبير لانج تشين (LCEL) | Lecture 28 | [README](./03-rag-pipeline-lcel/README.md) | [Notebook](./03-rag-pipeline-lcel/03-rag-pipeline-lcel.ipynb) | [x] مكتمل |
+| 04 | **[04-updating-vector-store](./04-updating-vector-store/)** | إضافة وتحديث مستندات جديدة داخل فهرس متجهات موجود | Lecture 29 | [README](./04-updating-vector-store/README.md) | [Notebook](./04-updating-vector-store/04-updating-vector-store.ipynb) | [x] مكتمل |
+| 05 | **[05-conversational-memory-rag](./05-conversational-memory-rag/)** | تقنيات RAG المتقدمة: إضافة ذاكرة المحادثة وسياق الحوار | Lecture 30 | [README](./05-conversational-memory-rag/README.md) | [Notebook](./05-conversational-memory-rag/05-conversational-memory-rag.ipynb) | [x] مكتمل |
+| 06 | **[06-groq-llm-integration](./06-groq-llm-integration/)** | ربط واستخدام نماذج اللغات فائقة السرعة مع Groq API | Lecture 31 | [README](./06-groq-llm-integration/README.md) | [Notebook](./06-groq-llm-integration/06-groq-llm-integration.ipynb) | [x] مكتمل |
+| 07 | **[07-rag-faiss](./07-rag-faiss/)** | بناء نظام RAG محلي باستخدام مكتبة FAISS من فيسبوك (أجزاء 1 و 2) | Lectures 32-33 | [README](./07-rag-faiss/README.md) | [جـ 1: الفهرسة](./07-rag-faiss/07-rag-faiss.ipynb) / [جـ 2: سلاسل LCEL](./07-rag-faiss/07-rag-faiss-lcel.ipynb) | [x] مكتمل |
+| 08 | **[08-in-memory-vector-store](./08-in-memory-vector-store/)** | التخزين والفهرسة السريعة في الذاكرة الحية (InMemory Vector Store) | Lecture 34 | [README](./08-in-memory-vector-store/README.md) | [Notebook](./08-in-memory-vector-store/08-in-memory-vector-store.ipynb) | [x] مكتمل |
+| 09 | **[09-astradb-vector-database](./09-astradb-vector-database/)** | العمل مع قواعد البيانات السحابية المدارة DataStax AstraDB | Lecture 35 | [README](./09-astradb-vector-database/README.md) | [Notebook](./09-astradb-vector-database/09-astradb-vector-database.ipynb) | [x] مكتمل |
+| 10 | **[10-pinecone-vector-database](./10-pinecone-vector-database/)** | تخزين واسترجاع المتجهات على النطاق المؤسسي باستخدام Pinecone | Lecture 36 | [README](./10-pinecone-vector-database/README.md) | [Notebook](./10-pinecone-vector-database/10-pinecone-vector-database.ipynb) | [x] مكتمل |
+
+---
+
+## 🏛️ المعمارية العامة للمرحلة (Stage Architecture)
+
+```mermaid
+flowchart TD
+    subgraph Input ["المستندات والمتجهات"]
+        A["Text Chunks & Metadata"] --> B["Embedding Model"]
+        B --> C["Vector Embeddings"]
+    end
+
+    subgraph Storage ["خيارات التخزين والفهرسة"]
+        C --> D1["Local / In-Memory Stores\n(FAISS, Chroma Local, DocArray)"]
+        C --> D2["Cloud-Native Vector DBs\n(Pinecone, Qdrant, AstraDB, Weaviate)"]
+    end
+
+    subgraph Integration ["سلاسل التنفيذ والاسترجاع"]
+        D1 & D2 --> E["LangChain LCEL Pipeline"]
+        E --> F["LLM (Groq / OpenAI)"]
+        F --> G["Final Augmented Response"]
+    end
+```
