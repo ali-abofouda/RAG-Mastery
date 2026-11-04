@@ -14,7 +14,7 @@
 | 01 | **أساسيات وخوارزمية التقطيع الدلالي ونقاط الانفصال** | Lecture 37 | [`01-semantic-chunking-fundamentals.md`](./01-semantic-chunking-fundamentals.md) | [`stages/04/.../01-...ipynb`](../../stages/04-advanced-chunking/01-semantic-chunking-fundamentals/01-semantic-chunking-fundamentals.ipynb) | [`playground/04/.../01-...ipynb`](../../playground/04-advanced-chunking/01-semantic-chunking-fundamentals.ipynb) |
 | 02 | **بناء محرك التقطيع الدلالي بلغة بايثون من الصفر** | Lecture 38 | [`02-semantic-chunking-python.md`](./02-semantic-chunking-python.md) | [`stages/04/.../02-...ipynb`](../../stages/04-advanced-chunking/02-semantic-chunking-python/02-semantic-chunking-python.ipynb) | [`playground/04/.../02-...ipynb`](../../playground/04-advanced-chunking/02-semantic-chunking-python.ipynb) |
 | 03 | **بناء مسار RAG كامل مدمج به كلاس التقطيع المعياري** | Lecture 39 | [`03-building-rag-semantic-chunker.md`](./03-building-rag-semantic-chunker.md) | [`stages/04/.../03-...ipynb`](../../stages/04-advanced-chunking/03-building-rag-semantic-chunker/03-building-rag-semantic-chunker.ipynb) | [`playground/04/.../03-...ipynb`](../../playground/04-advanced-chunking/03-building-rag-semantic-chunker.ipynb) |
-| 04 | **التقطيع الدلالي الجاهز باستخدام مكتبة LangChain** | Lecture 40 | `04-semantic-chunking-langchain.md` | قيد العمل | قيد العمل |
+| 04 | **التقطيع الدلالي الجاهز باستخدام مكتبة LangChain** | Lecture 40 | [`04-semantic-chunking-langchain.md`](./04-semantic-chunking-langchain.md) | [`stages/04/.../04-...ipynb`](../../stages/04-advanced-chunking/04-semantic-chunking-langchain/04-semantic-chunking-langchain.ipynb) | [`playground/04/.../04-...ipynb`](../../playground/04-advanced-chunking/04-semantic-chunking-langchain.ipynb) |
 
 ---
 
