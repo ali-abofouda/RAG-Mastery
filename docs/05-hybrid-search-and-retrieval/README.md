@@ -12,7 +12,7 @@
 | الرقم | عنوان الدرس النظري | المحاضرة المقابلة | الملف التوثيقي | الكود النموذجي (`stages/`) | معمل التجربة (`playground/`) | الحالة |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: |
 | 01 | **دمج المصفوفات الكثيفة والمتناثرة (الأسس الرياضية والنظرية)** | Lecture 41 | [`01-combining-dense-and-sparse.md`](./01-combining-dense-and-sparse.md) | [`stages/05/.../01-...ipynb`](../../stages/05-hybrid-search-and-retrieval/01-combining-dense-and-sparse/01-combining-dense-and-sparse.ipynb) | [`playground/05/.../01-...ipynb`](../../playground/05-hybrid-search-and-retrieval/01-combining-dense-and-sparse.ipynb) | [x] مكتمل |
-| 02 | **تطبيق المسترجع الهجين باستخدام مكتبة LangChain** | Lecture 42 | `02-combining-dense-and-sparse-langchain.md` | قيد العمل | قيد العمل | [ ] قادم |
+| 02 | **تطبيق المسترجع الهجين باستخدام مكتبة LangChain** | Lecture 42 | [`02-combining-dense-and-sparse-langchain.md`](./02-combining-dense-and-sparse-langchain.md) | [`stages/05/.../02-...ipynb`](../../stages/05-hybrid-search-and-retrieval/02-combining-dense-and-sparse-langchain/02-combining-dense-and-sparse-langchain.ipynb) | [`playground/05/.../02-...ipynb`](../../playground/05-hybrid-search-and-retrieval/02-combining-dense-and-sparse-langchain.ipynb) | [x] مكتمل |
 | 03 | **فوائد وحالات استخدام البحث الهجين في بيئات الإنتاج** | Lecture 43 | `03-benefits-of-hybrid-search.md` | قيد العمل | قيد العمل | [ ] قادم |
 | 04 | **استراتيجية إعادة الترتيب (Reranking Hybrid Strategy)** | Lecture 44 | `04-reranking-hybrid-strategy.md` | قيد العمل | قيد العمل | [ ] قادم |
 | 05 | **تطبيق خوارزميات الـ Reranking عملياً** | Lecture 45 | `05-reranking-implementation.md` | قيد العمل | قيد العمل | [ ] قادم |
