@@ -11,7 +11,7 @@
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 01 | **[01-combining-dense-and-sparse](./01-combining-dense-and-sparse/)** | دمج المصفوفات الكثيفة والمتناثرة رياضياً وبرمجياً | Lecture 41 | [README](../../docs/05-hybrid-search-and-retrieval/01-combining-dense-and-sparse.md) | [Notebook](./01-combining-dense-and-sparse/01-combining-dense-and-sparse.ipynb) | [x] مكتمل |
 | 02 | **[02-combining-dense-and-sparse-langchain](./02-combining-dense-and-sparse-langchain/)** | تطبيق المسترجع الهجين المدمج في LangChain | Lecture 42 | [README](../../docs/05-hybrid-search-and-retrieval/02-combining-dense-and-sparse-langchain.md) | [Notebook](./02-combining-dense-and-sparse-langchain/02-combining-dense-and-sparse-langchain.ipynb) | [x] مكتمل |
-| 03 | **03-benefits-of-hybrid-search** | اختبارات مقارنة الأداء وحالات الاستخدام الإنتاجية | Lecture 43 | قيد العمل | قيد العمل | [ ] قادم |
+| 03 | **[03-benefits-of-hybrid-search](./03-benefits-of-hybrid-search/)** | اختبارات مقارنة الأداء وحالات الاستخدام الإنتاجية | Lecture 43 | [README](../../docs/05-hybrid-search-and-retrieval/03-benefits-of-hybrid-search.md) | [Notebook](./03-benefits-of-hybrid-search/03-benefits-of-hybrid-search.ipynb) | [x] مكتمل |
 | 04 | **04-reranking-hybrid-strategy** | معمارية إعادة الترتيب للبحث الهجين | Lecture 44 | قيد العمل | قيد العمل | [ ] قادم |
 | 05 | **05-reranking-implementation** | تطبيق نماذج Cross-Encoder Reranking عملياً | Lecture 45 | قيد العمل | قيد العمل | [ ] قادم |
 | 06 | **06-mmr-theoretical-explanation** | محاكاة خوارزمية أقصى تنوع نسبي (MMR) | Lecture 46 | قيد العمل | قيد العمل | [ ] قادم |
