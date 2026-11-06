@@ -1,42 +1,31 @@
-# 01 - معالجة وإدخال البيانات (Data Ingestion & Parsing Techniques)
+# المرحلة 01: معالجة واستيعاب البيانات (Data Ingestion & Parsing)
+### Comprehensive Architectural Guide (`docs/01-ingestion/`)
 
 المرحلة الأولى في رحلة التطبيق العملي لأنظمة الـ RAG، وتركز على كيفية استيراد وتحليل وتجزئة مختلف أنواع ومصادر البيانات لتحويلها إلى صيغة قابلة للتضمين والبحث الدلالي.
 
-> 🌟 **الدليل المرجعي الشامل للمرحلة (Master Guide):**  
+> **الدليل المرجعي الشامل للمرحلة (Master Guide):**  
 > لقراءة التوثيق الهندسي والمعماري الكامل لكافة موضوعات المرحلة والمقارنات الإنتاجية بالتفصيل:  
-> 👉 **[STAGE_01_INGESTION_GUIDE.md](./STAGE_01_INGESTION_GUIDE.md)**
+> [STAGE_01_INGESTION_GUIDE.md](./STAGE_01_INGESTION_GUIDE.md)
 
 ---
 
-## 🧪 مساحة التجارب والمعمل العملي (Playground & Lab)
+## فهرس موضوعات ومشاريع المرحلة
 
-كافة التجارب التراكمية والأكواد الحرة للقسم مجمعة في معمل تجارب مخصص:
-* 📁 **[playGround/](./playGround/)**:
-  * 📓 **[`playground.ipynb`](./playGround/playground.ipynb)**: دفتر التجارب الحرة لتطبيق واختبار أكواد الـ Ingestion.
-* 📂 **[بيانات المشروع المركزية (Root data/)](../data/)**: المجلد المركزي لكافة مجموعات البيانات التجريبية (`data/txt`, `data/pdf`, `data/docx`, `data/tabular`, `data/json`, `data/databases`).
-
----
-
-## 📚 فهرس موضوعات ومراجع القسم (Reference Curriculum)
-
-المجلدات الفرعية مصممة كمراجع منظمة ونظيفة تحوي:
-* **الدليل الشارح (`README.md`):** توثيق نظري وهندسي شامل للدرس ومخططات توضيحية.
-* **دفتر الملاحظات المرجعي (`.ipynb`):** كود الدرس النموذجي ومسبوق بخلايا Markdown شارحة.
-
-| الرقم | المجلد الفرعي | الموضوع (Topic) | الشرح (.md) | الدفتر المرجعي (.ipynb) | الحالة |
-| :---: | :--- | :--- | :--- | :--- | :---: |
-| 01 | **[01-environment-setup](./01-environment-setup/)** | إعداد بيئة العمل وهيكل المشروع باستخدام UV | [README](./01-environment-setup/README.md) | [Notebook](./01-environment-setup/01-environment-setup.ipynb) | [x] مكتمل |
-| 02 | **[02-document-structure](./02-document-structure/)** | بنية كائن الـ Document والميتا-داتا في LangChain | [README](./02-document-structure/README.md) | [Notebook](./02-document-structure/02-document-structure.ipynb) | [x] مكتمل |
-| 03 | **[03-text-loaders](./03-text-loaders/)** | قراءة وتحليل الملفات النصية باستخدام Document Loaders | [README](./03-text-loaders/README.md) | [Notebook](./03-text-loaders/03-text-loaders.ipynb) | [x] مكتمل |
-| 04 | **[04-text-splitting](./04-text-splitting/)** | تقنيات واستراتيجيات تجزئة النصوص (Text Splitting) | [README](./04-text-splitting/README.md) | [Notebook](./04-text-splitting/04-text-splitting.ipynb) | [x] مكتمل |
-| 05 | **[05-pdf-parsing](./05-pdf-parsing/)** | قراءة واستخراج مستندات الـ PDF ومقارنة المحملات | [README](./05-pdf-parsing/README.md) | [Notebook](./05-pdf-parsing/05-pdf-parsing.ipynb) | [x] مكتمل |
-| 06 | **[06-pdf-advanced-issues](./06-pdf-advanced-issues/)** | حل المشكلات المعقدة في الـ PDF (جداول، وصلات، تنظيف عربي) | [README](./06-pdf-advanced-issues/README.md) | [Notebook](./06-pdf-advanced-issues/06-pdf-advanced-issues.ipynb) | [x] مكتمل |
-| 07 | **[07-word-documents](./07-word-documents/)** | قراءة وتحليل مستندات Word (DOCX) وتقسيم العناصر | [README](./07-word-documents/README.md) | [Notebook](./07-word-documents/07-word-documents.ipynb) | [x] مكتمل |
-| 08 | **[08-csv-excel](./08-csv-excel/)** | معالجة ملفات الجداول CSV و Excel والسرد الدلالي | [README](./08-csv-excel/README.md) | [Notebook](./08-csv-excel/08-csv-excel.ipynb) | [x] مكتمل |
-| 09 | **[09-json-processing](./09-json-processing/)** | قراءة وتحليل بيانات JSON المهيكلة ولغة jq | [README](./09-json-processing/README.md) | [Notebook](./09-json-processing/09-json-processing.ipynb) | [x] مكتمل |
-| 10 | **[10-sql-databases](./10-sql-databases/)** | ربط واستخراج قواعد البيانات وقضايا التطبيع العلائقي | [README](./10-sql-databases/README.md) | [Notebook](./10-sql-databases/10-sql-databases.ipynb) | [x] مكتمل |
+| الرقم | عنوان المشروع البرمجي | المحاضرة المقابلة | الشرح المعماري (`docs/`) | الكود المرجعي (`stages/`) | معمل التجربة (`playground/`) | الحالة |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| 01 | **إعداد بيئة العمل وهيكل المشروع باستخدام UV** | Lecture 08 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#3-الدرس-01-إعداد-بيئة-العمل-والتحكم-في-الاعتماديات-01-environment-setup) | [`stages/01/.../01-...ipynb`](../../stages/01-ingestion/01-environment-setup/01-environment-setup.ipynb) | [`playground/01/.../01-...ipynb`](../../playground/01-ingestion/01-text-parsing.ipynb) | [x] مكتمل |
+| 02 | **بنية كائن الـ Document في LangChain** | Lecture 09 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#4-الدرس-02-بنية-كائن-المستند-وهندسة-البيانات-الوصفية-02-document-structure) | [`stages/01/.../02-...ipynb`](../../stages/01-ingestion/02-document-structure/02-document-structure.ipynb) | [`playground/01/.../01-...ipynb`](../../playground/01-ingestion/01-text-parsing.ipynb) | [x] مكتمل |
+| 03 | **قراءة واستيراد الملفات النصية TextLoader** | Lecture 10 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#5-الدرس-03-قراءة-الملفات-النصية-واستراتيجيات-الترميز-03-text-loaders) | [`stages/01/.../03-...ipynb`](../../stages/01-ingestion/03-text-loaders/03-text-loaders.ipynb) | [`playground/01/.../01-...ipynb`](../../playground/01-ingestion/01-text-parsing.ipynb) | [x] مكتمل |
+| 04 | **استراتيجيات وتقنيات تجزئة النصوص Text Splitting** | Lecture 11 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#6-الدرس-04-تقنيات-تجزئة-وتقطيع-النصوص-04-text-splitting) | [`stages/01/.../04-...ipynb`](../../stages/01-ingestion/04-text-splitting/04-text-splitting.ipynb) | [`playground/01/.../01-...ipynb`](../../playground/01-ingestion/01-text-parsing.ipynb) | [x] مكتمل |
+| 05 | **قراءة واستخراج مستندات PDF في LangChain** | Lecture 12 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#7-الدرس-05-أساسيات-قراءة-ومقارنة-محملات-pdf-05-pdf-parsing) | [`stages/01/.../05-...ipynb`](../../stages/01-ingestion/05-pdf-parsing/05-pdf-parsing.ipynb) | [`playground/01/.../02-...ipynb`](../../playground/01-ingestion/02-pdf-parsing.ipynb) | [x] مكتمل |
+| 06 | **حل المشكلات المعقدة في الـ PDF وتنظيف النصوص** | Lecture 13 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#8-الدرس-06-معالجة-مشكلات-pdf-المعقدة-والخط-الإنتاجي-06-pdf-advanced-issues) | [`stages/01/.../06-...ipynb`](../../stages/01-ingestion/06-pdf-advanced-issues/06-pdf-advanced-issues.ipynb) | [`playground/01/.../02-...ipynb`](../../playground/01-ingestion/02-pdf-parsing.ipynb) | [x] مكتمل |
+| 07 | **قراءة وتحليل مستندات وورد (Word DOCX)** | Lecture 14 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#9-الدرس-07-قراءة-وتحليل-مستندات-word-07-word-documents) | [`stages/01/.../07-...ipynb`](../../stages/01-ingestion/07-word-documents/07-word-documents.ipynb) | [`playground/01/.../03-...ipynb`](../../playground/01-ingestion/03-word-parsing.ipynb) | [x] مكتمل |
+| 08 | **معالجة ملفات الجداول CSV و Excel** | Lecture 15 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#10-الدرس-08-استيعاب-البيانات-الجدولية-csv-و-excel-08-csv-excel) | [`stages/01/.../08-...ipynb`](../../stages/01-ingestion/08-csv-excel/08-csv-excel.ipynb) | [`playground/01/.../04-...ipynb`](../../playground/01-ingestion/04-csv-excel-parsing.ipynb) | [x] مكتمل |
+| 09 | **قراءة وتحليل بيانات JSON شبه المهيكلة** | Lecture 16 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#11-الدرس-09-معالجة-بيانات-json-شبه-المهيكلة-09-json-processing) | [`stages/01/.../09-...ipynb`](../../stages/01-ingestion/09-json-processing/09-json-processing.ipynb) | [`playground/01/.../05-...ipynb`](../../playground/01-ingestion/05-json-parsing.ipynb) | [x] مكتمل |
+| 10 | **ربط واستخراج البيانات من قواعد بيانات SQL** | Lecture 17 | [الدليل الشامل](./STAGE_01_INGESTION_GUIDE.md#12-الدرس-10-ربط-واستخراج-قواعد-البيانات-العلائقية-10-sql-databases) | [`stages/01/.../10-...ipynb`](../../stages/01-ingestion/10-sql-databases/10-sql-databases.ipynb) | [`playground/01/.../06-...ipynb`](../../playground/01-ingestion/06-sql-parsing.ipynb) | [x] مكتمل |
 
 ---
 
-## 🤖 قواعد عمل الـ Agent:
-* 📜 **[agent.md](./agent.md)**: القواعد والضوابط المنظمة ومسؤولية تنظيم الـ Playground عند الطلب.
+## المعايير الهندسية للمرحلة
+* **`stages/`**: كود إنتاجي مسبق التنفيذ بمخرجاته الكاملة، بتوثيق إنجليزي تقني صارم وخالٍ من الرموز التعبيرية مع فحوصات `Assertions`.
+* **`playground/`**: كشكول تجارب تفاعلي ودود باللغة العربية البسيطة يتيح التجربة الحرة وتعديل المعاملات والمسارات دون قيود.
