@@ -43,15 +43,15 @@ $$\text{MMR} \triangleq \arg\max_{d_i \in R \setminus S} \left[ \lambda \cdot \t
 
 ```mermaid
 flowchart TD
-    Start["بدء الاستعلام (User Query: q)"] --> Step1["الخطوة 1: استرجاع حوض المرشحين الأولي\nR = Fetch_K documents (e.g. 20 docs)"]
-    Step1 --> Step2["الخطوة 2: اختيار المستند الأكثر شبهاً بالسؤال فوراً\nS = {d_top1}, R = R \\ {d_top1}"]
+    Start["بدء الاستعلام - User Query"] --> Step1["الخطوة 1: استرجاع المرشحين الأولية<br/>حوض واسع Fetch_K = 20"]
+    Step1 --> Step2["الخطوة 2: اختيار المستند الأكثر شبها بالاستعلام فورا<br/>إضافته إلى قائمة النتائج المختارة S"]
     
-    Step2 --> CheckDone{"هل اكتمل عدد المستندات المطلوبة؟\n|S| == k (e.g. k = 4)"}
-    CheckDone -- نعم --> ReturnResults["إرجاع المستندات المتنوعة والمصنفة (S)"]
+    Step2 --> CheckDone{"هل اكتمل عدد المستندات المطلوبة؟<br/>العدد يساوي K"}
+    CheckDone -->|نعم| ReturnResults["إرجاع المستندات المتنوعة والمصنفة S"]
     
-    CheckDone -- لا --> LoopCandidates["فحص كل مستند d_i في R \\ S:"]
-    LoopCandidates --> CalcScore["حساب درجة MMR:\nScore = λ * Sim(d_i, q) - (1-λ) * max_j(Sim(d_i, d_j))"]
-    CalcScore --> PickBest["اختيار المستند ذي أعلى درجة MMR وإضافته إلى S"]
+    CheckDone -->|لا| LoopCandidates["فحص كل مستند متبقي في حوض المرشحين"]
+    LoopCandidates --> CalcScore["حساب درجة MMR لكل مرشح:<br/>الموازنة بين التشابه مع السؤال والتنوع عن S"]
+    CalcScore --> PickBest["اختيار المستند صاحب أعلى درجة وإضافته إلى S"]
     PickBest --> CheckDone
 ```
 

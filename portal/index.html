@@ -1276,7 +1276,7 @@
                     docData = await res.json();
                 }
 
-                renderDocumentContent(docData);
+                await renderDocumentContent(docData);
                 updateNextPrevNavigation(relPath);
             } catch (err) {
                 document.getElementById("article-title").textContent = "تعذر تحميل المستند";
@@ -1293,7 +1293,7 @@
         }
 
         // Render Markdown, KaTeX, Mermaid, Callouts, and TOC
-        function renderDocumentContent(docData) {
+        async function renderDocumentContent(docData) {
             document.getElementById("article-title").textContent = docData.title;
             document.getElementById("crumb-lecture").textContent = docData.title;
 
@@ -1334,7 +1334,7 @@
             });
 
             // Render Mermaid Diagrams
-            renderMermaidBlocks();
+            await renderMermaidBlocks();
 
             // Build dynamic On-This-Page Table of Contents (TOC)
             buildTableOfContents(bodyContainer);
@@ -1416,21 +1416,37 @@
         }
 
         // Mermaid Diagrams Rendering
-        function renderMermaidBlocks() {
+        async function renderMermaidBlocks() {
             const mermaidCodes = document.querySelectorAll("pre code.language-mermaid");
-            mermaidCodes.forEach((codeEl) => {
+            if (mermaidCodes.length === 0) return;
+
+            for (let i = 0; i < mermaidCodes.length; i++) {
+                const codeEl = mermaidCodes[i];
                 const pre = codeEl.parentElement;
-                const diagramSrc = codeEl.textContent;
+                if (!pre) continue;
+                const diagramSrc = codeEl.textContent.trim();
+                const id = "mermaid-svg-" + Math.random().toString(36).substring(2, 9);
 
                 const card = document.createElement("div");
                 card.className = "mermaid-card";
-                card.innerHTML = `<div class="mermaid">${diagramSrc}</div>`;
-                pre.replaceWith(card);
-            });
+                
+                try {
+                    const { svg } = await mermaid.render(id, diagramSrc);
+                    card.innerHTML = svg;
+                    pre.replaceWith(card);
+                } catch (err) {
+                    console.warn("Mermaid render warning:", err);
+                    const errEl = document.getElementById(id);
+                    if (errEl) errEl.remove();
 
-            mermaid.run({
-                querySelector: ".mermaid"
-            });
+                    // Temporary container to safely escape source
+                    const temp = document.createElement("div");
+                    temp.textContent = diagramSrc;
+
+                    card.innerHTML = `<div style="padding: 1rem; color: var(--accent-amber); font-family: 'Fira Code', monospace; font-size: 0.85rem; background: var(--bg-surface); border-radius: 8px; border: 1px dashed var(--border-color); direction: ltr; text-align: left; white-space: pre-wrap;">${temp.innerHTML}</div>`;
+                    pre.replaceWith(card);
+                }
+            }
         }
 
         // Build Left Sidebar: "In This Page" (TOC)
