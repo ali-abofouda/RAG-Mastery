@@ -38,7 +38,7 @@
 | **02** | [README](./docs/02-vector-embeddings/README.md) | [Notebooks](./stages/02-vector-embeddings/) | [Lab](./playground/02-vector-embeddings/) | Section 6 | نماذج التضمين وفضاء المتجهات والتشابه الدلالي | [x] مكتمل |
 | **03** | [README](./docs/03-vector-stores-and-databases/README.md) | [Notebooks](./stages/03-vector-stores-and-databases/) | [Lab](./playground/03-vector-stores-and-databases/) | Section 7 | قواعد بيانات الفيكتورز (Chroma, FAISS, AstraDB, Pinecone) | [x] مكتمل |
 | **04** | [README](./docs/04-advanced-chunking/README.md) | [Notebooks](./stages/04-advanced-chunking/) | [Lab](./playground/04-advanced-chunking/) | Section 8 | تقنيات التقطيع الدلالي المتقدم (Semantic Chunking) | [x] مكتمل |
-| **05** | [README](./docs/05-hybrid-search-and-retrieval/README.md) | [Notebooks](./stages/05-hybrid-search-and-retrieval/) | [Lab](./playground/05-hybrid-search-and-retrieval/) | Section 9 | استراتيجيات البحث الهجين (Dense + BM25) وإعادة الترتيب Reranking | [🔄] قيد العمل (41–44 مكتمل) |
+| **05** | [README](./docs/05-hybrid-search-and-retrieval/README.md) | [Notebooks](./stages/05-hybrid-search-and-retrieval/) | [Lab](./playground/05-hybrid-search-and-retrieval/) | Section 9 | استراتيجيات البحث الهجين (Dense + BM25) وإعادة الترتيب Reranking وخوارزمية MMR | [x] مكتمل (المحاضرات 41–48) |
 | **06** | — | 06-query-enhancement | — | Section 10 | تحسين وتوسيع وتفكيك الاستعلامات (Expansion, HyDE) | [ ] قادم |
 | **07** | — | 07-multimodal-rag | — | Section 11 | أنظمة RAG متعددة الوسائط للنصوص والصور | [ ] قادم |
 | **08** | — | 08-langchain-and-langgraph | — | Sections 12–15 | تحديثات LangChain v1 و LangGraph وبناء الوكلاء | [ ] قادم |

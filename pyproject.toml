@@ -8,6 +8,7 @@ dependencies = [
     "docx2txt>=0.9",
     "faiss-cpu>=1.10.0",
     "fastembed>=0.8.1",
+    "flashrank>=0.2.10",
     "ipywidgets>=8.1.9",
     "jupyter>=1.1.1",
     "langchain>=0.3.0",
