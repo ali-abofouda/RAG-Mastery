@@ -653,6 +653,7 @@
         let currentDocPath = "";
         let currentFontSize = 16;
         let activeRecallMode = false;
+        let docsBundle = null;
 
         // Initialize Mermaid
         mermaid.initialize({
@@ -662,12 +663,49 @@
         });
 
         // Initialize App
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             loadTheme();
-            loadDocsTree();
             setupScrollProgress();
             setupSearchKeyboard();
+            await initDocsData();
         });
+
+        // Dual-Mode Data Initialization (Static Bundle for GitHub Pages + Dynamic API Fallback)
+        async function initDocsData() {
+            try {
+                // Try fetching pre-bundled static JSON first
+                const res = await fetch("docs_bundle.json");
+                if (res.ok) {
+                    docsBundle = await res.json();
+                }
+            } catch (e) {
+                console.log("Static bundle not reachable, using live API");
+            }
+
+            if (docsBundle && docsBundle.tree) {
+                renderSidebar(docsBundle.tree);
+                handleInitialNavigation(docsBundle.tree);
+            } else {
+                try {
+                    const res = await fetch("/api/tree");
+                    const tree = await res.json();
+                    renderSidebar(tree);
+                    handleInitialNavigation(tree);
+                } catch (err) {
+                    console.error("Failed to load docs tree", err);
+                }
+            }
+        }
+
+        function handleInitialNavigation(tree) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedPath = urlParams.get("doc");
+            if (requestedPath) {
+                loadDocument(requestedPath);
+            } else if (tree.length > 0 && tree[0].docs.length > 0) {
+                loadDocument(tree[0].docs[0].rel_path);
+            }
+        }
 
         // Scroll Progress
         function setupScrollProgress() {
@@ -721,26 +759,6 @@
             blockquotes.forEach(b => {
                 b.style.boxShadow = activeRecallMode ? "0 0 15px var(--accent)" : "none";
             });
-        }
-
-        // Load Sidebar Tree
-        async function loadDocsTree() {
-            try {
-                const res = await fetch("/api/tree");
-                const tree = await res.json();
-                renderSidebar(tree);
-
-                // Auto-load first doc or URL param
-                const urlParams = new URLSearchParams(window.location.search);
-                const requestedPath = urlParams.get("doc");
-                if (requestedPath) {
-                    loadDocument(requestedPath);
-                } else if (tree.length > 0 && tree[0].docs.length > 0) {
-                    loadDocument(tree[0].docs[0].rel_path);
-                }
-            } catch (e) {
-                console.error("Failed to load docs tree", e);
-            }
         }
 
         function renderSidebar(tree) {
@@ -802,15 +820,21 @@
             window.history.pushState({}, "", url);
 
             try {
-                const res = await fetch(`/api/doc?path=${encodeURIComponent(relPath)}`);
-                if (!res.ok) throw new Error("Document not found");
-                const data = await res.json();
+                let docData = null;
+
+                if (docsBundle && docsBundle.docs && docsBundle.docs[relPath]) {
+                    docData = docsBundle.docs[relPath];
+                } else {
+                    const res = await fetch(`/api/doc?path=${encodeURIComponent(relPath)}`);
+                    if (!res.ok) throw new Error("Document not found");
+                    docData = await res.json();
+                }
 
                 // Update Breadcrumb
-                document.getElementById("breadcrumb-title").textContent = data.title;
+                document.getElementById("breadcrumb-title").textContent = docData.title;
 
                 // Render Markdown
-                renderMarkdown(data.content);
+                renderMarkdown(docData.content);
             } catch (e) {
                 document.getElementById("doc-content").innerHTML = `
                     <div style="text-align: center; padding: 60px 20px;">
@@ -892,10 +916,35 @@
                 if (q.length < 2) return;
 
                 debounceTimer = setTimeout(async () => {
-                    const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
-                    const results = await res.json();
-                    showSearchResults(results, q);
-                }, 250);
+                    if (docsBundle && docsBundle.docs) {
+                        // Instant client-side search across all documents
+                        const results = [];
+                        const qLower = q.toLowerCase();
+                        for (const [path, doc] of Object.entries(docsBundle.docs)) {
+                            const lines = doc.content.split("\n");
+                            const matches = [];
+                            for (let i = 0; i < lines.length; i++) {
+                                if (lines[i].toLowerCase().includes(qLower)) {
+                                    matches.push(lines[i].trim().slice(0, 180));
+                                    if (matches.length >= 2) break;
+                                }
+                            }
+                            if (matches.length > 0) {
+                                results.push({
+                                    rel_path: path,
+                                    title: doc.title,
+                                    matches: matches
+                                });
+                            }
+                        }
+                        showSearchResults(results, q);
+                    } else {
+                        // Server API search
+                        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+                        const results = await res.json();
+                        showSearchResults(results, q);
+                    }
+                }, 150);
             });
         }
 
