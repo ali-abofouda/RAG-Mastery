@@ -12,14 +12,9 @@ always_active: true
 - If the user says "Next" (التالي), ask for the transcript of the upcoming lecture unless they specifically tell you to proceed with a given text.
 - Do not introduce arbitrary third-party frameworks or tangential topics unless they are part of the lecture transcript.
 
-### Expected Header Format from User for New Lectures:
-```markdown
-- **رقم واسم المحاضرة**: (مثلاً: Lecture 45: Reranking Implementation)
-- **المرحلة أو القسم**: (مثلاً: Stage 05 / Section 9)
-- **طبيعة الدرس**: (نظري معماري أم تطبيقي كود أم مقارنة)
-- **الاسكريبت / التفريغ**: (نص ما قاله المحاضر)
-```
-Even if only the lecture number/title and transcript are provided, proceed with precision.
+### How the User Submits Lectures:
+- The user will simply provide the **video number (e.g. فيديو 45 / المحاضرة 45)** followed immediately by the transcript text.
+- Do NOT request the user to fill out metadata forms. The agent has the curriculum context and must deduce stage, topic, and type (theory/code) directly from the transcript.
 
 ---
 
