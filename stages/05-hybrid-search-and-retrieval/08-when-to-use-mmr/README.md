@@ -1,10 +1,18 @@
-# الدرس 08: دليل اتخاذ القرار - متى نستخدم ومتى نتجنب MMR؟
-### Architectural Decision Guide: When to Use MMR (Lecture 48)
+# Stage 05: Hybrid Search and Retrieval
+## Topic 08: Architectural Decision Guide - When to Use and Avoid MMR (Lecture 48)
 
-يغطي هذا المجلد المعايير الهندسية لاختيار خوارزمية الاسترجاع المناسبة:
-1. مقارنة حالات الاستكشاف الشاملة مع استرجاع الحقائق المفردة.
-2. قياس زمن التأخير بين Similarity Search و MMR.
-3. بناء محرك اتخاذ القرار البرمجي لاختيار بنية الاسترجاع في الإنتاج.
+### Production Overview
+This module formalizes the engineering decision criteria for deploying Maximal Marginal Relevance (MMR) vs. standard dense similarity search vs. Cross-Encoder rerankers in production RAG systems.
 
-* الدفتر المرجعي: [`08-when-to-use-mmr.ipynb`](./08-when-to-use-mmr.ipynb)
-* التوثيق الشامل: [`docs/05-hybrid-search-and-retrieval/08-when-to-use-mmr.md`](../../../docs/05-hybrid-search-and-retrieval/08-when-to-use-mmr.md)
+### Core Strategic Heuristics
+1. **When to Deploy MMR**:
+   * **Multi-topic / Exploratory Queries**: Maximizes information coverage across distinct perspectives (e.g., FAQ chatbots, document discovery).
+   * **Corpus Redundancy**: Suppresses near-duplicate chunks from news aggregators, customer tickets, or web scrape dumps.
+   * **Hybrid Search Post-Processing**: Filters out overlapping semantic and lexical duplicates produced by dense and sparse fusion.
+2. **When to Avoid MMR**:
+   * **Deterministic Factoid Queries**: Exact single-fact lookups where diversity introduces irrelevant noise.
+   * **Constrained Context Windows ($K \le 2$)**: Extreme token budgets requiring pure top-1 precision.
+   * **Downstream Reranking with Deduplication**: When Cross-Encoder models with post-filtering already resolve candidate overlap.
+
+### File Inventory
+* `08-when-to-use-mmr.ipynb`: Executed reference notebook containing comparative scenario benchmarks, latency analysis, and a decision engine utility.
