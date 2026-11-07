@@ -14,7 +14,7 @@
     },
     {
       "stage_id": "00-rag-fundamentals",
-      "stage_title": "00 - أساسيات ومفاهيم الـ RAG",
+      "stage_title": "00 - أساسيات ومفاهيم RAG (RAG Fundamentals)",
       "docs": [
         {
           "title": "00 - أساسيات ومفاهيم RAG (RAG Fundamentals)",
@@ -26,7 +26,7 @@
     },
     {
       "stage_id": "01-ingestion",
-      "stage_title": "01 - استيعاب ومعالجة المستندات (Data Ingestion)",
+      "stage_title": "المرحلة 01: معالجة واستيعاب البيانات (Data Ingestion & Parsing)",
       "docs": [
         {
           "title": "المرحلة 01: معالجة واستيعاب البيانات (Data Ingestion & Parsing)",
@@ -44,7 +44,7 @@
     },
     {
       "stage_id": "02-vector-embeddings",
-      "stage_title": "02 - تضمينات المتجهات وفضاء المعنى (Vector Embeddings)",
+      "stage_title": "المرحلة 02: التضمينات وفضاء المتجهات (Vector Embeddings)",
       "docs": [
         {
           "title": "المرحلة 02: التضمينات وفضاء المتجهات (Vector Embeddings)",
@@ -56,7 +56,7 @@
     },
     {
       "stage_id": "03-vector-stores-and-databases",
-      "stage_title": "03 - فهارس وقواعد بيانات المتجهات (Vector Stores & DBs)",
+      "stage_title": "03 - فهارس وقواعد بيانات المتجهات (Vector Stores & Vector Databases)",
       "docs": [
         {
           "title": "03 - فهارس وقواعد بيانات المتجهات (Vector Stores & Vector Databases)",
@@ -68,7 +68,7 @@
     },
     {
       "stage_id": "04-advanced-chunking",
-      "stage_title": "04 - تقنيات التقطيع الدلالي المتقدم (Advanced Chunking)",
+      "stage_title": "المرحلة 04: تقنيات التقطيع الدلالي المتقدم",
       "docs": [
         {
           "title": "المرحلة 04: تقنيات التقطيع الدلالي المتقدم",
@@ -104,7 +104,7 @@
     },
     {
       "stage_id": "05-hybrid-search-and-retrieval",
-      "stage_title": "05 - البحث الهجين وإعادة الترتيب (Hybrid Search & Reranking)",
+      "stage_title": "المرحلة 05: استراتيجيات البحث الهجين والاسترجاع المتقدم",
       "docs": [
         {
           "title": "المرحلة 05: استراتيجيات البحث الهجين والاسترجاع المتقدم",

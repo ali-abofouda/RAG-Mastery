@@ -13,13 +13,24 @@ DOCS_DIR = REPO_ROOT / "docs"
 PORTAL_DIR = REPO_ROOT / "portal"
 DIST_DIR = REPO_ROOT / "dist"
 
-STAGE_TITLES = {
+STAGE_FALLBACKS = {
     "00-rag-fundamentals": "00 - أساسيات ومفاهيم الـ RAG",
     "01-ingestion": "01 - استيعاب ومعالجة المستندات (Data Ingestion)",
     "02-vector-embeddings": "02 - تضمينات المتجهات وفضاء المعنى (Vector Embeddings)",
     "03-vector-stores-and-databases": "03 - فهارس وقواعد بيانات المتجهات (Vector Stores & DBs)",
     "04-advanced-chunking": "04 - تقنيات التقطيع الدلالي المتقدم (Advanced Chunking)",
     "05-hybrid-search-and-retrieval": "05 - البحث الهجين وإعادة الترتيب (Hybrid Search & Reranking)",
+    "06-query-enhancement": "06 - تحسين وتوسيع الاستعلامات (Query Enhancement)",
+    "07-multimodal-rag": "07 - أنظمة RAG متعددة الوسائط (Multimodal RAG)",
+    "08-langchain-and-langgraph": "08 - أطر عمل LangChain و LangGraph",
+    "09-agentic-rag": "09 - وكلاء الذكاء الاصطناعي المستقلة (Agentic RAG)",
+    "10-self-correcting-rag": "10 - أنظمة RAG ذاتية التصحيح (Self-Correcting RAG)",
+    "11-evaluation-and-benchmarking": "11 - التقييم والمقاييس المرجعية (Evaluation & RAGAS)",
+    "12-fine-tuning-vs-rag": "12 - الضبط الدقيق مقابل الـ RAG (Fine-Tuning vs RAG)",
+    "13-caching-and-cost-optimization": "13 - التخزين المؤقت وخفض التكاليف (Caching & Cost)",
+    "14-enterprise-security-governance": "14 - أمن البيانات والحوكمة المؤسسية (Security & Governance)",
+    "15-production-deployment-mlops": "15 - النشر والعمليات الإنتاجية (Production MLOps)",
+    "16-capstone-enterprise-agents": "16 - المشروع الشامل للشركات (Capstone Project)",
 }
 
 def extract_markdown_title(filepath: Path) -> str:
@@ -28,15 +39,23 @@ def extract_markdown_title(filepath: Path) -> str:
             for line in f:
                 stripped = line.strip()
                 if stripped.startswith("# "):
-                    return stripped[2:].strip()
+                    return stripped[2:].strip().replace("**", "")
                 if stripped.startswith("### "):
-                    return stripped[4:].strip()
+                    return stripped[4:].strip().replace("**", "")
     except Exception:
         pass
     name = filepath.stem
     if name == "README":
         return "دليل ونظرة عامة على المرحلة"
     return name.replace("-", " ").title()
+
+def get_stage_title(stage_dir: Path) -> str:
+    readme = stage_dir / "README.md"
+    if readme.exists():
+        t = extract_markdown_title(readme)
+        if t and len(t) > 3 and not t.startswith("دليل ونظرة"):
+            return t
+    return STAGE_FALLBACKS.get(stage_dir.name, stage_dir.name.replace("-", " ").title())
 
 def build_static_bundle():
     """Create static data bundle containing tree and full content of all docs."""
@@ -70,7 +89,7 @@ def build_static_bundle():
             continue
             
         stage_key = stage_dir.name
-        stage_title = STAGE_TITLES.get(stage_key, stage_key.replace("-", " ").title())
+        stage_title = get_stage_title(stage_dir)
         stage_docs = []
         
         for file in sorted(stage_dir.glob("*.md")):

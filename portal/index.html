@@ -3,52 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة RAG-Mastery التعليمية | Learning Portal</title>
+    <title>بوابة RAG-Mastery التعليمية | The Definitive RAG Engineering Handbook</title>
     
-    <!-- Google Fonts: Alexandria & Cairo -->
+    <!-- Google Fonts: IBM Plex Sans Arabic + Plus Jakarta Sans + Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=Cairo:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- KaTeX CSS for LaTeX Math -->
+    <!-- KaTeX CSS for Mathematical Formulations -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     
-    <!-- Prism.js for Code Highlighting -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <!-- Highlight.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark-dimmed.min.css" id="hljs-theme">
 
     <style>
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
+            /* Luxury Obsidian Theme (Dark Default) */
+            --bg-base: #07090e;
+            --bg-surface: #0f121a;
+            --bg-surface-elevated: #161b26;
+            --bg-surface-hover: #1e2433;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(99, 102, 241, 0.4);
+            
+            --text-heading: #f8fafc;
+            --text-body: #cbd5e1;
             --text-muted: #64748b;
-            --accent: #10b981;
-            --accent-hover: #059669;
-            --accent-glow: rgba(16, 185, 129, 0.2);
-            --border-color: #334155;
-            --card-bg: #1e293b;
-            --code-bg: #090d16;
+            
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --cyan-accent: #38bdf8;
+            --emerald-accent: #10b981;
+            --amber-accent: #f59e0b;
+            --rose-accent: #f43f5e;
+            
+            --code-bg: #090b10;
+            --table-header-bg: #131722;
+            
+            --sidebar-right-width: 330px;
+            --sidebar-left-width: 250px;
             --header-height: 64px;
-            --sidebar-width: 340px;
-            --font-main: 'Alexandria', 'Cairo', sans-serif;
+            
+            --font-arabic: 'IBM Plex Sans Arabic', -apple-system, sans-serif;
+            --font-latin: 'Plus Jakarta Sans', sans-serif;
             --font-code: 'Fira Code', monospace;
+            
+            --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+            --shadow-elevated: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
         }
 
         html.light {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --accent: #059669;
-            --accent-hover: #047857;
-            --accent-glow: rgba(5, 150, 105, 0.15);
-            --border-color: #e2e8f0;
-            --card-bg: #ffffff;
+            --bg-base: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #f1f5f9;
+            --bg-surface-hover: #e2e8f0;
+            --border-subtle: #e2e8f0;
+            --border-active: rgba(99, 102, 241, 0.5);
+            
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-glow: rgba(79, 70, 229, 0.1);
+            --cyan-accent: #0284c7;
+            --emerald-accent: #059669;
+            
             --code-bg: #1e293b;
+            --table-header-bg: #f8fafc;
+            --shadow-subtle: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -58,809 +84,1246 @@
         }
 
         body {
-            font-family: var(--font-main);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.8;
+            font-family: var(--font-arabic);
+            background-color: var(--bg-base);
+            color: var(--text-body);
+            line-height: 1.85;
+            letter-spacing: -0.01em;
             overflow-x: hidden;
-            transition: background-color 0.2s, color 0.2s;
+            transition: background-color 0.25s, color 0.25s;
         }
 
         /* Top Progress Bar */
-        #progress-bar {
+        #reading-progress {
             position: fixed;
             top: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #10b981, #3b82f6);
+            background: linear-gradient(90deg, var(--cyan-accent), var(--primary), var(--emerald-accent));
             width: 0%;
             z-index: 1000;
-            transition: width 0.1s ease;
+            transition: width 0.1s ease-out;
         }
 
-        /* App Layout */
-        .app-container {
+        /* App Wrapper */
+        .app-layout {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Sidebar */
-        aside.sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--bg-secondary);
-            border-left: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            z-index: 100;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-logo {
-            font-size: 1.15rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent);
-        }
-
-        .brand-badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            background: var(--accent-glow);
-            color: var(--accent);
-            border-radius: 9999px;
-            border: 1px solid var(--accent);
-            font-weight: 500;
-        }
-
-        .search-box {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .search-input-wrapper {
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 8px 12px 8px 36px;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            font-size: 0.85rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: var(--accent);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            pointer-events: none;
-            font-size: 0.85rem;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-        }
-
-        .stage-group {
-            margin-bottom: 8px;
-        }
-
-        .stage-header {
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.15s;
-        }
-
-        .stage-header:hover {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .stage-items {
-            margin-right: 12px;
-            padding-right: 8px;
-            border-right: 2px solid var(--border-color);
-            margin-top: 4px;
-        }
-
-        .doc-item {
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2px;
-            transition: all 0.15s;
-            text-decoration: none;
-        }
-
-        .doc-item:hover {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .doc-item.active {
-            background-color: var(--accent-glow);
-            color: var(--accent);
-            font-weight: 600;
-            border-right: 2px solid var(--accent);
-        }
-
-        .doc-badge {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            direction: ltr;
-        }
-
-        /* Main Content Container */
-        main.main-content {
-            margin-right: var(--sidebar-width);
-            flex: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: margin-right 0.3s ease;
-        }
-
-        /* Top Bar */
-        header.top-bar {
-            height: var(--header-height);
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(8px);
-        }
-
-        .breadcrumbs {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .breadcrumbs span.current {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .actions-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: var(--font-main);
-            font-size: 0.82rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .icon-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background-color: var(--accent-glow);
-        }
-
-        /* Content Area */
-        .content-body {
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 40px 24px 80px 24px;
-        }
-
-        /* Typography & Markdown Rendering */
-        .markdown-render h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .markdown-render h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-top: 36px;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .markdown-render h3 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-top: 24px;
-            margin-bottom: 12px;
-            color: var(--accent);
-        }
-
-        .markdown-render p {
-            margin-bottom: 18px;
-            color: var(--text-primary);
-            font-size: 0.98rem;
-            text-align: justify;
-        }
-
-        .markdown-render ul, .markdown-render ol {
-            margin-bottom: 20px;
-            padding-right: 24px;
-        }
-
-        .markdown-render li {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .markdown-render blockquote {
-            border-right: 4px solid var(--accent);
-            background: var(--accent-glow);
-            padding: 14px 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-            font-size: 0.92rem;
-        }
-
-        /* Inline Code and Code Blocks */
-        code {
-            font-family: var(--font-code);
-            direction: ltr !important;
-            unicode-bidi: isolate;
-        }
-
-        p code, li code, td code {
-            background-color: var(--bg-tertiary);
-            color: var(--accent);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.88em;
-            font-weight: 500;
-        }
-
-        pre {
-            background-color: var(--code-bg) !important;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 18px;
-            overflow-x: auto;
-            margin: 20px 0;
-            direction: ltr !important;
-            text-align: left !important;
-        }
-
-        pre code {
-            background: none !important;
-            padding: 0 !important;
-            font-size: 0.88rem;
-            color: #f8fafc;
-        }
-
-        /* Tables */
-        .markdown-render table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 24px 0;
-            font-size: 0.88rem;
-            overflow-x: auto;
-            display: block;
-        }
-
-        .markdown-render th, .markdown-render td {
-            border: 1px solid var(--border-color);
-            padding: 12px 16px;
-            text-align: right;
-        }
-
-        .markdown-render th {
-            background-color: var(--bg-secondary);
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .markdown-render tr:nth-child(even) {
-            background-color: var(--bg-secondary);
-        }
-
-        /* Mermaid Diagrams Container */
-        .mermaid {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin: 24px 0;
-            display: flex;
-            justify-content: center;
-            overflow-x: auto;
-            direction: ltr !important;
-        }
-
-        /* KaTeX math formulas */
-        .katex-display {
-            margin: 20px 0;
-            overflow-x: auto;
-            padding: 8px 0;
-            direction: ltr !important;
-        }
-
-        /* Active Recall Flashcard Box */
-        .active-recall-card {
-            background: var(--bg-secondary);
-            border: 1px dashed var(--accent);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 30px 0;
-        }
-
-        .active-recall-header {
-            font-weight: 700;
-            color: var(--accent);
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Loading Skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 50%, var(--bg-secondary) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 6px;
-            margin-bottom: 12px;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* Search Results Overlay */
-        .search-results-modal {
+        /* Top Sticky Navbar */
+        header.navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .search-results-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            width: 100%;
-            max-width: 600px;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        .search-modal-header {
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
+            height: var(--header-height);
+            background: rgba(15, 18, 26, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 24px;
+            transition: all 0.25s;
         }
 
-        .search-results-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
+        html.light header.navbar {
+            background: rgba(255, 255, 255, 0.88);
         }
 
-        .search-result-item {
-            padding: 12px;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .brand-title {
+            font-family: var(--font-latin);
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .brand-pill {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--primary-glow);
+            color: var(--primary-light);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Search Trigger Button */
+        .search-trigger-btn {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 7px 14px;
             border-radius: 8px;
+            font-family: var(--font-arabic);
+            font-size: 0.84rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            min-width: 220px;
+        }
+
+        .search-trigger-btn:hover {
+            border-color: var(--primary);
+            color: var(--text-body);
+        }
+
+        .search-key {
+            font-family: var(--font-latin);
+            font-size: 0.7rem;
+            background: var(--bg-base);
+            border: 1px solid var(--border-subtle);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--text-muted);
+            margin-right: auto;
+        }
+
+        /* Action Buttons */
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-surface);
+            color: var(--text-body);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--primary);
+            color: var(--primary-light);
+            background: var(--primary-glow);
+        }
+
+        /* Right Navigation Sidebar (Stages & Docs) */
+        aside.sidebar-right {
+            position: fixed;
+            top: var(--header-height);
+            right: 0;
+            bottom: 0;
+            width: var(--sidebar-right-width);
+            background: var(--bg-surface);
+            border-left: 1px solid var(--border-subtle);
+            overflow-y: auto;
+            padding: 20px 14px 40px 14px;
+            z-index: 80;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        aside.sidebar-right::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        aside.sidebar-right::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 4px;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+        }
+
+        /* Stage Accordion Group */
+        .stage-box {
             margin-bottom: 8px;
+            border-radius: 10px;
             border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .stage-box.open {
+            background: rgba(255, 255, 255, 0.015);
+            border-color: var(--border-subtle);
+        }
+
+        .stage-trigger {
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
             transition: all 0.15s;
         }
 
-        .search-result-item:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--accent);
+        .stage-trigger:hover {
+            background: var(--bg-surface-elevated);
         }
 
-        .search-result-title {
-            font-weight: 600;
-            color: var(--accent);
-            font-size: 0.9rem;
-            margin-bottom: 4px;
+        .stage-trigger .badge-num {
+            font-family: var(--font-latin);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 5px;
+            background: var(--bg-surface-elevated);
+            color: var(--cyan-accent);
+            border: 1px solid var(--border-subtle);
         }
 
-        .search-result-snippet {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+        .stage-trigger .chevron {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transition: transform 0.25s ease;
+        }
+
+        .stage-box.open .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .stage-docs-list {
+            display: none;
+            padding: 4px 6px 6px 12px;
+            margin-right: 8px;
+            border-right: 2px solid var(--border-subtle);
+        }
+
+        .stage-box.open .stage-docs-list {
+            display: block;
+        }
+
+        .doc-link {
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 0.81rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            margin-bottom: 2px;
+            transition: all 0.15s;
             line-height: 1.5;
         }
 
-        /* Responsive */
-        @media (max-width: 900px) {
-            aside.sidebar {
+        .doc-link:hover {
+            color: var(--text-heading);
+            background: var(--bg-surface-hover);
+        }
+
+        .doc-link.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            font-weight: 600;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        html.light .doc-link.active {
+            color: #ffffff;
+        }
+
+        .doc-time {
+            font-family: var(--font-latin);
+            font-size: 0.68rem;
+            opacity: 0.7;
+            white-space: nowrap;
+            margin-right: 8px;
+        }
+
+        /* Left Sidebar (On This Page / Table of Contents) */
+        aside.sidebar-left {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-left-width);
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-subtle);
+            overflow-y: auto;
+            padding: 24px 18px 40px 18px;
+            z-index: 80;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 4px;
+        }
+
+        .toc-link {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-right: 2px solid transparent;
+            transition: all 0.15s;
+            line-height: 1.5;
+        }
+
+        .toc-link:hover {
+            color: var(--text-heading);
+            background: var(--bg-surface-elevated);
+        }
+
+        .toc-link.active {
+            color: var(--primary-light);
+            font-weight: 600;
+            border-right-color: var(--primary);
+            background: var(--primary-glow);
+        }
+
+        .toc-item.h3 .toc-link {
+            padding-right: 20px;
+            font-size: 0.74rem;
+        }
+
+        /* Center Main Content */
+        main.content-area {
+            flex: 1;
+            margin-right: var(--sidebar-right-width);
+            margin-left: var(--sidebar-left-width);
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .article-wrapper {
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 32px 100px 32px;
+        }
+
+        /* Breadcrumb Bar */
+        .breadcrumbs-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .breadcrumbs-bar a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .breadcrumbs-bar a:hover {
+            color: var(--primary-light);
+        }
+
+        .breadcrumbs-bar .sep {
+            opacity: 0.5;
+            font-size: 0.7rem;
+        }
+
+        .breadcrumbs-bar .active-crumb {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        /* Article Typography */
+        .markdown-body h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.35;
+            color: var(--text-heading);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .doc-meta-strip {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .meta-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-surface);
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .markdown-body h2 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-top: 48px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+            scroll-margin-top: 80px;
+        }
+
+        .markdown-body h2::before {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.18rem;
+            font-weight: 600;
+            color: var(--cyan-accent);
+            margin-top: 32px;
+            margin-bottom: 14px;
+            scroll-margin-top: 80px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+            font-size: 1.02rem;
+            color: var(--text-body);
+            text-align: justify;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 24px;
+            padding-right: 28px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* Modern GitHub Callouts (Note, Tip, Important, Warning) */
+        .callout {
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 24px 0;
+            display: flex;
+            gap: 14px;
+            font-size: 0.94rem;
+            border: 1px solid transparent;
+            border-right-width: 4px;
+        }
+
+        .callout-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            line-height: 1.5;
+        }
+
+        .callout-body {
+            flex: 1;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-size: 0.92rem;
+        }
+
+        .callout-note {
+            background: rgba(56, 189, 248, 0.08);
+            border-color: rgba(56, 189, 248, 0.25);
+            border-right-color: var(--cyan-accent);
+            color: var(--text-body);
+        }
+        .callout-note .callout-title { color: var(--cyan-accent); }
+
+        .callout-tip {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.25);
+            border-right-color: var(--emerald-accent);
+            color: var(--text-body);
+        }
+        .callout-tip .callout-title { color: var(--emerald-accent); }
+
+        .callout-important {
+            background: rgba(168, 85, 247, 0.08);
+            border-color: rgba(168, 85, 247, 0.25);
+            border-right-color: #a855f7;
+            color: var(--text-body);
+        }
+        .callout-important .callout-title { color: #a855f7; }
+
+        .callout-warning {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.25);
+            border-right-color: var(--amber-accent);
+            color: var(--text-body);
+        }
+        .callout-warning .callout-title { color: var(--amber-accent); }
+
+        /* Code Blocks with macOS Window Header */
+        .code-container {
+            margin: 24px 0;
+            border-radius: 12px;
+            background: var(--code-bg);
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .mac-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mac-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .code-lang {
+            font-family: var(--font-latin);
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: var(--font-latin);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary-light);
+        }
+
+        pre code.hljs {
+            background: transparent !important;
+            padding: 18px 20px !important;
+            font-family: var(--font-code) !important;
+            font-size: 0.88rem !important;
+            line-height: 1.7 !important;
+        }
+
+        /* Inline Code */
+        p code, li code, td code {
+            font-family: var(--font-code);
+            font-size: 0.86em;
+            background: var(--bg-surface-elevated);
+            color: #ec4899;
+            padding: 2px 7px;
+            border-radius: 5px;
+            border: 1px solid var(--border-subtle);
+            direction: ltr !important;
+            display: inline-block;
+        }
+
+        html.light p code, html.light li code, html.light td code {
+            color: #be185d;
+        }
+
+        /* Tables */
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 28px 0;
+            font-size: 0.88rem;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .markdown-body th {
+            background: var(--table-header-bg);
+            color: var(--text-heading);
+            font-weight: 700;
+            padding: 12px 18px;
+            text-align: right;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        .markdown-body td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-body);
+        }
+
+        .markdown-body tr:last-child td {
+            border-bottom: none;
+        }
+
+        .markdown-body tr:hover td {
+            background: var(--bg-surface-elevated);
+        }
+
+        /* Mermaid Diagrams */
+        .mermaid-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 28px 20px;
+            margin: 32px 0;
+            box-shadow: var(--shadow-subtle);
+            direction: ltr !important;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        /* Bottom Previous / Next Navigation */
+        .page-navigation-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 60px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .nav-card {
+            padding: 18px 22px;
+            border-radius: 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-card:hover {
+            border-color: var(--primary);
+            background: var(--bg-surface-elevated);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .nav-card-label {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .nav-card-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .nav-card.next {
+            text-align: left;
+        }
+
+        /* Search Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 500;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 100px;
+        }
+
+        .modal-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 640px;
+            box-shadow: var(--shadow-elevated);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: modalSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-16px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-search-input {
+            width: 100%;
+            padding: 18px 22px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-arabic);
+            font-size: 1.05rem;
+            color: var(--text-heading);
+            outline: none;
+        }
+
+        .modal-results {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .modal-result-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: all 0.15s;
+        }
+
+        .modal-result-item:hover {
+            background: var(--bg-surface-elevated);
+        }
+
+        .modal-result-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--cyan-accent);
+            margin-bottom: 4px;
+        }
+
+        .modal-result-snippet {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 1200px) {
+            aside.sidebar-left {
+                display: none;
+            }
+            main.content-area {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 860px) {
+            aside.sidebar-right {
                 transform: translateX(100%);
             }
-            aside.sidebar.open {
+            aside.sidebar-right.mobile-open {
                 transform: translateX(0);
             }
-            main.main-content {
+            main.content-area {
                 margin-right: 0;
             }
+            .search-trigger-btn {
+                min-width: auto;
+            }
+            .search-trigger-btn span:last-child {
+                display: none;
+            }
+        }
+
+        /* Focus / Zen Mode */
+        body.zen-mode aside.sidebar-right,
+        body.zen-mode aside.sidebar-left {
+            transform: translateX(100%);
+        }
+        body.zen-mode aside.sidebar-left {
+            transform: translateX(-100%);
+        }
+        body.zen-mode main.content-area {
+            margin-right: 0;
+            margin-left: 0;
         }
     </style>
 </head>
 <body>
-    <div id="progress-bar"></div>
+    <div id="reading-progress"></div>
 
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="brand-logo">
-                    <span>RAG-Mastery</span>
-                    <span class="brand-badge">دليل المنهج</span>
+    <!-- Top Sticky Header -->
+    <header class="navbar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <button class="btn-icon" id="toggle-mobile-menu" onclick="toggleMobileSidebar()" style="display: none;">☰</button>
+            <a href="javascript:void(0)" onclick="loadDocByPath('README.md')" class="nav-brand">
+                <div class="brand-icon">R</div>
+                <div class="brand-title">RAG Mastery</div>
+                <span class="brand-pill">Portal 2.0</span>
+            </a>
+        </div>
+
+        <div class="nav-actions">
+            <button class="search-trigger-btn" onclick="openSearchModal()">
+                <span>🔍</span>
+                <span>بحث فوري في المنهج...</span>
+                <span class="search-key">Ctrl K</span>
+            </button>
+            
+            <button class="btn-icon" onclick="toggleTheme()" title="تبديل المظهر الليلي/النهاري" id="theme-btn">
+                <span id="theme-icon">🌙</span>
+            </button>
+            
+            <button class="btn-icon" onclick="toggleZenMode()" title="وضع القراءة المركز (Zen Mode)" id="zen-btn">
+                <span>📖</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-layout">
+        <!-- Right Sidebar (Stages & Lecture Tree) -->
+        <aside class="sidebar-right" id="sidebar-right">
+            <div class="sidebar-section-title">فهرس المحاضرات والمراحل</div>
+            <div id="stages-container">
+                <!-- Dynamically populated from /api/tree or docs_bundle.json -->
+                <div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                    جاري تحميل الفهرس...
                 </div>
-                <button class="icon-btn" onclick="toggleTheme()" title="تبديل المظهر">
-                    <span id="theme-icon">☀️</span>
-                </button>
             </div>
-
-            <div class="search-box">
-                <div class="search-input-wrapper">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="global-search" class="search-input" placeholder="بحث في كافة الدروس... (Ctrl + K)">
-                </div>
-            </div>
-
-            <nav class="sidebar-nav" id="sidebar-nav">
-                <!-- Populated dynamically via /api/tree -->
-                <div class="skeleton" style="height: 40px;"></div>
-                <div class="skeleton" style="height: 40px;"></div>
-                <div class="skeleton" style="height: 40px;"></div>
-            </nav>
         </aside>
 
-        <!-- Main Content View -->
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="breadcrumbs" id="breadcrumbs">
-                    <span>مسار RAG</span>
-                    <span>/</span>
-                    <span class="current" id="breadcrumb-title">جاري التحميل...</span>
-                </div>
+        <!-- Center Main Content -->
+        <main class="content-area">
+            <div class="article-wrapper">
+                <!-- Breadcrumbs -->
+                <nav class="breadcrumbs-bar">
+                    <a href="javascript:void(0)" onclick="loadDocByPath('README.md')">الرئيسية</a>
+                    <span class="sep">/</span>
+                    <span id="crumb-stage">المرحلة</span>
+                    <span class="sep">/</span>
+                    <span class="active-crumb" id="crumb-lecture">جاري القراءة...</span>
+                </nav>
 
-                <div class="actions-bar">
-                    <button class="icon-btn" onclick="toggleSidebarMobile()" id="mobile-toggle" style="display: none;">
-                        ☰ الفهرس
-                    </button>
-                    <button class="icon-btn" onclick="adjustFontSize(1)" title="تكبير الخط">
-                        A+
-                    </button>
-                    <button class="icon-btn" onclick="adjustFontSize(-1)" title="تصغير الخط">
-                        A-
-                    </button>
-                    <button class="icon-btn" onclick="toggleActiveRecall()" id="recall-toggle-btn" title="وضع المراجعة والتذكر">
-                        🧠 وضع المراجعة
-                    </button>
-                </div>
-            </header>
+                <!-- Document Header -->
+                <header>
+                    <h1 id="article-title">جاري تحميل المحتوى...</h1>
+                    <div class="doc-meta-strip">
+                        <div class="meta-pill">
+                            <span>⏱️ وقت القراءة:</span>
+                            <span id="meta-reading-time">5 دقائق</span>
+                        </div>
+                        <div class="meta-pill">
+                            <span>📚 المسار:</span>
+                            <span id="meta-path">docs</span>
+                        </div>
+                    </div>
+                </header>
 
-            <div class="content-body">
-                <article class="markdown-render" id="doc-content">
-                    <div class="skeleton" style="height: 48px; width: 60%;"></div>
-                    <div class="skeleton" style="height: 20px; width: 90%; margin-top: 24px;"></div>
-                    <div class="skeleton" style="height: 20px; width: 85%;"></div>
-                    <div class="skeleton" style="height: 20px; width: 70%;"></div>
-                    <div class="skeleton" style="height: 180px; width: 100%; margin-top: 30px;"></div>
+                <!-- Article Content Body -->
+                <article class="markdown-body" id="article-body">
+                    <!-- Populated dynamically -->
                 </article>
+
+                <!-- Next / Previous Page Navigation -->
+                <nav class="page-navigation-strip" id="page-nav" style="display: none;">
+                    <a href="#" class="nav-card prev" id="nav-prev">
+                        <span class="nav-card-label">← المحاضرة السابقة</span>
+                        <span class="nav-card-title" id="nav-prev-title">السابق</span>
+                    </a>
+                    <a href="#" class="nav-card next" id="nav-next">
+                        <span class="nav-card-label">المحاضرة التالية →</span>
+                        <span class="nav-card-title" id="nav-next-title">التالي</span>
+                    </a>
+                </nav>
             </div>
         </main>
+
+        <!-- Left Sidebar (On-This-Page Table of Contents) -->
+        <aside class="sidebar-left" id="sidebar-left">
+            <div class="toc-title">
+                <span>📑</span>
+                <span>في هذه الصفحة</span>
+            </div>
+            <ul class="toc-list" id="toc-list">
+                <li style="color: var(--text-muted); font-size: 0.78rem;">لا توجد أقسام فرعية</li>
+            </ul>
+        </aside>
     </div>
 
     <!-- Search Modal -->
-    <div class="search-results-modal" id="search-modal" onclick="closeSearchModal(event)">
-        <div class="search-results-box" onclick="event.stopPropagation()">
-            <div class="search-modal-header">
-                <span style="font-weight: 700;">نتائج البحث السريع</span>
-                <button class="icon-btn" onclick="closeSearchModal()">✕</button>
-            </div>
-            <div class="search-results-list" id="search-results-list">
-                <!-- Search items populated here -->
+    <div class="modal-backdrop" id="search-modal" onclick="closeSearchModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <input type="text" id="modal-search-input" class="modal-search-input" placeholder="اكتب للبحث في كافة المحاضرات والمفاهيم..." autocomplete="off">
+            <div class="modal-results" id="modal-results">
+                <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                    ابدأ بكتابة مصطلح البحث (مثل: Reranking, FAISS, MMR, Chunking)...
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Libraries: Marked, KaTeX, Mermaid, Prism -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Core Scripts: Marked, KaTeX, Mermaid, Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
 
     <script>
-        // State
-        let currentDocPath = "";
-        let currentFontSize = 16;
-        let activeRecallMode = false;
-        let docsBundle = null;
+        // Global Application State
+        let allStagesTree = [];
+        let flatDocsList = [];
+        let currentRelPath = "";
+        let isLocalServer = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+        let staticBundle = null;
 
         // Initialize Mermaid
         mermaid.initialize({
             startOnLoad: false,
-            theme: document.documentElement.classList.contains('light') ? 'default' : 'dark',
-            securityLevel: 'loose'
+            theme: document.documentElement.classList.contains("light") ? "default" : "dark",
+            fontFamily: "IBM Plex Sans Arabic, sans-serif",
+            securityLevel: "loose"
         });
 
         // Initialize App
         document.addEventListener("DOMContentLoaded", async () => {
-            loadTheme();
-            setupScrollProgress();
-            setupSearchKeyboard();
-            await initDocsData();
+            initResponsiveMenu();
+            initTheme();
+            setupReadingProgress();
+            setupGlobalKeyboardShortcuts();
+            await loadDocumentationData();
         });
 
-        // Dual-Mode Data Initialization (Static Bundle for GitHub Pages + Dynamic API Fallback)
-        async function initDocsData() {
-            try {
-                // Try fetching pre-bundled static JSON first
-                const res = await fetch("docs_bundle.json");
-                if (res.ok) {
-                    docsBundle = await res.json();
-                }
-            } catch (e) {
-                console.log("Static bundle not reachable, using live API");
+        // Mobile responsive button check
+        function initResponsiveMenu() {
+            const btn = document.getElementById("toggle-mobile-menu");
+            if (window.innerWidth <= 860) {
+                btn.style.display = "flex";
             }
-
-            if (docsBundle && docsBundle.tree) {
-                renderSidebar(docsBundle.tree);
-                handleInitialNavigation(docsBundle.tree);
-            } else {
-                try {
-                    const res = await fetch("/api/tree");
-                    const tree = await res.json();
-                    renderSidebar(tree);
-                    handleInitialNavigation(tree);
-                } catch (err) {
-                    console.error("Failed to load docs tree", err);
-                }
-            }
-        }
-
-        function handleInitialNavigation(tree) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const requestedPath = urlParams.get("doc");
-            if (requestedPath) {
-                loadDocument(requestedPath);
-            } else if (tree.length > 0 && tree[0].docs.length > 0) {
-                loadDocument(tree[0].docs[0].rel_path);
-            }
-        }
-
-        // Scroll Progress
-        function setupScrollProgress() {
-            window.addEventListener("scroll", () => {
-                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
-                document.getElementById("progress-bar").style.width = progress + "%";
+            window.addEventListener("resize", () => {
+                btn.style.display = window.innerWidth <= 860 ? "flex" : "none";
             });
         }
 
-        // Theme Toggle
+        function toggleMobileSidebar() {
+            document.getElementById("sidebar-right").classList.toggle("mobile-open");
+        }
+
+        // Theme Toggle (Dark / Light)
+        function initTheme() {
+            const saved = localStorage.getItem("rag_portal_theme") || "dark";
+            setTheme(saved);
+        }
+
         function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.toggle("dark");
-            html.classList.toggle("light", !isDark);
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-            document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
-            
-            // Re-render Mermaid with updated theme
-            mermaid.initialize({
-                startOnLoad: false,
-                theme: isDark ? 'dark' : 'default'
-            });
-            renderMermaidDiagrams();
+            const current = document.documentElement.classList.contains("light") ? "light" : "dark";
+            const next = current === "light" ? "dark" : "light";
+            setTheme(next);
         }
 
-        function loadTheme() {
-            const saved = localStorage.getItem("theme") || "dark";
-            if (saved === "light") {
+        function setTheme(theme) {
+            if (theme === "light") {
                 document.documentElement.classList.remove("dark");
                 document.documentElement.classList.add("light");
+                document.getElementById("theme-icon").textContent = "☀️";
+                document.getElementById("hljs-theme").href = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css";
+            } else {
+                document.documentElement.classList.remove("light");
+                document.documentElement.classList.add("dark");
                 document.getElementById("theme-icon").textContent = "🌙";
+                document.getElementById("hljs-theme").href = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark-dimmed.min.css";
+            }
+            localStorage.setItem("rag_portal_theme", theme);
+            
+            // Re-render Mermaid with the updated theme
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: theme === "light" ? "default" : "dark"
+            });
+            renderMermaidBlocks();
+        }
+
+        // Zen Mode Toggle
+        function toggleZenMode() {
+            document.body.classList.toggle("zen-mode");
+        }
+
+        // Top Reading Progress
+        function setupReadingProgress() {
+            window.addEventListener("scroll", () => {
+                const total = document.documentElement.scrollHeight - window.innerHeight;
+                const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+                document.getElementById("reading-progress").style.width = pct + "%";
+                
+                // Track active TOC heading on scroll
+                updateActiveTocOnScroll();
+            });
+        }
+
+        // Load Documentation Hierarchy (Always fresh & dynamic)
+        async function loadDocumentationData() {
+            try {
+                // If local server: query live API directly to guarantee instant sync
+                if (isLocalServer) {
+                    const res = await fetch("/api/tree");
+                    if (res.ok) {
+                        allStagesTree = await res.json();
+                    }
+                } else {
+                    // On GitHub Pages: load static pre-bundled data
+                    const res = await fetch("docs_bundle.json");
+                    if (res.ok) {
+                        staticBundle = await res.json();
+                        allStagesTree = staticBundle.tree;
+                    }
+                }
+            } catch (e) {
+                console.warn("Falling back to docs_bundle.json", e);
+                try {
+                    const res = await fetch("docs_bundle.json");
+                    staticBundle = await res.json();
+                    allStagesTree = staticBundle.tree;
+                } catch (err) {
+                    console.error("All data sources failed", err);
+                }
+            }
+
+            // Build flattened list for Previous / Next navigation
+            flatDocsList = [];
+            allStagesTree.forEach(stage => {
+                stage.docs.forEach(doc => {
+                    flatDocsList.push({
+                        stage_title: stage.stage_title,
+                        ...doc
+                    });
+                });
+            });
+
+            // Render Right Navigation Sidebar
+            renderStagesTree();
+
+            // Handle Initial Document Route from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const routeDoc = urlParams.get("doc");
+            if (routeDoc) {
+                loadDocByPath(routeDoc);
+            } else if (flatDocsList.length > 0) {
+                loadDocByPath(flatDocsList[0].rel_path);
             }
         }
 
-        // Font Size Adjuster
-        function adjustFontSize(delta) {
-            currentFontSize = Math.max(13, Math.min(22, currentFontSize + delta));
-            document.getElementById("doc-content").style.fontSize = currentFontSize + "px";
-        }
+        // Render Right Sidebar Tree
+        function renderStagesTree() {
+            const container = document.getElementById("stages-container");
+            container.innerHTML = "";
 
-        // Active Recall Toggle
-        function toggleActiveRecall() {
-            activeRecallMode = !activeRecallMode;
-            const btn = document.getElementById("recall-toggle-btn");
-            btn.style.backgroundColor = activeRecallMode ? "var(--accent)" : "none";
-            btn.style.color = activeRecallMode ? "#ffffff" : "var(--text-secondary)";
-            
-            // Highlight takeaway boxes and equations
-            const blockquotes = document.querySelectorAll("blockquote, .active-recall-card");
-            blockquotes.forEach(b => {
-                b.style.boxShadow = activeRecallMode ? "0 0 15px var(--accent)" : "none";
-            });
-        }
+            allStagesTree.forEach((stage, idx) => {
+                const box = document.createElement("div");
+                box.className = "stage-box open"; // Default expanded for easy exploration
 
-        function renderSidebar(tree) {
-            const nav = document.getElementById("sidebar-nav");
-            nav.innerHTML = "";
-
-            tree.forEach((stage, idx) => {
-                const group = document.createElement("div");
-                group.className = "stage-group";
-
-                const header = document.createElement("div");
-                header.className = "stage-header";
-                header.innerHTML = `
-                    <span>${stage.stage_title}</span>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);">(${stage.docs.length})</span>
-                `;
+                const trigger = document.createElement("div");
+                trigger.className = "stage-trigger";
                 
-                const itemsContainer = document.createElement("div");
-                itemsContainer.className = "stage-items";
+                // Extract clean stage code
+                let stageBadge = "0" + idx;
+                if (stage.stage_id !== "root") {
+                    const match = stage.stage_id.match(/\d+/);
+                    if (match) stageBadge = match[0];
+                } else {
+                    stageBadge = "★";
+                }
+
+                trigger.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                        <span class="badge-num">${stageBadge}</span>
+                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${stage.stage_title}</span>
+                    </div>
+                    <span class="chevron">▼</span>
+                `;
+
+                const docsList = document.createElement("div");
+                docsList.className = "stage-docs-list";
 
                 stage.docs.forEach(doc => {
-                    const item = document.createElement("a");
-                    item.className = "doc-item";
-                    item.dataset.path = doc.rel_path;
-                    item.innerHTML = `
+                    const link = document.createElement("a");
+                    link.className = "doc-link";
+                    link.dataset.path = doc.rel_path;
+                    link.innerHTML = `
                         <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${doc.title}</span>
-                        <span class="doc-badge">${doc.reading_time_min} د</span>
+                        <span class="doc-time">${doc.reading_time_min} د</span>
                     `;
-                    item.onclick = (e) => {
+                    link.onclick = (e) => {
                         e.preventDefault();
-                        loadDocument(doc.rel_path);
+                        if (window.innerWidth <= 860) {
+                            document.getElementById("sidebar-right").classList.remove("mobile-open");
+                        }
+                        loadDocByPath(doc.rel_path);
                     };
-                    itemsContainer.appendChild(item);
+                    docsList.appendChild(link);
                 });
 
-                header.onclick = () => {
-                    itemsContainer.style.display = itemsContainer.style.display === "none" ? "block" : "none";
+                trigger.onclick = () => {
+                    box.classList.toggle("open");
                 };
 
-                group.appendChild(header);
-                group.appendChild(itemsContainer);
-                nav.appendChild(group);
+                box.appendChild(trigger);
+                box.appendChild(docsList);
+                container.appendChild(box);
             });
         }
 
-        // Load Single Document
-        async function loadDocument(relPath) {
-            currentDocPath = relPath;
+        // Load and Render Document
+        async function loadDocByPath(relPath) {
+            currentRelPath = relPath;
             window.scrollTo({ top: 0, behavior: "smooth" });
 
-            // Highlight active sidebar item
-            document.querySelectorAll(".doc-item").forEach(item => {
-                item.classList.toggle("active", item.dataset.path === relPath);
+            // Highlight active link in sidebar
+            document.querySelectorAll(".doc-link").forEach(el => {
+                el.classList.toggle("active", el.dataset.path === relPath);
             });
 
-            // Update URL query without full reload
+            // Update URL without page reload
             const url = new URL(window.location);
             url.searchParams.set("doc", relPath);
             window.history.pushState({}, "", url);
 
+            // Fetch document content
             try {
                 let docData = null;
-
-                if (docsBundle && docsBundle.docs && docsBundle.docs[relPath]) {
-                    docData = docsBundle.docs[relPath];
-                } else {
+                if (isLocalServer) {
                     const res = await fetch(`/api/doc?path=${encodeURIComponent(relPath)}`);
                     if (!res.ok) throw new Error("Document not found");
                     docData = await res.json();
+                } else if (staticBundle && staticBundle.docs && staticBundle.docs[relPath]) {
+                    docData = staticBundle.docs[relPath];
+                } else {
+                    const res = await fetch(`/api/doc?path=${encodeURIComponent(relPath)}`);
+                    docData = await res.json();
                 }
 
-                // Update Breadcrumb
-                document.getElementById("breadcrumb-title").textContent = docData.title;
-
-                // Render Markdown
-                renderMarkdown(docData.content);
-            } catch (e) {
-                document.getElementById("doc-content").innerHTML = `
-                    <div style="text-align: center; padding: 60px 20px;">
-                        <h2 style="color: #ef4444;">تعذر تحميل المستند</h2>
-                        <p style="color: var(--text-secondary); margin-top: 10px;">${e.message}</p>
+                renderDocumentContent(docData);
+                updateNextPrevNavigation(relPath);
+            } catch (err) {
+                document.getElementById("article-title").textContent = "تعذر تحميل المستند";
+                document.getElementById("article-body").innerHTML = `
+                    <div class="callout callout-warning">
+                        <div class="callout-icon">⚠️</div>
+                        <div class="callout-body">
+                            <div class="callout-title">خطأ في قراءة الملف</div>
+                            <p>${err.message}</p>
+                        </div>
                     </div>
                 `;
             }
         }
 
-        // Render Markdown, Math, Code, Mermaid
-        function renderMarkdown(rawMd) {
-            const container = document.getElementById("doc-content");
-            
-            // Custom marked options
+        // Render Markdown, KaTeX, Mermaid, Callouts, and TOC
+        function renderDocumentContent(docData) {
+            document.getElementById("article-title").textContent = docData.title;
+            document.getElementById("crumb-lecture").textContent = docData.title;
+
+            // Find stage title for breadcrumbs
+            const currentItem = flatDocsList.find(d => d.rel_path === docData.rel_path);
+            if (currentItem) {
+                document.getElementById("crumb-stage").textContent = currentItem.stage_title;
+                document.getElementById("meta-reading-time").textContent = currentItem.reading_time_min + " دقائق قراءة";
+            }
+            document.getElementById("meta-path").textContent = docData.rel_path;
+
+            // Pre-process GitHub Alerts (> [!NOTE], > [!TIP], > [!IMPORTANT], > [!WARNING])
+            let processed = docData.content;
+            processed = transformAlerts(processed);
+
+            // Configure Marked parser
             marked.setOptions({
                 gfm: true,
                 breaks: true
             });
 
-            // Parse MD to HTML
-            let html = marked.parse(rawMd);
-            container.innerHTML = html;
+            const rawHtml = marked.parse(processed);
+            const bodyContainer = document.getElementById("article-body");
+            bodyContainer.innerHTML = rawHtml;
+
+            // Transform code blocks with macOS header & copy button
+            transformCodeBlocks(bodyContainer);
 
             // Render LaTeX Math with KaTeX
-            renderMathInElement(container, {
+            renderMathInElement(bodyContainer, {
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
                     {left: '$', right: '$', display: false},
@@ -871,115 +1334,295 @@
             });
 
             // Render Mermaid Diagrams
-            renderMermaidDiagrams();
+            renderMermaidBlocks();
 
-            // Highlight code blocks with Prism
-            Prism.highlightAllUnder(container);
+            // Build dynamic On-This-Page Table of Contents (TOC)
+            buildTableOfContents(bodyContainer);
         }
 
-        function renderMermaidDiagrams() {
-            const codeBlocks = document.querySelectorAll("pre code.language-mermaid");
-            codeBlocks.forEach((codeEl, i) => {
-                const pre = codeEl.parentElement;
-                const diagramCode = codeEl.textContent;
-                
-                const mermaidDiv = document.createElement("div");
-                mermaidDiv.className = "mermaid";
-                mermaidDiv.textContent = diagramCode;
+        // Transform GitHub Alerts into luxury callout cards
+        function transformAlerts(md) {
+            const alertTypes = {
+                'NOTE': { class: 'callout-note', icon: 'ℹ️', title: 'ملاحظة توضيحية' },
+                'TIP': { class: 'callout-tip', icon: '💡', title: 'نصيحة للمحترفين' },
+                'IMPORTANT': { class: 'callout-important', icon: '⭐', title: 'تنبيه هندسي هام' },
+                'WARNING': { class: 'callout-warning', icon: '⚠️', title: 'تحذير هام' },
+                'CAUTION': { class: 'callout-warning', icon: '🚨', title: 'انتباه شديد' }
+            };
 
-                pre.replaceWith(mermaidDiv);
+            return md.replace(/^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\n((?:>.*\n?)*)/gim, (match, type, content) => {
+                const conf = alertTypes[type.toUpperCase()] || alertTypes['NOTE'];
+                const cleanContent = content.replace(/^>\s?/gm, '').trim();
+                return `\n<div class="callout ${conf.class}">
+                    <div class="callout-icon">${conf.icon}</div>
+                    <div class="callout-body">
+                        <div class="callout-title">${conf.title}</div>
+                        <div>${cleanContent}</div>
+                    </div>
+                </div>\n`;
+            });
+        }
+
+        // Code Blocks with macOS dots, language tags, and copy buttons
+        function transformCodeBlocks(container) {
+            const preBlocks = container.querySelectorAll("pre code");
+            preBlocks.forEach((codeEl) => {
+                const pre = codeEl.parentElement;
+                
+                // Skip if inside mermaid
+                if (codeEl.classList.contains("language-mermaid")) return;
+
+                // Detect language
+                let lang = "TEXT";
+                codeEl.classList.forEach(cls => {
+                    if (cls.startsWith("language-")) {
+                        lang = cls.replace("language-", "").toUpperCase();
+                    }
+                });
+
+                // Apply Highlight.js
+                hljs.highlightElement(codeEl);
+
+                // Create sleek container
+                const wrapper = document.createElement("div");
+                wrapper.className = "code-container";
+                wrapper.innerHTML = `
+                    <div class="code-header">
+                        <div class="mac-dots">
+                            <span class="mac-dot dot-red"></span>
+                            <span class="mac-dot dot-yellow"></span>
+                            <span class="mac-dot dot-green"></span>
+                        </div>
+                        <span class="code-lang">${lang}</span>
+                        <button class="copy-btn" onclick="copyCodeBlock(this)">نسخ الكود</button>
+                    </div>
+                `;
+
+                pre.replaceWith(wrapper);
+                wrapper.appendChild(pre);
+            });
+        }
+
+        function copyCodeBlock(btn) {
+            const codeEl = btn.closest(".code-container").querySelector("code");
+            navigator.clipboard.writeText(codeEl.textContent).then(() => {
+                btn.textContent = "✓ تم النسخ";
+                btn.style.color = "var(--emerald-accent)";
+                setTimeout(() => {
+                    btn.textContent = "نسخ الكود";
+                    btn.style.color = "";
+                }, 2000);
+            });
+        }
+
+        // Mermaid Diagrams Rendering
+        function renderMermaidBlocks() {
+            const mermaidCodes = document.querySelectorAll("pre code.language-mermaid");
+            mermaidCodes.forEach((codeEl) => {
+                const pre = codeEl.parentElement;
+                const diagramSrc = codeEl.textContent;
+
+                const card = document.createElement("div");
+                card.className = "mermaid-card";
+                card.innerHTML = `<div class="mermaid">${diagramSrc}</div>`;
+                pre.replaceWith(card);
             });
 
             mermaid.run({
-                querySelector: '.mermaid'
+                querySelector: ".mermaid"
             });
         }
 
-        // Search Setup
-        function setupSearchKeyboard() {
-            const searchInput = document.getElementById("global-search");
-            
+        // Build Left Sidebar: "In This Page" (TOC)
+        function buildTableOfContents(container) {
+            const headings = container.querySelectorAll("h2, h3");
+            const tocList = document.getElementById("toc-list");
+            tocList.innerHTML = "";
+
+            if (headings.length === 0) {
+                tocList.innerHTML = `<li style="color: var(--text-muted); font-size: 0.78rem;">لا توجد أقسام فرعية</li>`;
+                return;
+            }
+
+            headings.forEach((heading, i) => {
+                // Ensure heading has unique id
+                if (!heading.id) {
+                    heading.id = "section-" + i;
+                }
+
+                const li = document.createElement("li");
+                li.className = "toc-item " + heading.tagName.toLowerCase();
+                
+                const a = document.createElement("a");
+                a.className = "toc-link";
+                a.href = "#" + heading.id;
+                a.textContent = heading.textContent.replace(/^[0-9\.\s]+/, "");
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    heading.scrollIntoView({ behavior: "smooth" });
+                };
+
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+        }
+
+        function updateActiveTocOnScroll() {
+            const headings = document.querySelectorAll(".markdown-body h2, .markdown-body h3");
+            const scrollPos = window.scrollY + 100;
+            let activeId = "";
+
+            headings.forEach(h => {
+                if (h.offsetTop <= scrollPos) {
+                    activeId = h.id;
+                }
+            });
+
+            document.querySelectorAll(".toc-link").forEach(link => {
+                const href = link.getAttribute("href");
+                link.classList.toggle("active", href === "#" + activeId);
+            });
+        }
+
+        // Previous / Next Lecture Navigation
+        function updateNextPrevNavigation(relPath) {
+            const nav = document.getElementById("page-nav");
+            const currIdx = flatDocsList.findIndex(d => d.rel_path === relPath);
+
+            if (currIdx === -1 || flatDocsList.length <= 1) {
+                nav.style.display = "none";
+                return;
+            }
+
+            nav.style.display = "grid";
+            const prevCard = document.getElementById("nav-prev");
+            const nextCard = document.getElementById("nav-next");
+
+            if (currIdx > 0) {
+                const prevDoc = flatDocsList[currIdx - 1];
+                prevCard.style.visibility = "visible";
+                document.getElementById("nav-prev-title").textContent = prevDoc.title;
+                prevCard.onclick = (e) => {
+                    e.preventDefault();
+                    loadDocByPath(prevDoc.rel_path);
+                };
+            } else {
+                prevCard.style.visibility = "hidden";
+            }
+
+            if (currIdx < flatDocsList.length - 1) {
+                const nextDoc = flatDocsList[currIdx + 1];
+                nextCard.style.visibility = "visible";
+                document.getElementById("nav-next-title").textContent = nextDoc.title;
+                nextCard.onclick = (e) => {
+                    e.preventDefault();
+                    loadDocByPath(nextDoc.rel_path);
+                };
+            } else {
+                nextCard.style.visibility = "hidden";
+            }
+        }
+
+        // Global Search Modal Logic
+        function setupGlobalKeyboardShortcuts() {
             window.addEventListener("keydown", (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
                     e.preventDefault();
-                    searchInput.focus();
+                    openSearchModal();
                 }
                 if (e.key === "Escape") {
                     closeSearchModal();
                 }
             });
 
-            let debounceTimer;
+            const searchInput = document.getElementById("modal-search-input");
+            let debounce = null;
             searchInput.addEventListener("input", (e) => {
-                clearTimeout(debounceTimer);
+                clearTimeout(debounce);
                 const q = e.target.value.trim();
-                if (q.length < 2) return;
+                if (q.length < 2) {
+                    document.getElementById("modal-results").innerHTML = `
+                        <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                            اكتب حرفين أو أكثر للبحث...
+                        </div>
+                    `;
+                    return;
+                }
 
-                debounceTimer = setTimeout(async () => {
-                    if (docsBundle && docsBundle.docs) {
-                        // Instant client-side search across all documents
-                        const results = [];
-                        const qLower = q.toLowerCase();
-                        for (const [path, doc] of Object.entries(docsBundle.docs)) {
-                            const lines = doc.content.split("\n");
-                            const matches = [];
-                            for (let i = 0; i < lines.length; i++) {
-                                if (lines[i].toLowerCase().includes(qLower)) {
-                                    matches.push(lines[i].trim().slice(0, 180));
-                                    if (matches.length >= 2) break;
-                                }
-                            }
-                            if (matches.length > 0) {
-                                results.push({
-                                    rel_path: path,
-                                    title: doc.title,
-                                    matches: matches
-                                });
-                            }
-                        }
-                        showSearchResults(results, q);
-                    } else {
-                        // Server API search
-                        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
-                        const results = await res.json();
-                        showSearchResults(results, q);
-                    }
+                debounce = setTimeout(async () => {
+                    await executeSearch(q);
                 }, 150);
             });
         }
 
-        function showSearchResults(results, query) {
+        function openSearchModal() {
             const modal = document.getElementById("search-modal");
-            const list = document.getElementById("search-results-list");
-            list.innerHTML = "";
-
-            if (results.length === 0) {
-                list.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 20px;">لا توجد نتائج مطابقة لـ "${query}"</p>`;
-            } else {
-                results.forEach(item => {
-                    const el = document.createElement("div");
-                    el.className = "search-result-item";
-                    el.innerHTML = `
-                        <div class="search-result-title">${item.title}</div>
-                        <div class="search-result-snippet">${item.matches.join(" ... ")}</div>
-                    `;
-                    el.onclick = () => {
-                        closeSearchModal();
-                        loadDocument(item.rel_path);
-                    };
-                    list.appendChild(el);
-                });
-            }
-
             modal.style.display = "flex";
+            const input = document.getElementById("modal-search-input");
+            input.value = "";
+            input.focus();
         }
 
-        function closeSearchModal() {
+        function closeSearchModal(event) {
             document.getElementById("search-modal").style.display = "none";
         }
 
-        function toggleSidebarMobile() {
-            document.getElementById("sidebar").classList.toggle("open");
+        async function executeSearch(query) {
+            const resultsBox = document.getElementById("modal-results");
+            resultsBox.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--text-muted);">جاري البحث...</div>`;
+
+            let results = [];
+
+            // If static bundle is available, execute instant client-side search
+            if (staticBundle && staticBundle.docs) {
+                const qLower = query.toLowerCase();
+                for (const [path, doc] of Object.entries(staticBundle.docs)) {
+                    const lines = doc.content.split("\n");
+                    const matches = [];
+                    for (let i = 0; i < lines.length; i++) {
+                        if (lines[i].toLowerCase().includes(qLower)) {
+                            const clean = lines[i].replace(/[#*`_]/g, "").trim();
+                            if (clean) matches.push(clean.slice(0, 150));
+                            if (matches.length >= 2) break;
+                        }
+                    }
+                    if (matches.length > 0) {
+                        results.push({
+                            rel_path: path,
+                            title: doc.title,
+                            matches: matches
+                        });
+                    }
+                }
+            } else {
+                // Query server API
+                try {
+                    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                    results = await res.json();
+                } catch (e) {
+                    console.error("Search API failed", e);
+                }
+            }
+
+            if (results.length === 0) {
+                resultsBox.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--text-muted);">لا توجد نتائج مطابقة لـ "${query}"</div>`;
+                return;
+            }
+
+            resultsBox.innerHTML = "";
+            results.forEach(res => {
+                const item = document.createElement("div");
+                item.className = "modal-result-item";
+                item.innerHTML = `
+                    <div class="modal-result-title">${res.title}</div>
+                    <div class="modal-result-snippet">${res.matches.join(" ... ")}</div>
+                `;
+                item.onclick = () => {
+                    closeSearchModal();
+                    loadDocByPath(res.rel_path);
+                };
+                resultsBox.appendChild(item);
+            });
         }
     </script>
 </body>
