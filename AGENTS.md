@@ -16,6 +16,18 @@ Every AI agent working on this codebase must adhere strictly to the protocols, s
 > 3. The agent implements **only that lecture** across `docs/`, `stages/`, and `playground/`.
 > 4. If the user says "التالي" (Next) without providing the script, **politely ask for the next video's transcript/notes** before generating any code or documentation.
 
+### User Lecture Submission Template (ما يحتاجه الـ Agent في بداية كل اسكريبت)
+When the user submits a lecture, they provide:
+```markdown
+- **رقم المحاضرة واسمها (Lecture Number & Title)**: e.g., Lecture 45: Reranking Implementation
+- **القسم / المرحلة (Section / Stage)**: e.g., Section 9 / Stage 05 (Hybrid Search & Retrieval)
+- **نوع المحاضرة (Lecture Type)**: [نظري / عملي وتطبيقي / مراجعة ومقارنة]
+- **الهدف أو المكتبات المحددة (Target Tools / Topics)**: e.g., CrossEncoder, FlashRank, LangChain
+---
+[نص الاسكريبت أو التفريغ هنا / Transcript Text Here]
+```
+Even if the user only pastes the raw transcript with just the lecture number/title at the top, the agent must deduce the rest and ask for clarification if anything is ambiguous.
+
 ---
 
 ## 2. Repository Architecture & Separation of Concerns
