@@ -515,6 +515,293 @@
             border: 1px solid var(--border-subtle);
         }
 
+        /* Curriculum Tracker in Right Sidebar */
+        .progress-tracker-card {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .tracker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .tracker-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .tracker-pct {
+            font-family: var(--font-latin);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .tracker-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-base);
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .tracker-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--cyan-accent));
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+
+        .tracker-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        /* Checkmark status indicator on each lecture */
+        .doc-check-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            margin-left: 6px;
+            border-radius: 4px;
+        }
+
+        .doc-check-btn:hover {
+            color: #10b981;
+        }
+
+        .doc-check-btn.done {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Toggle Done Button in Article Header */
+        .btn-toggle-done {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-body);
+            border-radius: 9999px;
+            padding: 6px 14px;
+            font-family: var(--font-arabic);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            margin-right: auto;
+            touch-action: manipulation;
+        }
+
+        .btn-toggle-done:hover {
+            border-color: #10b981;
+            color: #10b981;
+        }
+
+        .btn-toggle-done.completed {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #10b981;
+        }
+
+        /* Capsule TL;DR Card */
+        .capsule-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.07), rgba(56, 189, 248, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin: 20px 0 28px 0;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .capsule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .capsule-header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--text-heading);
+        }
+
+        .capsule-icon {
+            font-size: 1.1rem;
+        }
+
+        .capsule-pill {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-light);
+        }
+
+        .capsule-body {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--text-body);
+        }
+
+        .capsule-body ul {
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        .capsule-body li {
+            margin-bottom: 6px;
+        }
+
+        /* Interactive Recall Quiz Section */
+        .quiz-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 40px 0 24px 0;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 12px;
+        }
+
+        .quiz-badge {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--cyan-accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quiz-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .quiz-question {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-opt-btn {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-family: var(--font-arabic);
+            font-size: 0.88rem;
+            color: var(--text-body);
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--bg-surface-hover);
+        }
+
+        .quiz-opt-btn.correct {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: #10b981 !important;
+            color: #10b981 !important;
+            font-weight: 700;
+        }
+
+        .quiz-opt-btn.incorrect {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+        }
+
+        .quiz-feedback {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .quiz-feedback.correct-fb {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+
+        .quiz-feedback.incorrect-fb {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        /* Mobile Backdrop */
+        .mobile-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 75;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .mobile-backdrop.show {
+            display: block;
+            opacity: 1;
+        }
+
         .markdown-body h2 {
             font-size: 1.45rem;
             font-weight: 700;
@@ -634,6 +921,20 @@
             box-shadow: var(--shadow-subtle);
             direction: ltr !important;
             text-align: left !important;
+        }
+
+        .code-container pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .code-container pre code {
+            white-space: pre !important;
+            word-break: normal !important;
+            word-wrap: normal !important;
         }
 
         .code-header {
@@ -892,6 +1193,9 @@
         @media (max-width: 860px) {
             aside.sidebar-right {
                 transform: translateX(100%);
+                z-index: 90;
+                width: min(320px, 88vw);
+                box-shadow: var(--shadow-elevated);
             }
             aside.sidebar-right.mobile-open {
                 transform: translateX(0);
@@ -899,11 +1203,31 @@
             main.content-area {
                 margin-right: 0;
             }
+            .article-wrapper {
+                padding: 24px 14px 80px 14px;
+            }
             .search-trigger-btn {
                 min-width: auto;
+                padding: 7px 10px;
             }
+            .search-trigger-btn span:nth-child(2),
             .search-trigger-btn span:last-child {
                 display: none;
+            }
+            .doc-meta-strip {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .btn-toggle-done {
+                width: 100%;
+                justify-content: center;
+                margin-top: 6px;
+            }
+            .markdown-body h1 {
+                font-size: 1.6rem;
+            }
+            .markdown-body h2 {
+                font-size: 1.25rem;
             }
         }
 
@@ -952,9 +1276,23 @@
         </div>
     </header>
 
+    <div id="mobile-backdrop" class="mobile-backdrop" onclick="toggleMobileSidebar()"></div>
+
     <div class="app-layout">
         <!-- Right Sidebar (Stages & Lecture Tree) -->
         <aside class="sidebar-right" id="sidebar-right">
+            <!-- Overall Progress Tracker -->
+            <div class="progress-tracker-card" id="progress-tracker-card">
+                <div class="tracker-header">
+                    <span class="tracker-title">إنجاز المنهج</span>
+                    <span class="tracker-pct" id="tracker-pct">0%</span>
+                </div>
+                <div class="tracker-bar-bg">
+                    <div class="tracker-bar-fill" id="tracker-bar" style="width: 0%;"></div>
+                </div>
+                <div class="tracker-sub" id="tracker-count">0 من 0 محاضرة مكتملة</div>
+            </div>
+
             <div class="sidebar-section-title">فهرس المحاضرات والمراحل</div>
             <div id="stages-container">
                 <!-- Dynamically populated from /api/tree or docs_bundle.json -->
@@ -988,6 +1326,24 @@
                             <span>📚 المسار:</span>
                             <span id="meta-path">docs</span>
                         </div>
+                        <button id="btn-toggle-doc-done" class="btn-toggle-done" onclick="toggleCurrentDocCompleted()" title="تحديد حالة إنجاز الدرس">
+                            <span id="btn-done-icon">○</span>
+                            <span id="btn-done-text">تحديد كدرس منجز</span>
+                        </button>
+                    </div>
+
+                    <!-- Capsule TL;DR Card -->
+                    <div class="capsule-card" id="capsule-card" style="display: none;">
+                        <div class="capsule-header">
+                            <div class="capsule-header-title">
+                                <span class="capsule-icon">💡</span>
+                                <span>كبسولة الدرس السريعة (Key Takeaways)</span>
+                            </div>
+                            <span class="capsule-pill">ملخص سريع للمراجعة</span>
+                        </div>
+                        <div class="capsule-body" id="capsule-body">
+                            <!-- Bullet points injected here -->
+                        </div>
                     </div>
                 </header>
 
@@ -995,6 +1351,17 @@
                 <article class="markdown-body" id="article-body">
                     <!-- Populated dynamically -->
                 </article>
+
+                <!-- Interactive Recall Quiz Section -->
+                <div class="quiz-section" id="quiz-section" style="display: none;">
+                    <div class="quiz-header">
+                        <div class="quiz-badge">🧠 اختبر فهمك السريع</div>
+                        <span class="quiz-hint">تأكيد المفهوم بلمسة واحدة</span>
+                    </div>
+                    <div class="quiz-question" id="quiz-question"></div>
+                    <div class="quiz-options" id="quiz-options"></div>
+                    <div class="quiz-feedback" id="quiz-feedback" style="display: none;"></div>
+                </div>
 
                 <!-- Next / Previous Page Navigation -->
                 <nav class="page-navigation-strip" id="page-nav" style="display: none;">
@@ -1051,6 +1418,7 @@
         let currentRelPath = "";
         let isLocalServer = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
         let staticBundle = null;
+        let completedLectures = new Set(JSON.parse(localStorage.getItem("rag_completed_lectures") || "[]"));
 
         // Initialize Mermaid
         mermaid.initialize({
@@ -1081,7 +1449,17 @@
         }
 
         function toggleMobileSidebar() {
-            document.getElementById("sidebar-right").classList.toggle("mobile-open");
+            const sidebar = document.getElementById("sidebar-right");
+            const backdrop = document.getElementById("mobile-backdrop");
+            const isOpen = sidebar.classList.toggle("mobile-open");
+            if (backdrop) backdrop.classList.toggle("show", isOpen);
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById("sidebar-right");
+            const backdrop = document.getElementById("mobile-backdrop");
+            if (sidebar) sidebar.classList.remove("mobile-open");
+            if (backdrop) backdrop.classList.remove("show");
         }
 
         // Theme Toggle (Dark / Light)
@@ -1187,6 +1565,67 @@
             }
         }
 
+        // Curriculum Completion Tracker Logic
+        function updateCompletionUI() {
+            // Update button on current doc
+            const btn = document.getElementById("btn-toggle-doc-done");
+            const btnIcon = document.getElementById("btn-done-icon");
+            const btnText = document.getElementById("btn-done-text");
+            const isDone = completedLectures.has(currentRelPath);
+
+            if (btn && btnIcon && btnText) {
+                if (isDone) {
+                    btn.classList.add("completed");
+                    btnIcon.textContent = "✔";
+                    btnText.textContent = "تم إنجاز الدرس (مكتمل)";
+                } else {
+                    btn.classList.remove("completed");
+                    btnIcon.textContent = "○";
+                    btnText.textContent = "تحديد كدرس منجز";
+                }
+            }
+
+            // Update sidebar tracker
+            const total = flatDocsList.length;
+            const doneCount = completedLectures.size;
+            const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
+
+            const trackerPct = document.getElementById("tracker-pct");
+            const trackerBar = document.getElementById("tracker-bar");
+            const trackerCount = document.getElementById("tracker-count");
+
+            if (trackerPct) trackerPct.textContent = pct + "%";
+            if (trackerBar) trackerBar.style.width = pct + "%";
+            if (trackerCount) trackerCount.textContent = `${doneCount} من ${total} محاضرة مكتملة`;
+
+            // Update check icons in sidebar
+            document.querySelectorAll(".doc-check-btn").forEach(el => {
+                const p = el.dataset.path;
+                if (completedLectures.has(p)) {
+                    el.classList.add("done");
+                    el.textContent = "✔";
+                } else {
+                    el.classList.remove("done");
+                    el.textContent = "○";
+                }
+            });
+        }
+
+        function toggleDocCompleted(relPath) {
+            if (completedLectures.has(relPath)) {
+                completedLectures.delete(relPath);
+            } else {
+                completedLectures.add(relPath);
+            }
+            localStorage.setItem("rag_completed_lectures", JSON.stringify(Array.from(completedLectures)));
+            updateCompletionUI();
+        }
+
+        function toggleCurrentDocCompleted() {
+            if (!currentRelPath) return;
+            toggleDocCompleted(currentRelPath);
+        }
+
         // Render Right Sidebar Tree
         function renderStagesTree() {
             const container = document.getElementById("stages-container");
@@ -1223,15 +1662,25 @@
                     const link = document.createElement("a");
                     link.className = "doc-link";
                     link.dataset.path = doc.rel_path;
+                    const isDone = completedLectures.has(doc.rel_path);
+
                     link.innerHTML = `
-                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${doc.title}</span>
+                        <div style="display: flex; align-items: center; gap: 8px; overflow: hidden; flex: 1;">
+                            <span class="doc-check-btn ${isDone ? 'done' : ''}" data-path="${doc.rel_path}" title="تبديل حالة الإنجاز">${isDone ? '✔' : '○'}</span>
+                            <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${doc.title}</span>
+                        </div>
                         <span class="doc-time">${doc.reading_time_min} د</span>
                     `;
+
                     link.onclick = (e) => {
-                        e.preventDefault();
-                        if (window.innerWidth <= 860) {
-                            document.getElementById("sidebar-right").classList.remove("mobile-open");
+                        if (e.target.classList.contains("doc-check-btn")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleDocCompleted(doc.rel_path);
+                            return;
                         }
+                        e.preventDefault();
+                        closeMobileSidebar();
                         loadDocByPath(doc.rel_path);
                     };
                     docsList.appendChild(link);
@@ -1245,6 +1694,8 @@
                 box.appendChild(docsList);
                 container.appendChild(box);
             });
+
+            updateCompletionUI();
         }
 
         // Load and Render Document
@@ -1338,6 +1789,179 @@
 
             // Build dynamic On-This-Page Table of Contents (TOC)
             buildTableOfContents(bodyContainer);
+
+            // Render Quick TL;DR Capsule
+            renderCapsuleCard(docData);
+
+            // Render Interactive Recall Quiz
+            renderQuizSection(docData);
+
+            // Update Progress Tracker UI
+            updateCompletionUI();
+        }
+
+        // Build Quick TL;DR Capsule Card
+        function renderCapsuleCard(docData) {
+            const card = document.getElementById("capsule-card");
+            const body = document.getElementById("capsule-body");
+            if (!card || !body) return;
+
+            // Extract bullet points from content or first headers
+            const lines = docData.content.split("\n");
+            const bullets = [];
+            
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if ((trimmed.startsWith("* ") || trimmed.startsWith("- ")) && trimmed.length > 15 && !trimmed.includes("http")) {
+                    let clean = trimmed.substring(2).replace(/\*\*/g, "").replace(/`/g, "").trim();
+                    if (clean.length > 20 && !bullets.includes(clean)) {
+                        bullets.push(clean);
+                        if (bullets.length >= 3) break;
+                    }
+                }
+            }
+
+            if (bullets.length === 0) {
+                const headings = [];
+                for (let line of lines) {
+                    const trimmed = line.trim();
+                    if (trimmed.startsWith("## ") || trimmed.startsWith("### ")) {
+                        let clean = trimmed.replace(/^#+\s*/, "").replace(/\*\*/g, "").replace(/`/g, "").trim();
+                        if (clean.length > 10 && !headings.includes(clean)) {
+                            headings.push(clean);
+                            if (headings.length >= 3) break;
+                        }
+                    }
+                }
+                headings.forEach(h => bullets.push("استيعاب وتحليل: " + h));
+            }
+
+            if (bullets.length > 0) {
+                body.innerHTML = `<ul>${bullets.map(b => `<li>${b}</li>`).join("")}</ul>`;
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        }
+
+        // Interactive Active Recall Quiz Bank
+        const QUIZ_BANK = {
+            "06-mmr-theoretical-explanation.md": {
+                question: "في معادلة أقصى تنوع نسبي (MMR)، ماذا يحدث لسلوك النظام عند تعيين معامل الموازنة λ = 1؟",
+                options: [
+                    "يتم إلغاء حد العقوبة تماماً ويتحول البحث إلى Similarity Search تقليدي حسب التطابق مع السؤال.",
+                    "يتم استبعاد كافة المستندات المتشابهة مع السؤال والتركيز على التنوع فقط.",
+                    "تتوقف الخوارزمية عن العمل لحين إدخال قيمة أقل من 1."
+                ],
+                correctIndex: 0,
+                explanation: "أحسنت! عندما تكون λ = 1، فإن حد العقوبة والتنوع (1 - λ) يصبح صفراً، وتختار الخوارزمية المستندات بناءً على أقصى تطابق مع الاستعلام فقط."
+            },
+            "07-mmr-retriever-implementation.md": {
+                question: "ما الدور الأساسي لخاصية fetch_k في الـ MMR Retriever داخل لانج تشين؟",
+                options: [
+                    "تحديد عدد المستندات النهائية التي ستُرسل إلى النموذج اللغوي (LLM).",
+                    "جلب حوض مرشحين أولي واسع لحساب مصفوفة التشابه البيني واستخراج أفضل k مستندات متنوعة منه.",
+                    "تحديد طول الـ Chunks بعد التقطيع."
+                ],
+                correctIndex: 1,
+                explanation: "إجابة صحيحة! يتم أولاً جلب fetch_k مستنداً (مثلاً 20)، ثم تُطبق خوارزمية MMR لاختيار k مستندات فقط (مثلاً 4) تحقق التوازن بين الدقة والتنوع."
+            },
+            "08-when-to-use-mmr.md": {
+                question: "متى يُنصح بتجنب استخدام تقنية MMR واستخدام البحث المتجهي التقليدي بدلاً منها؟",
+                options: [
+                    "عند تلخيص أحداث متعددة من مصادر أخبار مختلفة.",
+                    "عند البحث عن حقيقة مفردة محددة بدقة بالغة (مثل رقم هاتف الدعم الفني أو قيمة ثابت فيزيائي).",
+                    "عند البحث في وثائق تتضمن تكراراً كبيراً."
+                ],
+                correctIndex: 1,
+                explanation: "ممتاز! في استعلامات الحقائق المحددة بدقة (Factoid Retrieval)، إجبار النظام على التنوع قد يجلب مستندات جانبية غير لازمة تشوش على الإجابة."
+            },
+            "04-reranking-hybrid-strategy.md": {
+                question: "لماذا يتفوق نموذج Cross-Encoder في مرحلة الـ Reranking على نماذج Bi-Encoder السريعة؟",
+                options: [
+                    "لأنه يقارن السؤال والمستند معاً في طبقات الانتباه المشترك (Cross-Attention) فيفهم التفاعل السياقي العميق.",
+                    "لأنه يعتمد على مطابقة الكلمات المفتاحية فقط مثل BM25.",
+                    "لأنه أسرع بآلاف المرات من نماذج Bi-Encoder."
+                ],
+                correctIndex: 0,
+                explanation: "صحيح جداً! الـ Cross-Encoder يحسب التفاعل المباشر بين كل رمز في السؤال وكل رمز في المستند، مما يمنحه دقة ترتيب فائقة."
+            },
+            "05-reranking-implementation.md": {
+                question: "في بنية الـ Enterprise RAG المكونة من 3 مراحل، أين يقع موقع الـ Reranker تحديداً؟",
+                options: [
+                    "قبل مرحلة استرجاع المستندات الأولية (Retriever).",
+                    "بعد الاسترجاع السريع للمرشحين (Top-K) وقبل تمرير السياق النهائي إلى الـ LLM.",
+                    "بعد أن يقوم الـ LLM بإنشاء الإجابة وتوليدها للمستخدم."
+                ],
+                correctIndex: 1,
+                explanation: "أحسنت! الـ Reranker يستقبل مرشحي الاسترجاع (مثلاً أفضل 20 مستنداً)، ويعيد فرزهم بدقة لاختيار أفضل 3 إلى 5 مستندات فقط للنموذج."
+            },
+            "01-combining-dense-and-sparse.md": {
+                question: "ما الفائدة الجوهرية من دمج البحث الكثيف (Dense) مع البحث الإحصائي النادر (Sparse مثل BM25)؟",
+                options: [
+                    "تغطية المعنى الدلالي العميق ومطابقة المصطلحات التقنية الدقيقة والأرقام في آن واحد.",
+                    "الاستغناء التام عن قواعد بيانات المتجهات.",
+                    "تقليل حجم قاعدة البيانات إلى النصف."
+                ],
+                correctIndex: 0,
+                explanation: "بالضبط! الـ Dense يفهم الترادف والمعاني، بينما الـ BM25 يتفوق في الأسماء الصريحة والمصطلحات الفريدة والأرقام."
+            }
+        };
+
+        function renderQuizSection(docData) {
+            const section = document.getElementById("quiz-section");
+            const qEl = document.getElementById("quiz-question");
+            const optsEl = document.getElementById("quiz-options");
+            const fbEl = document.getElementById("quiz-feedback");
+            if (!section || !qEl || !optsEl || !fbEl) return;
+
+            // Find question for current file
+            const filename = docData.rel_path.split("/").pop();
+            const quiz = QUIZ_BANK[filename] || {
+                question: `اختبر فهمك: هل استوعبت الفكرة المحورية لدرس "${docData.title}"؟`,
+                options: [
+                    "نعم، استوعبت المفاهيم النظرية ومستعد للمحاضرة التالية.",
+                    "أحتاج لإعادة قراءة سريعة لترسيخ المفاهيم والمعادلات.",
+                    "سأقوم بمراجعة المخططات التوضيحية لتأكيد الفهم."
+                ],
+                correctIndex: 0,
+                explanation: "عظيم! الاستمرارية والتدرج خطوة بخطوة هي سر إتقان أنظمة الـ RAG المتقدمة."
+            };
+
+            qEl.textContent = quiz.question;
+            optsEl.innerHTML = "";
+            fbEl.style.display = "none";
+            fbEl.className = "quiz-feedback";
+
+            quiz.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "quiz-opt-btn";
+                btn.innerHTML = `<span>${opt}</span><span style="opacity: 0.6; font-size: 0.8rem;">●</span>`;
+                btn.onclick = () => {
+                    // Disable all options
+                    optsEl.querySelectorAll(".quiz-opt-btn").forEach((b, bIdx) => {
+                        b.disabled = true;
+                        if (bIdx === quiz.correctIndex) {
+                            b.classList.add("correct");
+                        } else if (bIdx === idx) {
+                            b.classList.add("incorrect");
+                        }
+                    });
+
+                    // Show feedback
+                    if (idx === quiz.correctIndex) {
+                        fbEl.className = "quiz-feedback correct-fb";
+                        fbEl.innerHTML = `<strong>✔ إجابة صحيحة!</strong> ${quiz.explanation}`;
+                    } else {
+                        fbEl.className = "quiz-feedback incorrect-fb";
+                        fbEl.innerHTML = `<strong>توضيح:</strong> ${quiz.explanation}`;
+                    }
+                    fbEl.style.display = "block";
+                };
+                optsEl.appendChild(btn);
+            });
+
+            section.style.display = "block";
         }
 
         // Transform GitHub Alerts into luxury callout cards
