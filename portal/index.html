@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     
     <!-- Highlight.js for Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark-dimmed.min.css" id="hljs-theme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css" id="hljs-theme">
 
     <style>
         :root {
@@ -1406,10 +1406,7 @@
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/python.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/json.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>
         // Global Application State
@@ -1479,12 +1476,14 @@
                 document.documentElement.classList.remove("dark");
                 document.documentElement.classList.add("light");
                 document.getElementById("theme-icon").textContent = "☀️";
-                document.getElementById("hljs-theme").href = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css";
+                const hljsLink = document.getElementById("hljs-theme");
+                if (hljsLink) hljsLink.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css";
             } else {
                 document.documentElement.classList.remove("light");
                 document.documentElement.classList.add("dark");
                 document.getElementById("theme-icon").textContent = "🌙";
-                document.getElementById("hljs-theme").href = "https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark-dimmed.min.css";
+                const hljsLink = document.getElementById("hljs-theme");
+                if (hljsLink) hljsLink.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css";
             }
             localStorage.setItem("rag_portal_theme", theme);
             
@@ -1771,21 +1770,35 @@
             bodyContainer.innerHTML = rawHtml;
 
             // Transform code blocks with macOS header & copy button
-            transformCodeBlocks(bodyContainer);
+            try {
+                transformCodeBlocks(bodyContainer);
+            } catch (err) {
+                console.warn("transformCodeBlocks warning:", err);
+            }
 
             // Render LaTeX Math with KaTeX
-            renderMathInElement(bodyContainer, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
-                ],
-                throwOnError: false
-            });
+            try {
+                if (typeof renderMathInElement === "function") {
+                    renderMathInElement(bodyContainer, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            } catch (err) {
+                console.warn("KaTeX render warning:", err);
+            }
 
             // Render Mermaid Diagrams
-            await renderMermaidBlocks();
+            try {
+                await renderMermaidBlocks();
+            } catch (err) {
+                console.warn("Mermaid render warning:", err);
+            }
 
             // Build dynamic On-This-Page Table of Contents (TOC)
             buildTableOfContents(bodyContainer);
@@ -2004,8 +2017,14 @@
                     }
                 });
 
-                // Apply Highlight.js
-                hljs.highlightElement(codeEl);
+                // Apply Highlight.js safely if available
+                if (typeof hljs !== "undefined" && typeof hljs.highlightElement === "function") {
+                    try {
+                        hljs.highlightElement(codeEl);
+                    } catch (e) {
+                        console.warn("Syntax highlight warning:", e);
+                    }
+                }
 
                 // Create sleek container
                 const wrapper = document.createElement("div");
