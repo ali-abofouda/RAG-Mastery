@@ -1,0 +1,33 @@
+# The History of Steve Jobs at Apple Computer
+
+## Early Career and the Creation of Apple
+In 1976, Steve Jobs and Steve Wozniak co-founded Apple Computer in the Jobs family garage in Los Altos, California.
+Their early products, the Apple I and Apple II, became foundational microcomputers that propelled the personal computer revolution.
+Jobs was widely recognized as the visionary product strategist, driving intuitive user interfaces, industrial design, and packaging.
+However, early management felt Jobs was temperamental and lacked the administrative discipline required to manage a rapidly scaling corporate enterprise.
+
+## The Macintosh Division and the Hiring of John Sculley
+By the early 1980s, Apple was preparing the Macintosh computer, which featured a revolutionary graphical user interface (GUI) and mouse.
+In 1983, Steve Jobs personally recruited John Sculley, the former president of Pepsi-Cola, to serve as Apple's Chief Executive Officer.
+Jobs famously convinced Sculley to join by asking: "Do you want to sell sugar water for the rest of your life, or do you want to come with me and change the world?"
+Initially, Jobs and Sculley maintained a productive and close working relationship, sharing an ambitious vision for Apple's future.
+Jobs led the Macintosh division as general manager, cultivating a passionate and intense pirate-flag culture within the team.
+
+## Internal Power Struggle and Ouster in 1985
+Despite widespread acclaim for its 1984 commercial and graphical innovation, the initial Macintosh suffered from sluggish commercial sales.
+The computer was expensive, lacked sufficient internal RAM, had no hard drive, and offered limited third-party software support.
+Tensions flared between Jobs and the rest of Apple's executive leadership, particularly with the Apple II division, which was generating almost all company revenue.
+John Sculley and the board of directors, led by Arthur Rock and Mike Markkula, began to view Jobs as erratic, demanding, and disruptive to operations.
+In May 1985, Steve Jobs attempted a boardroom coup while Sculley was scheduled to travel to China, seeking to replace Sculley as CEO.
+However, Sculley discovered the plot, canceled his trip, and confronted Jobs directly during a contentious board meeting.
+The board of directors unanimously sided with Sculley, officially stripping Steve Jobs of all managerial and operational duties over the Macintosh division.
+Jobs was relegated to an honorary title as chairman, confined to an isolated office nicknamed "Siberia."
+In September 1985, feeling completely marginalized and powerless, Steve Jobs officially resigned from Apple, sold all but one of his shares, and founded NeXT Computer.
+
+## The NeXT Era and the Triumphant Return in 1997
+During his decade away from Apple, Jobs built NeXT, which developed the advanced object-oriented NeXTSTEP operating system.
+He also funded and acquired Pixar Animation Studios, which revolutionized digital cinema with the release of Toy Story in 1995.
+Meanwhile, Apple struggled through the 1990s with declining market share, bureaucratic stagnation, and failed operating system modernizations.
+In December 1996, under CEO Gil Amelio, Apple announced the acquisition of NeXT for 429 million dollars to acquire NeXTSTEP as the foundation for Mac OS X.
+Steve Jobs returned to Apple initially as an unpaid informal advisor, but by mid-1997, the board ousted Gil Amelio and appointed Jobs as interim CEO (iCEO).
+Under Jobs' second tenure, Apple simplified its product grid, partnered with Microsoft, launched the iMac, iPod, iPhone, and iPad, transforming Apple into the most valuable technology company in the world.
