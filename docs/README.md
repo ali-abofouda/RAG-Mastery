@@ -38,4 +38,5 @@
 | **04** | [`04-advanced-chunking/`](./04-advanced-chunking/) | تقنيات التقطيع الدلالي المتقدم، قياس تشابه الجمل، ونقاط الانفصال | [README](./04-advanced-chunking/README.md) |
 | **05** | [`05-hybrid-search-and-retrieval/`](./05-hybrid-search-and-retrieval/) | البحث الهجين، دمج المصفوفات، خوارزميات Reranking و MMR | [README](./05-hybrid-search-and-retrieval/README.md) |
 | **06** | [`06-query-enhancement/`](./06-query-enhancement/) | تحسين وصياغة الاستعلامات وتوسيعها دلالياً (Query Expansion) | [README](./06-query-enhancement/README.md) |
+| **07** | [`07-multimodal-rag/`](./07-multimodal-rag/) | الـ RAG متعدد الوسائط واسترجاع وفهرسة الصور والرسوم البيانية مع النصوص | [README](./07-multimodal-rag/README.md) |
 | **15** | [`capstone/`](./capstone/) | المعمارية الشاملة لمشروع التطبيق النهائي المتكامل | [README](./capstone/README.md) |
