@@ -12,7 +12,7 @@
 | الرقم | عنوان الدرس النظري | المحاضرة المقابلة | الملف التوثيقي | الكود النموذجي (`stages/`) | معمل التجربة (`playground/`) | الحالة |
 | :---: | :--- | :--- :---: | :---: | :---: | :---: | :---: |
 | 01 | **أساسيات ومفاهيم توسيع الاستعلامات (Query Expansion Fundamentals)** | Lecture 49 | [`01-query-expansion-fundamentals.md`](./01-query-expansion-fundamentals.md) | [`stages/06/.../01-...ipynb`](../../stages/06-query-enhancement/01-query-expansion-fundamentals/01-query-expansion-fundamentals.ipynb) | [`playground/06/.../01-...ipynb`](../../playground/06-query-enhancement/01-query-expansion-fundamentals.ipynb) | [x] مكتمل |
-| 02 | **التطبيق العملي لتوسيع الاستعلامات عبر LangChain** | Lecture 50 | قيد المتابعة | قيد المتابعة | قيد المتابعة | [ ] قيد العمل |
+| 02 | **التطبيق العملي لتوسيع الاستعلامات في مسار RAG متكامل** | Lecture 50 | [`02-query-expansion-implementation.md`](./02-query-expansion-implementation.md) | [`stages/06/.../02-...ipynb`](../../stages/06-query-enhancement/02-query-expansion-implementation/02-query-expansion-implementation.ipynb) | [`playground/06/.../02-...ipynb`](../../playground/06-query-enhancement/02-query-expansion-implementation.ipynb) | [x] مكتمل |
 | 03 | **توليد استعلامات متعددة (Multi-Query Generation)** | Lecture 51 | قيد المتابعة | قيد المتابعة | قيد المتابعة | [ ] قيد الانتظار |
 | 04 | **تفكيك الاستعلامات المركبة (Query Decomposition)** | Lecture 52 | قيد المتابعة | قيد المتابعة | قيد المتابعة | [ ] قيد الانتظار |
 | 05 | **استرجاع الخطوة للوراء (Step-Back Prompting)** | Lecture 53 | قيد المتابعة | قيد المتابعة | قيد المتابعة | [ ] قيد الانتظار |
