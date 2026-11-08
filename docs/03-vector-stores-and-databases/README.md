@@ -1,45 +1,24 @@
-# 03 - فهارس وقواعد بيانات المتجهات (Vector Stores & Vector Databases)
+# المرحلة 03: فهارس وقواعد بيانات المتجهات (Vector Stores & Databases)
+### Comprehensive Architectural Guide (`docs/03-vector-stores-and-databases/`)
 
-المرحلة الثالثة في مسار إتقان الـ RAG، وتغطي بالكامل **القسم السابع من الكورس (Section 7: Vector Stores And Vector Databases - المحاضرات 24 إلى 36)**.
-
-تتناول هذه المرحلة الانتقال من مجرد إنشاء المتجهات (Embeddings) إلى كيفية حفظها، وفهرستها، وإجراء عمليات البحث والاسترجاع الدلالي السريع عليها باستخدام أدوات التخزين الموضعية وقواعد البيانات السحابية العملاقة.
-
----
-
-## 🧭 خارطة موضوعات المرحلة (Curriculum)
-
-| الرقم | المجلد الفرعي | عنوان الدرس (Topic) | المحاضرة المقابلة | الشرح (.md) | الدفتر المرجعي (.ipynb) | الحالة |
-| :---: | :--- | :--- | :---: | :---: | :---: | :---: |
-| 01 | **[01-vector-stores-vs-vector-databases](./01-vector-stores-vs-vector-databases/)** | مقارنة فهارس المتجهات وقواعد بيانات المتجهات | Lecture 24 | [README](./01-vector-stores-vs-vector-databases/README.md) | [Notebook](./01-vector-stores-vs-vector-databases/01-vector-stores-vs-vector-databases.ipynb) | [x] مكتمل |
-| 02 | **[02-traditional-rag-chromadb](./02-traditional-rag-chromadb/)** | بناء نظام RAG تقليدي باستخدام ChromaDB (أجزاء 1، 2، 3) | Lectures 25-27 | [README](./02-traditional-rag-chromadb/README.md) | [Notebook](./02-traditional-rag-chromadb/02-traditional-rag-chromadb.ipynb) | [x] مكتمل |
-| 03 | **[03-rag-pipeline-lcel](./03-rag-pipeline-lcel/)** | بناء خط أنابيب RAG متكامل باستخدام لغة تعبير لانج تشين (LCEL) | Lecture 28 | [README](./03-rag-pipeline-lcel/README.md) | [Notebook](./03-rag-pipeline-lcel/03-rag-pipeline-lcel.ipynb) | [x] مكتمل |
-| 04 | **[04-updating-vector-store](./04-updating-vector-store/)** | إضافة وتحديث مستندات جديدة داخل فهرس متجهات موجود | Lecture 29 | [README](./04-updating-vector-store/README.md) | [Notebook](./04-updating-vector-store/04-updating-vector-store.ipynb) | [x] مكتمل |
-| 05 | **[05-conversational-memory-rag](./05-conversational-memory-rag/)** | تقنيات RAG المتقدمة: إضافة ذاكرة المحادثة وسياق الحوار | Lecture 30 | [README](./05-conversational-memory-rag/README.md) | [Notebook](./05-conversational-memory-rag/05-conversational-memory-rag.ipynb) | [x] مكتمل |
-| 06 | **[06-groq-llm-integration](./06-groq-llm-integration/)** | ربط واستخدام نماذج اللغات فائقة السرعة مع Groq API | Lecture 31 | [README](./06-groq-llm-integration/README.md) | [Notebook](./06-groq-llm-integration/06-groq-llm-integration.ipynb) | [x] مكتمل |
-| 07 | **[07-rag-faiss](./07-rag-faiss/)** | بناء نظام RAG محلي باستخدام مكتبة FAISS من فيسبوك (أجزاء 1 و 2) | Lectures 32-33 | [README](./07-rag-faiss/README.md) | [جـ 1: الفهرسة](./07-rag-faiss/07-rag-faiss.ipynb) / [جـ 2: سلاسل LCEL](./07-rag-faiss/07-rag-faiss-lcel.ipynb) | [x] مكتمل |
-| 08 | **[08-in-memory-vector-store](./08-in-memory-vector-store/)** | التخزين والفهرسة السريعة في الذاكرة الحية (InMemory Vector Store) | Lecture 34 | [README](./08-in-memory-vector-store/README.md) | [Notebook](./08-in-memory-vector-store/08-in-memory-vector-store.ipynb) | [x] مكتمل |
-| 09 | **[09-astradb-vector-database](./09-astradb-vector-database/)** | العمل مع قواعد البيانات السحابية المدارة DataStax AstraDB | Lecture 35 | [README](./09-astradb-vector-database/README.md) | [Notebook](./09-astradb-vector-database/09-astradb-vector-database.ipynb) | [x] مكتمل |
-| 10 | **[10-pinecone-vector-database](./10-pinecone-vector-database/)** | تخزين واسترجاع المتجهات على النطاق المؤسسي باستخدام Pinecone | Lecture 36 | [README](./10-pinecone-vector-database/README.md) | [Notebook](./10-pinecone-vector-database/10-pinecone-vector-database.ipynb) | [x] مكتمل |
+المرحلة الثالثة في مسار إتقان الـ RAG، وتتناول الانتقال الحاسم من مجرد إنشاء المتجهات (Embeddings) إلى كيفية حفظها، وفهرستها، وإجراء عمليات البحث والاسترجاع الدلالي السريع عليها باستخدام أدوات التخزين الموضعية وقواعد البيانات السحابية العملاقة.
 
 ---
 
-## 🏛️ المعمارية العامة للمرحلة (Stage Architecture)
+## فهرس موضوعات ومشاريع المرحلة
 
-```mermaid
-flowchart TD
-    subgraph Input ["المستندات والمتجهات"]
-        A["Text Chunks & Metadata"] --> B["Embedding Model"]
-        B --> C["Vector Embeddings"]
-    end
+| الرقم | عنوان الموضوع البرمجي | الشرح المعماري (`docs/`) | الكود المرجعي (`stages/`) | الحالة |
+| :---: | :--- | :---: | :---: | :---: |
+| 01 | **مقارنة فهارس المتجهات وقواعد بيانات المتجهات** | [01-vector-stores-vs-vector-databases.md](./01-vector-stores-vs-vector-databases.md) | [`01-vector-stores-vs-vector-databases.ipynb`](../../stages/03-vector-stores-and-databases/01-vector-stores-vs-vector-databases/01-vector-stores-vs-vector-databases.ipynb) | مكتمل |
+| 02 | **بناء نظام RAG تقليدي باستخدام ChromaDB و LCEL** | [02-traditional-rag-chromadb.md](./02-traditional-rag-chromadb.md) | [`02-traditional-rag-chromadb.ipynb`](../../stages/03-vector-stores-and-databases/02-traditional-rag-chromadb/02-traditional-rag-chromadb.ipynb) | مكتمل |
+| 03 | **خوارزميات الفهرسة الحسابية: HNSW و IVF و PQ** | [03-indexing-algorithms-hnsw-ivf-pq.md](./03-indexing-algorithms-hnsw-ivf-pq.md) | [`07-rag-faiss.ipynb`](../../stages/03-vector-stores-and-databases/07-rag-faiss/07-rag-faiss.ipynb) | مكتمل |
+| 04 | **الفهرسة عالية الأداء عبر مكتبة FAISS وتسريع الأجهزة** | [04-faiss-high-performance-indexing.md](./04-faiss-high-performance-indexing.md) | [`07-rag-faiss-lcel.ipynb`](../../stages/03-vector-stores-and-databases/07-rag-faiss/07-rag-faiss-lcel.ipynb) | مكتمل |
+| 05 | **قواعد البيانات السحابية الموزعة: Pinecone و AstraDB** | [05-cloud-native-databases-pinecone-astradb.md](./05-cloud-native-databases-pinecone-astradb.md) | [`09-astradb-vector-database.ipynb`](../../stages/03-vector-stores-and-databases/09-astradb-vector-database/09-astradb-vector-database.ipynb) & [`10-pinecone.ipynb`](../../stages/03-vector-stores-and-databases/10-pinecone-vector-database/10-pinecone-vector-database.ipynb) | مكتمل |
+| 06 | **هندسة فلترة البيانات الوصفية وحوكمة الأمان RBAC** | [06-metadata-filtering-and-security.md](./06-metadata-filtering-and-security.md) | [`04-updating-vector-store.ipynb`](../../stages/03-vector-stores-and-databases/04-updating-vector-store/04-updating-vector-store.ipynb) | مكتمل |
 
-    subgraph Storage ["خيارات التخزين والفهرسة"]
-        C --> D1["Local / In-Memory Stores\n(FAISS, Chroma Local, DocArray)"]
-        C --> D2["Cloud-Native Vector DBs\n(Pinecone, Qdrant, AstraDB, Weaviate)"]
-    end
+---
 
-    subgraph Integration ["سلاسل التنفيذ والاسترجاع"]
-        D1 & D2 --> E["LangChain LCEL Pipeline"]
-        E --> F["LLM (Groq / OpenAI)"]
-        F --> G["Final Augmented Response"]
-    end
-```
+## المعايير الهندسية للمرحلة
+* **`stages/`**: كود إنتاجي Senior مسبق التنفيذ بمخرجاته الكاملة، بتوثيق إنجليزي فني صارم وخالٍ من الرموز التعبيرية مع فحوصات `Assertions`.
+* **`playground/`**: كشكول تجارب تفاعلي ودود باللغة العربية البسيطة يتيح التجربة الحرة وتعديل المعاملات والمسارات دون قيود.
+* **`docs/`**: مذكرات معمارية وتفصيلية متخصصة ومصاغة وفق أعلى معايير هندسة النظم، متضمنة مخططات Mermaid، صياغات رياضية، ومصفوفات مفاضلة، وأسئلة مقابلات تقنية متقدمة.
