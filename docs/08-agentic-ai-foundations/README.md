@@ -9,13 +9,14 @@
 
 ## الدليل المعماري الموحد للمرحلة (Master Guide)
 
-📄 **[الدليل الشامل: وكلاء الذكاء الاصطناعي ضد الأنظمة الوكالية (01-ai-agents-vs-agentic-ai-master-guide.md)](./01-ai-agents-vs-agentic-ai-master-guide.md)**
-* **المحاضرات المشمولة**: المحاضرة 55 (المدخل التأسيسي لعالم الوكلاء).
+📄 **[الدليل الشامل: أسس وكلاء الذكاء الاصطناعي والمنظومات الوكالية (01-ai-agents-vs-agentic-ai-master-guide.md)](./01-ai-agents-vs-agentic-ai-master-guide.md)**
+* **المحاضرات المشمولة**: المحاضرتان 55 و 56 (تأسيس عالم الوكلاء ودورات العمل البرمجية).
 * **المحتوى العلمي الموحد**:
   * الفارق الفلسفي والمعماري بين الوكيل الفردي (`AI Agent`) والمنظومة الوكالية المتكاملة (`Agentic AI`).
   * التأصيل الرياضي: الانتقال من نمذجة الوكيل الفردي (`POMDP`) إلى التنسيق متعدد الوكلاء (`Dec-POMDP`).
   * الأركان الإدراكية الأربعة للـ Agentic AI: **الإدراك (`Perception`)**، **الاستدلال والتفكير (`Reasoning`)**، **التنفيذ (`Action`)**، و**التعلم والتكيف المستمر (`Learning`)**.
-  * دراسات حالة إنتاجية مقارنة: روبوت الاستعلامات المصرفية المقيد مقابل نظام إدارة الطاقة المنظومي والمساعد الصحي التكيفي.
+  * دراسة حالة أتمتة دورة تطوير البرمجيات الرشيقة (`Agile Multi-Agent SDLC Workflow`): وكيل إدارة المنتج، وكلاء التطوير، وكيل مراجعة الكود، ووكيل الاختبار.
+  * الحتمية المعمارية للتدخل البشري: **`Human-in-the-Loop (HITL)`** وبوابات الأمان عند نشر الكود.
   * مصفوفة المفاضلة الهندسية الشاملة وأسئلة المقابلات المتقدمة للـ Senior AI Engineers.
 
 ---
@@ -25,6 +26,7 @@
 | الرقم | عنوان الموضوع البرمجي | المحاضرة المقابلة | الكود المرجعي (`stages/`) | معمل التجربة (`playground/`) | الحالة |
 | :---: | :--- | :---: | :---: | :---: | :---: |
 | 01 | **مقارنة ومحاكاة AI Agents ضد Agentic AI** | Lecture 55 | [`01-ai-agents-vs-agentic-ai.ipynb`](../../stages/08-agentic-ai-foundations/01-ai-agents-vs-agentic-ai/01-ai-agents-vs-agentic-ai.ipynb) | [`01-ai-agents-vs-agentic-ai.ipynb`](../../playground/08-agentic-ai-foundations/01-ai-agents-vs-agentic-ai.ipynb) | مكتمل |
+| 02 | **محاكاة فريق تطوير البرمجيات الرشيقة والتدخل البشري** | Lecture 56 | [`02-multi-agent-sdlc-workflow.ipynb`](../../stages/08-agentic-ai-foundations/02-multi-agent-sdlc-workflow/02-multi-agent-sdlc-workflow.ipynb) | [`02-multi-agent-sdlc-workflow.ipynb`](../../playground/08-agentic-ai-foundations/02-multi-agent-sdlc-workflow.ipynb) | قيد التنفيذ |
 
 ---
 
