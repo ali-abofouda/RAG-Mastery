@@ -39,4 +39,5 @@
 | **05** | [`05-hybrid-search-and-retrieval/`](./05-hybrid-search-and-retrieval/) | البحث الهجين، دمج المصفوفات، خوارزميات Reranking و MMR | [README](./05-hybrid-search-and-retrieval/README.md) |
 | **06** | [`06-query-enhancement/`](./06-query-enhancement/) | تحسين وصياغة الاستعلامات وتوسيعها دلالياً (Query Expansion) | [README](./06-query-enhancement/README.md) |
 | **07** | [`07-multimodal-rag/`](./07-multimodal-rag/) | الـ RAG متعدد الوسائط واسترجاع وفهرسة الصور والرسوم البيانية مع النصوص | [README](./07-multimodal-rag/README.md) |
+| **08** | [`08-agentic-ai-foundations/`](./08-agentic-ai-foundations/) | أسس وكلاء الذكاء الاصطناعي، الأركان الإدراكية الأربعة، ومقارنة AI Agents ضد Agentic AI | [README](./08-agentic-ai-foundations/README.md) |
 | **15** | [`capstone/`](./capstone/) | المعمارية الشاملة لمشروع التطبيق النهائي المتكامل | [README](./capstone/README.md) |
