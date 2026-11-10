@@ -15,6 +15,9 @@
 2. 📄 **[الدليل الشامل 02: بناء الوكلاء الموحدين واستدعاء الأدوات في LangChain v1+ (02-unified-agents-and-tool-calling-master-guide.md)](./02-unified-agents-and-tool-calling-master-guide.md)** *(المحاضرة 59)*
    * قيد انقطاع التدريب (`Cutoff Date`)، دالة `create_agent`، تطور طوبولوجيا الرسم البياني (`START -> model <-> tools -> END`)، عقد التوجيه عبر `Docstring`، وتتبع مسار الرسائل الأربعة (`Human -> AI ToolCall -> Tool -> AI Final`).
 
+3. 📄 **[الدليل الشامل 03: أنماط تنفيذ النماذج — البث اللحظي والمعالجة المتوازية (03-model-execution-streaming-and-batch-master-guide.md)](./03-model-execution-streaming-and-batch-master-guide.md)** *(المحاضرة 60)*
+   * مقارنة الكمون وزمن أول توكن (`TTFT`) بين `invoke()` و `stream()` و `batch()`، تفريغ الذاكرة المؤقتة (`flush=True`)، وضبط سقف التوازي (`max_concurrency`) للوقاية من أخطاء `HTTP 429`.
+
 ---
 
 ## فهرس المشاريع البرمجية التابعة للمرحلة
@@ -24,6 +27,7 @@
 | 01 | **استكشاف منظومة LangChain v1+ وإعداد بيئة UV** | Lecture 57 | [`01-langchain-uv-setup-and-ecosystem.ipynb`](../../stages/09-langchain-modern-updates/01-langchain-uv-setup-and-ecosystem/01-langchain-uv-setup-and-ecosystem.ipynb) | [`01-langchain-uv-setup-and-ecosystem.ipynb`](../../playground/09-langchain-modern-updates/01-langchain-uv-setup-and-ecosystem.ipynb) | مكتمل |
 | 02 | **تأسيس البيئة الافتراضية وحوكمة المكتبات والمفاتيح بـ UV** | Lecture 58 | [`02-uv-environment-and-keys-setup.ipynb`](../../stages/09-langchain-modern-updates/02-uv-environment-and-keys-setup/02-uv-environment-and-keys-setup.ipynb) | [`02-uv-environment-and-keys-setup.ipynb`](../../playground/09-langchain-modern-updates/02-uv-environment-and-keys-setup.ipynb) | مكتمل |
 | 03 | **بناء أول وكيل موحد واستدعاء الأدوات عبر `create_agent`** | Lecture 59 | [`03-creating-first-unified-agent.ipynb`](../../stages/09-langchain-modern-updates/03-creating-first-unified-agent/03-creating-first-unified-agent.ipynb) | [`03-creating-first-unified-agent.ipynb`](../../playground/09-langchain-modern-updates/03-creating-first-unified-agent.ipynb) | مكتمل |
+| 04 | **البث اللحظي للتوكنز والمعالجة المتوازية (`stream` & `batch`)** | Lecture 60 | [`04-model-streaming-and-batch.ipynb`](../../stages/09-langchain-modern-updates/04-model-streaming-and-batch/04-model-streaming-and-batch.ipynb) | [`04-model-streaming-and-batch.ipynb`](../../playground/09-langchain-modern-updates/04-model-streaming-and-batch.ipynb) | مكتمل |
 
 ---
 
