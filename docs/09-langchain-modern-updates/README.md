@@ -7,18 +7,13 @@
 
 ---
 
-## الدليل المعماري الموحد للمرحلة (Master Guide)
+## الأدلة المعمارية الموحدة للمرحلة (Master Guides)
 
-📄 **[الدليل الشامل: تحديثات LangChain الحديثة وبيئة التطوير السريعة (01-langchain-v1-ecosystem-master-guide.md)](./01-langchain-v1-ecosystem-master-guide.md)**
-* **المحاضرات المشمولة**: المحاضرتان 57 و 58 (تحديثات LangChain v1+ وتأسيس بيئة UV والمفاتيح).
-* **المحتوى العلمي الموحد**:
-  * التحول المعماري من سلاسل `LangChain 0.x` التقليدية إلى معمارية الوكلاء الموحدة (`create_agent`) ومحرك `LangGraph`.
-  * المحاور الثمانية الجديدة: `init_chat_model`، الوكلاء الموحدين، الأدوات (`@tool`)، المخرجات المهيكلة (`Pydantic`)، أنواع الرسائل، الذاكرة القصيرة، البث اللحظي، والبرمجيات الوسيطة (`Middlewares`).
-  * تشريح بنية الـ **Middleware** المدمجة والمخصصة (`AgentMiddleware`, `HumanInTheLoopMiddleware`).
-  * مدير الحزم السريع **`uv`** ودورة التأسيس الكاملة (`uv init`, `uv venv`, `.venv` activation, `uv add -r`, `ipykernel`).
-  * حوكمة مفاتيح الـ API عبر `.env` و `.gitignore` لمزودي الخدمة (`Google Gemini`, `Groq`, `OpenAI`).
-  * بيئات التطوير الوكالية الحديثة (`Agentic IDEs: Google Antigravity, Cursor, VS Code`).
-  * أسئلة المقابلات المتقدمة للـ Senior AI Engineers.
+1. 📄 **[الدليل الشامل 01: تحديثات LangChain الحديثة وبيئة التطوير السريعة (01-langchain-v1-ecosystem-master-guide.md)](./01-langchain-v1-ecosystem-master-guide.md)** *(المحاضرات 57 و 58)*
+   * التحول المعماري من سلاسل `LangChain 0.x` إلى `LangChain v1+`، بنية الـ `Middleware`، ومدير الحزم السريع `uv` وحوكمة مفاتيح الـ API.
+
+2. 📄 **[الدليل الشامل 02: بناء الوكلاء الموحدين واستدعاء الأدوات في LangChain v1+ (02-unified-agents-and-tool-calling-master-guide.md)](./02-unified-agents-and-tool-calling-master-guide.md)** *(المحاضرة 59)*
+   * قيد انقطاع التدريب (`Cutoff Date`)، دالة `create_agent`، تطور طوبولوجيا الرسم البياني (`START -> model <-> tools -> END`)، عقد التوجيه عبر `Docstring`، وتتبع مسار الرسائل الأربعة (`Human -> AI ToolCall -> Tool -> AI Final`).
 
 ---
 
@@ -28,6 +23,7 @@
 | :---: | :--- | :---: | :---: | :---: | :---: |
 | 01 | **استكشاف منظومة LangChain v1+ وإعداد بيئة UV** | Lecture 57 | [`01-langchain-uv-setup-and-ecosystem.ipynb`](../../stages/09-langchain-modern-updates/01-langchain-uv-setup-and-ecosystem/01-langchain-uv-setup-and-ecosystem.ipynb) | [`01-langchain-uv-setup-and-ecosystem.ipynb`](../../playground/09-langchain-modern-updates/01-langchain-uv-setup-and-ecosystem.ipynb) | مكتمل |
 | 02 | **تأسيس البيئة الافتراضية وحوكمة المكتبات والمفاتيح بـ UV** | Lecture 58 | [`02-uv-environment-and-keys-setup.ipynb`](../../stages/09-langchain-modern-updates/02-uv-environment-and-keys-setup/02-uv-environment-and-keys-setup.ipynb) | [`02-uv-environment-and-keys-setup.ipynb`](../../playground/09-langchain-modern-updates/02-uv-environment-and-keys-setup.ipynb) | مكتمل |
+| 03 | **بناء أول وكيل موحد واستدعاء الأدوات عبر `create_agent`** | Lecture 59 | [`03-creating-first-unified-agent.ipynb`](../../stages/09-langchain-modern-updates/03-creating-first-unified-agent/03-creating-first-unified-agent.ipynb) | [`03-creating-first-unified-agent.ipynb`](../../playground/09-langchain-modern-updates/03-creating-first-unified-agent.ipynb) | مكتمل |
 
 ---
 
