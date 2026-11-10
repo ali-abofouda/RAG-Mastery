@@ -18,6 +18,9 @@
 3. 📄 **[الدليل الشامل 03: أنماط تنفيذ النماذج — البث اللحظي والمعالجة المتوازية (03-model-execution-streaming-and-batch-master-guide.md)](./03-model-execution-streaming-and-batch-master-guide.md)** *(المحاضرة 60)*
    * مقارنة الكمون وزمن أول توكن (`TTFT`) بين `invoke()` و `stream()` و `batch()`، تفريغ الذاكرة المؤقتة (`flush=True`)، وضبط سقف التوازي (`max_concurrency`) للوقاية من أخطاء `HTTP 429`.
 
+4. 📄 **[الدليل الشامل 04: بنية الرسائل والبيانات الوصفية وتتبع التوكنز (04-messages-architecture-and-telemetry-master-guide.md)](./04-messages-architecture-and-telemetry-master-guide.md)** *(المحاضرة 62)*
+   * تفكيك الرسالة (`Role`, `Content`, `Metadata`)، المقارنة بين `Text Prompts` و `Message Prompts`، هندسة `SystemMessage` الغنية، حقن `AIMessage` يدوياً، ربط `ToolMessage` برقم الطلب `tool_call_id`، ومراقبة تكلفة التوكنز عبر `usage_metadata`.
+
 ---
 
 ## فهرس المشاريع البرمجية التابعة للمرحلة
@@ -29,6 +32,7 @@
 | 03 | **بناء أول وكيل موحد واستدعاء الأدوات عبر `create_agent`** | Lecture 59 | [`03-creating-first-unified-agent.ipynb`](../../stages/09-langchain-modern-updates/03-creating-first-unified-agent/03-creating-first-unified-agent.ipynb) | [`03-creating-first-unified-agent.ipynb`](../../playground/09-langchain-modern-updates/03-creating-first-unified-agent.ipynb) | مكتمل |
 | 04 | **البث اللحظي للتوكنز والمعالجة المتوازية (`stream` & `batch`)** | Lecture 60 | [`04-model-streaming-and-batch.ipynb`](../../stages/09-langchain-modern-updates/04-model-streaming-and-batch/04-model-streaming-and-batch.ipynb) | [`04-model-streaming-and-batch.ipynb`](../../playground/09-langchain-modern-updates/04-model-streaming-and-batch.ipynb) | مكتمل |
 | 05 | **إنشاء الأدوات المخصصة (`@tool`) وحلقة التنفيذ اليدوية (`bind_tools`)** | Lecture 61 | [`05-tools-creation-and-execution-loop.ipynb`](../../stages/09-langchain-modern-updates/05-tools-creation-and-execution-loop/05-tools-creation-and-execution-loop.ipynb) | [`05-tools-creation-and-execution-loop.ipynb`](../../playground/09-langchain-modern-updates/05-tools-creation-and-execution-loop.ipynb) | مكتمل |
+| 06 | **بنية الرسائل الأربعة والبيانات الوصفية وتتبع التوكنز** | Lecture 62 | [`06-messages-architecture-and-metadata.ipynb`](../../stages/09-langchain-modern-updates/06-messages-architecture-and-metadata/06-messages-architecture-and-metadata.ipynb) | [`06-messages-architecture-and-metadata.ipynb`](../../playground/09-langchain-modern-updates/06-messages-architecture-and-metadata.ipynb) | مكتمل |
 
 ---
 
