@@ -21,8 +21,8 @@
 4. 📄 **[الدليل الشامل 04: بنية الرسائل والبيانات الوصفية وتتبع التوكنز (04-messages-architecture-and-telemetry-master-guide.md)](./04-messages-architecture-and-telemetry-master-guide.md)** *(المحاضرة 62)*
    * تفكيك الرسالة (`Role`, `Content`, `Metadata`)، المقارنة بين `Text Prompts` و `Message Prompts`، هندسة `SystemMessage` الغنية، حقن `AIMessage` يدوياً، ربط `ToolMessage` برقم الطلب `tool_call_id`، ومراقبة تكلفة التوكنز عبر `usage_metadata`.
 
-5. 📄 **[الدليل الشامل 05: المخرجات المهيكلة (`Pydantic` مقابل `TypedDict`) وفحص قدرات النماذج (`model.profile`) (`05-structured-outputs-pydantic-master-guide.md`)](./05-structured-outputs-pydantic-master-guide.md)** *(المحاضرات 63 و 64)*
-   * ربط المخططات بـ `model.with_structured_output()`، توصيف الحقول عبر `Field` و `Annotated`، الهياكل المتداخلة، استخراج الرسالة الخام عبر `include_raw=True`، ومراقبة قدرات النموذج بـ `model.profile`.
+5. 📄 **[الدليل الشامل 05: المخرجات المهيكلة الثلاثية (`Pydantic` مقابل `TypedDict` مقابل `Dataclasses`) وفحص قدرات النماذج (`05-structured-outputs-pydantic-master-guide.md`)](./05-structured-outputs-pydantic-master-guide.md)** *(المحاضرات 63 - 65)*
+   * ربط المخططات بـ `model.with_structured_output()` و `create_agent(..., response_format=...)`، المقارنة الثلاثية الشاملة بين `Pydantic` و `TypedDict` و `@dataclass`، استخراج الرسالة الخام عبر `include_raw=True`، ومراقبة قدرات النموذج بـ `model.profile`.
 
 ---
 
@@ -38,6 +38,7 @@
 | 06 | **بنية الرسائل الأربعة والبيانات الوصفية وتتبع التوكنز** | Lecture 62 | [`06-messages-architecture-and-metadata.ipynb`](../../stages/09-langchain-modern-updates/06-messages-architecture-and-metadata/06-messages-architecture-and-metadata.ipynb) | [`06-messages-architecture-and-metadata.ipynb`](../../playground/09-langchain-modern-updates/06-messages-architecture-and-metadata.ipynb) | مكتمل |
 | 07 | **المخرجات المهيكلة والتحقق عبر `Pydantic` والهياكل المتداخلة** | Lecture 63 | [`07-structured-output-pydantic.ipynb`](../../stages/09-langchain-modern-updates/07-structured-output-pydantic/07-structured-output-pydantic.ipynb) | [`07-structured-output-pydantic.ipynb`](../../playground/09-langchain-modern-updates/07-structured-output-pydantic.ipynb) | مكتمل |
 | 08 | **المخرجات المهيكلة عبر `TypedDict` وفحص قدرات النماذج (`model.profile`)** | Lecture 64 | [`08-structured-output-typeddict-and-profile.ipynb`](../../stages/09-langchain-modern-updates/08-structured-output-typeddict-and-profile/08-structured-output-typeddict-and-profile.ipynb) | [`08-structured-output-typeddict-and-profile.ipynb`](../../playground/09-langchain-modern-updates/08-structured-output-typeddict-and-profile.ipynb) | مكتمل |
+| 09 | **المخرجات المهيكلة عبر `@dataclass` وتكامل `create_agent response_format`** | Lecture 65 | [`09-structured-output-dataclasses-and-agents.ipynb`](../../stages/09-langchain-modern-updates/09-structured-output-dataclasses-and-agents/09-structured-output-dataclasses-and-agents.ipynb) | [`09-structured-output-dataclasses-and-agents.ipynb`](../../playground/09-langchain-modern-updates/09-structured-output-dataclasses-and-agents.ipynb) | مكتمل |
 
 ---
 

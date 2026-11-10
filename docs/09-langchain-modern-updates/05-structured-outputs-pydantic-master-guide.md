@@ -1,7 +1,7 @@
 <div dir="rtl">
 
-# الدليل المعماري الشامل: المخرجات المهيكلة (`Pydantic` مقابل `TypedDict`) وفحص قدرات النماذج (`model.profile`)
-### Schema Enforcement, `Field` Validation, `TypedDict` with `Annotated`, `include_raw=True`, and Capability Introspection (Lectures 63 - 64)
+# الدليل المعماري الشامل: المخرجات المهيكلة الثلاثية (`Pydantic` مقابل `TypedDict` مقابل `Dataclasses`) وفحص قدرات النماذج (`model.profile`)
+### Schema Enforcement (`with_structured_output` & `create_agent response_format`), Validation Trade-offs, `include_raw=True`, and Model Introspection (Lectures 63 - 65)
 
 ---
 
@@ -152,25 +152,62 @@ print(model.profile)
 
 ---
 
-## 7. مصفوفة المفاضلة الهندسية الشاملة (`Pydantic` مقابل `TypedDict`)
+## 7. البديل القياسي الثالث: `Dataclasses` ودمج المخرجات المهيكلة داخل `create_agent` (`Lecture 65`)
 
-| المعيار الهندسي | `Pydantic BaseModel` | `TypedDict + Annotated` |
-| :--- | :--- | :--- |
-| **نوع المخرج البرمجي** | كائن كلاس منظم (`res.title`, `res.year`). | قاموس بايثون قياسي (`res["title"]`, `res["year"]`). |
-| **التحقق في وقت التشغيل (`Runtime Validation`)** | **صارم جداً** (يرفض القيم المخالفة ويطلق `ValidationError`). | **لا يوجد** (مجرد تلميحات أنواع؛ القاموس يقبل أي قيمة في Runtime). |
-| **تمرير وصف الحقول للـ LLM** | عبر `Field(..., description="...")`. | عبر `Annotated[type, ..., "description"]`. |
-| **العبء الحسابي (`Overhead`)** | عبء طفيف بسبب تشغيل محرك التحقق في Rust/Pydantic v2. | صفر عبء تقريباً (`Native dict`). |
-| **حالات الاستخدام الأنسب** | **أنظمة الإنتاج الحرجة**، واجهات FastAPI، وقواعد البيانات الصارمة. | النماذج الأولية السريعة (`Prototyping`) وتدفقات الحالة الداخلية في LangGraph. |
+إلى جانب ربط النموذج مباشرة عبر `model.with_structured_output()`، يقدم الجيل الحديث **`LangChain v1+`** آلية مدمجة لفرض المخرجات المهيكلة على مستوى **الوكيل الموحد بالكامل (`create_agent`)** عبر المعامل **`response_format`**:
+
+```python
+from dataclasses import dataclass
+from langchain.agents import create_agent
+
+@dataclass
+class ContactInfo:
+    name: str
+    email: str
+    phone: str
+
+agent = create_agent(
+    model=model,
+    response_format=ContactInfo
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"}]
+})
+
+# المخرج يعود داخل مفتاح مخصص في حالة الوكيل:
+contact = result["structured_response"]  # ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
+```
+
+### الخصائص الهندسية للنمط الثلاثي داخل الوكيل (`response_format`):
+1. **تُقبل جميع الأنواع الثلاثة (`Pydantic`, `TypedDict`, `@dataclass`) مباشرة** في معامل `response_format` الخاص بـ `create_agent()`.
+2. **في `result["structured_response"]`**:
+   * إذا مررت `Pydantic BaseModel` $\to$ يعود كائن محصن بـ Runtime Validation.
+   * إذا مررت `TypedDict` $\to$ يعود قاموس `dict` قياسي.
+   * إذا مررت `@dataclass` (المتوفر أصيلاً منذ Python 3.7) $\to$ يعود كائن بايثون أنيق يدعم الوصول بالنقطة (`contact.name`) دون تبعيات خارجية، ودون قيود تحقق صارمة في وقت التشغيل.
+3. **ملاحظة إنتاجية على `TypedDict` المتداخل**: عند استخدام `TypedDict` متداخل مع بعض المزودين مثل Groq، يُفضل تمرير `method="json_schema"` في `with_structured_output(Schema, method="json_schema")` لضمان عدم حدوث تعارض في تسمية الأدوات (`tool_use_failed`).
 
 ---
 
-## 8. أسئلة المقابلات المتقدمة للـ Senior AI Engineers
+## 8. مصفوفة المفاضلة الهندسية الثلاثية (`Pydantic` مقابل `TypedDict` مقابل `@dataclass`)
+
+| المعيار الهندسي | `Pydantic BaseModel` | `TypedDict + Annotated` | Python `@dataclass` |
+| :--- | :--- | :--- | :--- |
+| **مصدر المكتبة** | مكتبة خارجية (`pydantic v2`). | مدمجة (`typing / typing_extensions`). | مدمجة أصيلاً منذ Python 3.7 (`dataclasses`). |
+| **شكل المخرج البرمجي** | كائن كلاس (`res.name`). | قاموس بايثون (`res["name"]`). | كائن كلاس (`res.name`). |
+| **التحقق في وقت التشغيل (`Runtime Validation`)** | **صارم جداً** (`ValidationError`). | **لا يوجد** (`Native dict`). | **لا يوجد** (يخزن البيانات دون فحص). |
+| **العبء الحسابي (`Overhead`)** | طفيف (بسبب التحقق). | شبه معدوم. | منخفض جداً. |
+| **حالات الاستخدام الأنسب** | **الإنتاج الحرج**، بوابات API، وتأمين المدخلات. | تدفقات حالة `LangGraph` والقواميس السريعة. | كائنات نقل البيانات النظيفة (`DTOs`) دون الحاجة لمكتبات خارجية. |
+
+---
+
+## 9. أسئلة المقابلات المتقدمة للـ Senior AI Engineers
 
 ### س1: كيف تعمل دالة `with_structured_output()` داخلياً مع مزودي النماذج مثل OpenAI و Groq؟
 **الإجابة النموذجية:**
 تستخدم `with_structured_output` إحدى آليتين حسب قدرات النموذج ومزود الخدمة:
-1. **Tool/Function Calling Method** (الوضع الافتراضي الشائع في Groq و نماذج LangChain): تحول `Pydantic` أو `TypedDict` إلى `JSON Schema` وتمرره للنموذج كـ أداة إلزامية، ثم تحلل الحجج (`tool_calls[0]["args"]`).
-2. **Native JSON Schema (`json_schema` / Constrained Decoding)**: في أحدث النماذج مثل OpenAI GPT-4o، تفرض واجهة الـ API قيوداً على مستوى أخذ عينات التوكنز (`Logit Biasing / CFG`) تضمن هندسياً استحالة توليد رمز لا يتطابق مع المخطط بنسبة $100\%$.
+1. **Tool/Function Calling Method** (الوضع الافتراضي الشائع في Groq و نماذج LangChain): تحول `Pydantic` أو `TypedDict` أو `@dataclass` إلى `JSON Schema` وتمرره للنموذج كـ أداة إلزامية، ثم تحلل الحجج (`tool_calls[0]["args"]`).
+2. **Native JSON Schema (`json_schema` / Constrained Decoding)**: في أحدث النماذج مثل OpenAI GPT-4o أو وضع `method="json_schema"`، تفرض واجهة الـ API قيوداً على مستوى أخذ عينات التوكنز تضمن هندسياً استحالة توليد رمز لا يتطابق مع المخطط بنسبة $100\%$.
 
 ### س2: لماذا يُعد استخدام `include_raw=True` إلزامياً في أنظمة الإنتاج المالية والطبية؟
 **الإجابة النموذجية:**
@@ -178,9 +215,12 @@ print(model.profile)
 1. **مراقبة التكاليف والأداء (`FinOps & Observability`)**: بدون `include_raw=True` تفقد حقول `usage_metadata` فلا تستطيع حساب فاتورة التوكنز (بما فيها توكنز التفكير الخفية) لكل طلب استخراج.
 2. **المرونة الدفاعية (`Defensive Error Handling`)**: عند فشل النموذج في مطابقة حقل صارم، يقوم وضع `include_raw=False` بإطلاق استثناء مباشر يكسر مسار التنفيذ. أما `include_raw=True` فيحتوي الخطأ داخل المفتاح `parsing_error` ويمنحك النص الخام `raw` لتتمكن من تمريره لحلقة تصحيح ذاتي (`Self-Correction Retry`)!
 
-### س3: متى تفضل استخدام `TypedDict` على `Pydantic` في أنظمة LangGraph؟ ولماذا قد يفشل `.profile` بعد ربط المخطط؟
+### س3: متى تفضل استخدام `response_format` داخل `create_agent()` مقارنةً بـ `model.with_structured_output()`؟
 **الإجابة النموذجية:**
-يُفضل **`TypedDict`** لتعريف كائن الحالة الداخلية المشتركة (`Graph State`) أو في خطوات المعالجة السريعة داخل العقد حيث لا ترغب في تكلفة تحويل الكائنات أو تقييد تحديثات القاموس؛ بينما يظل **`Pydantic`** إلزامياً عند حدود الإدخال/الإخراج الخارجية (`API Boundaries`).  
-أما فشل `.profile` بعد استدعاء `with_structured_output()` فيحدث لأن الدالة لا تعيد `BaseChatModel`، بل تُنشئ تسلسلاً مركباً (`RunnableSequence`) يربط `[Model | Parser]`؛ لذلك يجب فحص `model.profile` على النموذج الأساسي قبل الربط للتحقق من دعم `structured_output` أو `image_inputs`.
+نستخدم `model.with_structured_output()` للمهام الاستخراجية البسيطة ذات الخطوة الواحدة (`Single-step Extraction`) بدون أدوات. بينما نستخدم `create_agent(..., response_format=Schema)` عندما نريد للوكيل أولاً أن يفكر ويستدعي أدوات متعددة (مثل البحث في الويب أو استعلام قاعدة بيانات عبر `tools=[...]`) لجلب المعلومات، ثم في خطوة الخروج النهائية يلتزم بصياغة النتيجة النهائية داخل المفتاح `result["structured_response"]` وفق القالب المطلوب!
+
+### س4: متى نفضل `@dataclass` على `Pydantic` و `TypedDict`؟
+**الإجابة النموذجية:**
+نختار `@dataclass` عندما نرغب في التعامل البرمجي المريح عبر الخصائص (`obj.email`) بدلاً من مفاتيح القواميس (`obj["email"]`) التي قد تسبب أخطاء إملائية، ولكن في نفس الوقت نعمل في بيئة تمنع الاعتماد على مكتبات خارجية إضافية أو لا تحتاج لعبء الـ Runtime Validation المستمر داخل تدفقات الكود الداخلية السريعة.
 
 </div>
