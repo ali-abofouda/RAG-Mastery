@@ -1,7 +1,7 @@
 <div dir="rtl">
 
-# الدليل المعماري الشامل: المخرجات المهيكلة والتحقق عبر `Pydantic` (`Structured Outputs`)
-### Schema Enforcement, `Field` Validation, `include_raw=True` Telemetry, and Nested Schemas (Lecture 63)
+# الدليل المعماري الشامل: المخرجات المهيكلة (`Pydantic` مقابل `TypedDict`) وفحص قدرات النماذج (`model.profile`)
+### Schema Enforcement, `Field` Validation, `TypedDict` with `Annotated`, `include_raw=True`, and Capability Introspection (Lectures 63 - 64)
 
 ---
 
@@ -95,12 +95,81 @@ class MovieDetails(BaseModel):
 
 ---
 
-## 5. أسئلة المقابلات المتقدمة للـ Senior AI Engineers
+## 5. البديل الخفيف بدون تحقق وقت التشغيل: `TypedDict` و `Annotated` (`Lecture 64`)
+
+عندما لا يحتاج تطبيقك إلى فحص صارم للأنواع أثناء وقت التشغيل (`Runtime Validation`) وترغب في التعامل مع قاموس بايثون قياسي خفيف (`Plain dict`)، يوفر **`TypedDict`** مع **`Annotated`** بديلاً ممتازاً باستخدام نظام الأنواع المدمج في بايثون:
+
+```python
+from typing_extensions import TypedDict, Annotated
+from typing import List, Optional
+
+class MovieDict(TypedDict):
+    title: Annotated[str, ..., "The title of the movie"]
+    year: Annotated[int, ..., "The year the movie was released"]
+    director: Annotated[str, ..., "The director of the movie"]
+    rating: Annotated[float, ..., "The movie's rating out of 10"]
+
+model_with_typedict = model.with_structured_output(MovieDict)
+response = model_with_typedict.invoke("Provide details about the movie Avengers")
+# المخرج قاموس بايثون عادي: {'director': 'Joss Whedon', 'rating': 8, 'title': 'The Avengers', 'year': 2012}
+```
+
+### الهياكل المتداخلة عبر `TypedDict`:
+تماماً مثل `Pydantic`، يدعم `TypedDict` تداخل القواميس (مثل `ActorDict` داخل `MovieDetailsDict`) مع الاستمرار في إرجاع قواميس قياسية دون إطلاق `ValidationError` إذا تغير نوع حقل فرعي:
+```python
+class ActorDict(TypedDict):
+    name: Annotated[str, ..., "Actor full name"]
+    role: Annotated[str, ..., "Role played"]
+
+class MovieDetailsDict(TypedDict):
+    title: Annotated[str, ..., "Movie title"]
+    cast: Annotated[List[ActorDict], ..., "Top cast members"]
+```
+
+---
+
+## 6. فحص قدرات النموذج برمجياً عبر `model.profile` في `LangChain v1+`
+
+تتيح ميزة **`model.profile`** الحديثة استكشاف المواصفات والقدرات الفعلية للنموذج اللغوي قبل ربطه بأدوات أو وسائط متعددة:
+
+* **تنبيه هندسي هام**: استدعاء `.profile` على النموذج الملفوف `model_with_structured_output.profile` سيطلق خطأ:  
+  `AttributeError: 'RunnableSequence' object has no attribute 'profile'`؛ لأن `with_structured_output()` يغلف النموذج داخل تسلسل تنفيذ `RunnableSequence`.
+* يجب دائماً استدعاء `model.profile` على **كائن النموذج الأساسي (`BaseChatModel`)** مباشرة:
+
+```python
+print(model.profile)
+# المخرج الفعلي لنموذج ChatGroq (openai/gpt-oss-20b):
+# {
+#   'name': 'GPT OSS 20B',
+#   'max_input_tokens': 131072,
+#   'max_output_tokens': 65536,
+#   'text_inputs': True, 'image_inputs': False, 'audio_inputs': False,
+#   'reasoning_output': True, 'tool_calling': True, 'structured_output': True
+# }
+```
+
+> **الفائدة الإنتاجية**: تستطيع بكتابة دالة فحص واحدة في بداية تشغيل الوكيل التحقق مما إذا كان النموذج يدعم `structured_output: True` و `tool_calling: True` و `image_inputs` تلقائياً قبل إرسال أي طلبات سحابية!
+
+---
+
+## 7. مصفوفة المفاضلة الهندسية الشاملة (`Pydantic` مقابل `TypedDict`)
+
+| المعيار الهندسي | `Pydantic BaseModel` | `TypedDict + Annotated` |
+| :--- | :--- | :--- |
+| **نوع المخرج البرمجي** | كائن كلاس منظم (`res.title`, `res.year`). | قاموس بايثون قياسي (`res["title"]`, `res["year"]`). |
+| **التحقق في وقت التشغيل (`Runtime Validation`)** | **صارم جداً** (يرفض القيم المخالفة ويطلق `ValidationError`). | **لا يوجد** (مجرد تلميحات أنواع؛ القاموس يقبل أي قيمة في Runtime). |
+| **تمرير وصف الحقول للـ LLM** | عبر `Field(..., description="...")`. | عبر `Annotated[type, ..., "description"]`. |
+| **العبء الحسابي (`Overhead`)** | عبء طفيف بسبب تشغيل محرك التحقق في Rust/Pydantic v2. | صفر عبء تقريباً (`Native dict`). |
+| **حالات الاستخدام الأنسب** | **أنظمة الإنتاج الحرجة**، واجهات FastAPI، وقواعد البيانات الصارمة. | النماذج الأولية السريعة (`Prototyping`) وتدفقات الحالة الداخلية في LangGraph. |
+
+---
+
+## 8. أسئلة المقابلات المتقدمة للـ Senior AI Engineers
 
 ### س1: كيف تعمل دالة `with_structured_output()` داخلياً مع مزودي النماذج مثل OpenAI و Groq؟
 **الإجابة النموذجية:**
 تستخدم `with_structured_output` إحدى آليتين حسب قدرات النموذج ومزود الخدمة:
-1. **Tool/Function Calling Method** (الوضع الافتراضي الشائع في Groq و نماذج LangChain): تحول `Pydantic` كلاس إلى `JSON Schema` وتمرره للنموذج كـ أداة إلزامية (`tool_choice="any"` أو اسم الكلاس)، ثم تحلل الحجج (`tool_calls[0]["args"]`) عبر `PydanticOutputParser`.
+1. **Tool/Function Calling Method** (الوضع الافتراضي الشائع في Groq و نماذج LangChain): تحول `Pydantic` أو `TypedDict` إلى `JSON Schema` وتمرره للنموذج كـ أداة إلزامية، ثم تحلل الحجج (`tool_calls[0]["args"]`).
 2. **Native JSON Schema (`json_schema` / Constrained Decoding)**: في أحدث النماذج مثل OpenAI GPT-4o، تفرض واجهة الـ API قيوداً على مستوى أخذ عينات التوكنز (`Logit Biasing / CFG`) تضمن هندسياً استحالة توليد رمز لا يتطابق مع المخطط بنسبة $100\%$.
 
 ### س2: لماذا يُعد استخدام `include_raw=True` إلزامياً في أنظمة الإنتاج المالية والطبية؟
@@ -108,5 +177,10 @@ class MovieDetails(BaseModel):
 لسببين معماريين جوهريين:
 1. **مراقبة التكاليف والأداء (`FinOps & Observability`)**: بدون `include_raw=True` تفقد حقول `usage_metadata` فلا تستطيع حساب فاتورة التوكنز (بما فيها توكنز التفكير الخفية) لكل طلب استخراج.
 2. **المرونة الدفاعية (`Defensive Error Handling`)**: عند فشل النموذج في مطابقة حقل صارم، يقوم وضع `include_raw=False` بإطلاق استثناء مباشر يكسر مسار التنفيذ. أما `include_raw=True` فيحتوي الخطأ داخل المفتاح `parsing_error` ويمنحك النص الخام `raw` لتتمكن من تمريره لحلقة تصحيح ذاتي (`Self-Correction Retry`)!
+
+### س3: متى تفضل استخدام `TypedDict` على `Pydantic` في أنظمة LangGraph؟ ولماذا قد يفشل `.profile` بعد ربط المخطط؟
+**الإجابة النموذجية:**
+يُفضل **`TypedDict`** لتعريف كائن الحالة الداخلية المشتركة (`Graph State`) أو في خطوات المعالجة السريعة داخل العقد حيث لا ترغب في تكلفة تحويل الكائنات أو تقييد تحديثات القاموس؛ بينما يظل **`Pydantic`** إلزامياً عند حدود الإدخال/الإخراج الخارجية (`API Boundaries`).  
+أما فشل `.profile` بعد استدعاء `with_structured_output()` فيحدث لأن الدالة لا تعيد `BaseChatModel`، بل تُنشئ تسلسلاً مركباً (`RunnableSequence`) يربط `[Model | Parser]`؛ لذلك يجب فحص `model.profile` على النموذج الأساسي قبل الربط للتحقق من دعم `structured_output` أو `image_inputs`.
 
 </div>
