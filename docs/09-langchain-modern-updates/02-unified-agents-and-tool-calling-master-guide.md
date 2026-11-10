@@ -1,7 +1,7 @@
 <div dir="rtl">
 
 # الدليل المعماري الشامل: بناء الوكلاء الموحدين واستدعاء الأدوات في LangChain v1+
-### Unified Agents (`create_agent`), Docstring Contracts, Graph Topology, and Message Execution Traces (Lecture 59)
+### Unified Agents (`create_agent`), `@tool` Decorator, `bind_tools()`, Manual Tool Execution Loop, and Message Traces (Lectures 59 & 61)
 
 ---
 
@@ -107,7 +107,94 @@ def get_weather(city: str) -> str:
 
 ---
 
-## 5. مصفوفة المفاضلة الهندسية (Legacy AgentExecutor vs LangChain v1 create_agent)
+## 5. تشريح الأدوات والمزخرف `@tool` وحلقة التنفيذ اليدوية (`Lecture 61`)
+
+تُعرّف الأداة (`Tool`) في `LangChain` رسمياً بأنها **اقترانٌ بين شيئين (`Pairing`)**:
+1. **المخطط الواصف (`Schema`)**: يضم اسم الأداة (`Name`)، الوصف النصي (`Description`)، وتعريف المعاملات وأنواعها (`Argument Definitions`).
+2. **الدالة التنفيذية (`Function or Coroutine`)**: الكود الفعلي الذي يتصل بقاعدة البيانات، أو يطلق طلب API، أو ينفذ حسابات رياضية.
+
+### أ. إنشاء الأداة باستخدام المزخرف `@tool`:
+```python
+from langchain.tools import tool
+
+@tool
+def get_weather(location: str) -> str:
+    """Get the weather at a location."""
+    return f"It's sunny in {location}."
+```
+* بمجرد إضافة `@tool` فوق الدالة، تتحول إلى كائن `StructuredTool` يمتلك خصائص فحص جاهزة:
+  * `get_weather.name`: `"get_weather"`
+  * `get_weather.description`: `"Get the weather at a location."`
+  * `get_weather.args`: `{'location': {'title': 'Location', 'type': 'string'}}`
+
+### ب. ربط الأدوات بالنموذج مباشرَةً (`model.bind_tools()`) — ما الذي يحدث خلف الكواليس؟
+عندما تستدعي `model_with_tools = model.bind_tools([get_weather])`، ثم تسأل `model_with_tools.invoke("What's the weather like in Boston?")`:
+* **تنبيه هندسي حاسم**: دالة `bind_tools()` **لا تنفّذ** دالة البايثون تلقائياً!
+* كل ما يفعله النموذج هو إرجاع رسالة من نوع `AIMessage` تحتوي على حقل `tool_calls` (طلب تنفيذ موجه لك أنت كمطور):
+  ```python
+  [{'name': 'get_weather', 'args': {'location': 'Boston'}, 'id': 'fc_123', 'type': 'tool_call'}]
+  ```
+
+### ج. حلقة التنفيذ اليدوية (`The Manual Tool Execution Loop`):
+لكي تفهم تماماً كيف يعمل `create_agent` من الداخل، إليك الخطوات الثلاث للحلقة اليدوية التي تبنيها عندما تستخدم `bind_tools()` مباشرة:
+
+</div>
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as المستخدم
+    participant Code as تطبيقك (Loop Controller)
+    participant LLM as model.bind_tools([get_weather])
+    participant Tool as أداة البايثون (@tool get_weather)
+
+    User->>Code: "What is the weather in Boston?"
+    Code->>LLM: 1. invoke([HumanMessage])
+    LLM-->>Code: يرجع AIMessage يحتوي على tool_calls=[{name: 'get_weather', args: {'location': 'Boston'}}]
+    Code->>Code: إضافة AIMessage لقائمة المحادثة messages
+    
+    loop لكل طلب أداة في ai_msg.tool_calls
+        Code->>Tool: 2. get_weather.invoke(tool_call)
+        Tool-->>Code: يرجع ToolMessage تلقائياً: "It's sunny in Boston."
+        Code->>Code: إضافة ToolMessage لقائمة المحادثة messages
+    end
+    
+    Code->>LLM: 3. invoke(messages الكاملة)
+    LLM-->>User: الإجابة النهائية الموثقة من نتيجة الأداة!
+```
+
+<div dir="rtl">
+
+```python
+# 1. إعداد المحادثة واستدعاء النموذج المربوط بالأدوات
+messages = [{"role": "user", "content": "What's the weather in Boston?"}]
+ai_msg = model_with_tools.invoke(messages)
+messages.append(ai_msg)
+
+# 2. تنفيذ كل طلب أداة تلقائياً وإلحاق النتيجة (ToolMessage)
+for tool_call in ai_msg.tool_calls:
+    # تمرير قاموس tool_call كاملاً للدالة يرجع ToolMessage متوافقاً تلقائياً مع ID الطلب!
+    tool_msg = get_weather.invoke(tool_call)
+    messages.append(tool_msg)
+
+# 3. استدعاء النموذج ثانيةً بالسياق الكامل لتوليد الإجابة النهائية
+final_response = model_with_tools.invoke(messages)
+print(final_response.content)
+```
+
+---
+
+## 6. مصفوفة المفاضلة الهندسية: متى نستخدم `bind_tools()` اليدوية مقابل `create_agent()`؟
+
+| المعيار الهندسي | `model.bind_tools()` + حلقة يدوية | `create_agent()` في LangChain v1 |
+| :--- | :--- | :--- |
+| **التحكم في التنفيذ** | تحكم مطلق $100\%$ في كل سطر قبل وبعد تنفيذ الأداة. | آلية مدارة تلقائياً عبر LangGraph runtime. |
+| **بساطة الكود** | يتطلب كتابة حلقة `while` أو `for` وإدارة قائمة الرسائل يدوياً. | سطر واحد ينتج رسماً بيانياً دائرياً متكاملاً. |
+| **الحالات الأنسب** | استدعاء وحيد لمرة واحدة (`Single-shot Extraction`)، أو دمج منطق أمني صارم جداً بين الخطوات. | الوكلاء متعددو الخطوات (`Multi-hop Agents`)، وحفظ الذاكرة، والـ Middlewares. |
+
+---
+
+## 7. مصفوفة المقارنة المعمارية (Legacy AgentExecutor vs LangChain v1 create_agent)
 
 | المعيار الهندسي | النمط القديم (`AgentExecutor + ReAct`) | النمط الحديث (`LangChain v1 create_agent`) |
 | :--- | :--- | :--- |
@@ -119,7 +206,7 @@ def get_weather(city: str) -> str:
 
 ---
 
-## 6. أسئلة المقابلات المتقدمة للـ Senior AI Engineers
+## 8. أسئلة المقابلات المتقدمة للـ Senior AI Engineers
 
 ### س1: لماذا يُطلق `create_agent` خطأ إذا لم تمرر الأدوات أو مررت `verbose=True`، وما هي البدائل الإنتاجية لمراقبة تنفيذ الوكيل؟
 **الإجابة النموذجية:**
@@ -134,5 +221,10 @@ def get_weather(city: str) -> str:
 1. نبدأ بجملة أمرية حاسمة توضح **متى تُستخدم الأداة ومتى لا تُستخدم** (مثلاً: *"Use ONLY for real-time weather lookups; do NOT use for historical climate averages."*).
 2. نوثق كل معامل (`Args`) بصيغة واضحة، مع ذكر الصيغة المطلوبة (مثل: *"city: Full English city name without abbreviations, e.g., 'New York'"*).
 3. نستخدم `Annotated` أو `Pydantic Field` لتعزيز التحقق من صحة المدخلات قبل وصولها للدالة الفعلية.
+
+### س3: ما الخطأ الشائع الذي يقع فيه المطورون عند استخدام `model.bind_tools()`، ولماذا نمرر كائن `tool_call` كاملاً إلى `tool.invoke(tool_call)`؟
+**الإجابة النموذجية:**
+الخطأ الشائع هو اعتقاد المطور أن `model.bind_tools([my_tool]).invoke(prompt)` سينفذ الدالة تلقائياً؛ الحقيقة أن النموذج اللغوي لا يملك صلاحية تنفيذ الكود محلياً، بل يكتفي بإرجاع `AIMessage` تحتوي على حقل `tool_calls` فقط.  
+عندما ننفذ الأداة في حلقة التنفيذ اليدوية، نمرر قاموس `tool_call` كاملاً (`{'name': ..., 'args': ..., 'id': ...}`) إلى `my_tool.invoke(tool_call)` بدلاً من تمرير المعاملات مجردةً، والسبب المعماري هو أن `LangChain` يتعرف على وجود مفتاح `'id'` ويُغلف النتيجة تلقائياً في كائن **`ToolMessage`** مرتبط برقم `tool_call_id` المطابق، وهو شرط إلزامي في API معظم النماذج (مثل OpenAI و Groq و Anthropic) لقبول الرد في الجولة التالية!
 
 </div>
