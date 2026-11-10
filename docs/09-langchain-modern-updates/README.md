@@ -21,6 +21,9 @@
 4. 📄 **[الدليل الشامل 04: بنية الرسائل والبيانات الوصفية وتتبع التوكنز (04-messages-architecture-and-telemetry-master-guide.md)](./04-messages-architecture-and-telemetry-master-guide.md)** *(المحاضرة 62)*
    * تفكيك الرسالة (`Role`, `Content`, `Metadata`)، المقارنة بين `Text Prompts` و `Message Prompts`، هندسة `SystemMessage` الغنية، حقن `AIMessage` يدوياً، ربط `ToolMessage` برقم الطلب `tool_call_id`، ومراقبة تكلفة التوكنز عبر `usage_metadata`.
 
+5. 📄 **[الدليل الشامل 05: المخرجات المهيكلة والتحقق عبر `Pydantic` (`05-structured-outputs-pydantic-master-guide.md`)](./05-structured-outputs-pydantic-master-guide.md)** *(المحاضرة 63)*
+   * ربط المخططات بـ `model.with_structured_output()`، توصيف وتحقق الحقول عبر `Field`، استخراج الرسالة الخام والتكلفة عبر `include_raw=True`، وبناء الهياكل المتداخلة (`Nested Pydantic Schemas`).
+
 ---
 
 ## فهرس المشاريع البرمجية التابعة للمرحلة
@@ -33,6 +36,7 @@
 | 04 | **البث اللحظي للتوكنز والمعالجة المتوازية (`stream` & `batch`)** | Lecture 60 | [`04-model-streaming-and-batch.ipynb`](../../stages/09-langchain-modern-updates/04-model-streaming-and-batch/04-model-streaming-and-batch.ipynb) | [`04-model-streaming-and-batch.ipynb`](../../playground/09-langchain-modern-updates/04-model-streaming-and-batch.ipynb) | مكتمل |
 | 05 | **إنشاء الأدوات المخصصة (`@tool`) وحلقة التنفيذ اليدوية (`bind_tools`)** | Lecture 61 | [`05-tools-creation-and-execution-loop.ipynb`](../../stages/09-langchain-modern-updates/05-tools-creation-and-execution-loop/05-tools-creation-and-execution-loop.ipynb) | [`05-tools-creation-and-execution-loop.ipynb`](../../playground/09-langchain-modern-updates/05-tools-creation-and-execution-loop.ipynb) | مكتمل |
 | 06 | **بنية الرسائل الأربعة والبيانات الوصفية وتتبع التوكنز** | Lecture 62 | [`06-messages-architecture-and-metadata.ipynb`](../../stages/09-langchain-modern-updates/06-messages-architecture-and-metadata/06-messages-architecture-and-metadata.ipynb) | [`06-messages-architecture-and-metadata.ipynb`](../../playground/09-langchain-modern-updates/06-messages-architecture-and-metadata.ipynb) | مكتمل |
+| 07 | **المخرجات المهيكلة والتحقق عبر `Pydantic` والهياكل المتداخلة** | Lecture 63 | [`07-structured-output-pydantic.ipynb`](../../stages/09-langchain-modern-updates/07-structured-output-pydantic/07-structured-output-pydantic.ipynb) | [`07-structured-output-pydantic.ipynb`](../../playground/09-langchain-modern-updates/07-structured-output-pydantic.ipynb) | مكتمل |
 
 ---
 
