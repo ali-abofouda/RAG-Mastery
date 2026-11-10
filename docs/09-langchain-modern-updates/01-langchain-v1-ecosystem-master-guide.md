@@ -1,7 +1,7 @@
 <div dir="rtl">
 
 # الدليل المعماري الشامل: تحديثات LangChain الحديثة وبيئة التطوير السريعة (LangChain v1+ & UV Ecosystem Master Guide)
-### Modern Agent Runtime, Middleware Architecture, Rust-Based UV Tooling, and Agentic IDEs (Lecture 57)
+### Modern Agent Runtime, Middleware Architecture, Rust-Based UV Tooling, and Production Environment Lifecycle (Lectures 57 - 58)
 
 ---
 
@@ -88,23 +88,68 @@ flowchart TD
 | **`Poetry`** | Python | متوسطة إلى بطيئة | مدمجة | يوجد (`poetry.lock`) | جيد، لكنه تراجع أمام سرعة `uv` |
 | **`uv`** | **Rust** | **فائقة ($10\times$ - $100\times$)** | **مدمجة ومتكاملة** | **يوجد (`uv.lock`) قياسي وعالمي** | **المعيار الذهبي الموصى به لمشاريع AI 2026** |
 
-### ج. الأوامر الأساسية اليومية لـ `uv`:
-```bash
-# 1. تهيئة مشروع بايثون جديد (ينشئ pyproject.toml و .python-version)
-uv init my-langchain-project
+### ج. دورة حياة إعداد المشروع العملي خطوة بخطوة (`End-to-End UV Lifecycle`)
 
-# 2. إنشاء البيئة الافتراضية وتفعيلها تلقائياً
-uv venv
+من المحاضرة 58، يمر تأسيس أي مشروع LangChain v1+ احترافي بخمس خطوات قياسية متتالية:
 
-# 3. إضافة مكتبة وتحديث ملف القفل uv.lock فوراً
-uv add langchain langchain-core langgraph langchain-groq pydantic
+</div>
 
-# 4. مزامنة البيئة بالكامل على أي جهاز آخر أو داخل حاوية Docker
-uv sync
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Dev as مهندس الذكاء الاصطناعي
+    participant UV as مدير الحزم السريع (uv)
+    participant VENV as البيئة الافتراضية المعزولة (.venv)
+    participant TOML as ملف التكوين (pyproject.toml)
+    participant ENV as ملف المفاتيح الآمن (.env)
 
-# 5. تشغيل أي سكريبت أو نوت بوك داخل البيئة المعزولة مباشرة
-uv run python app.py
+    Dev->>UV: تثبيت uv (PowerShell على Windows أو curl على Linux/Mac)
+    Dev->>UV: uv init (تهيئة المشروع)
+    UV->>TOML: إنشاء pyproject.toml و .python-version و main.py
+    Dev->>UV: uv venv (تأسيس البيئة الافتراضية)
+    UV->>VENV: إنشاء مجلد .venv معزولاً بإصدار Python 3.12/3.13
+    Dev->>VENV: تفعيل البيئة (.venv\Scripts\activate أو source .venv/bin/activate)
+    Dev->>UV: uv add -r requirements.txt (أو uv add <pkg>)
+    UV->>TOML: تحديث Dependencies + قفل الإصدارات في uv.lock
+    Dev->>UV: uv add ipykernel (لربط البيئة بنوت بوك Jupyter)
+    Dev->>ENV: تخزين مفاتيح GOOGLE_API_KEY و GROQ_API_KEY و OPENAI_API_KEY
 ```
+
+<div dir="rtl">
+
+#### 1. أوامر التثبيت والتأسيس حسب نظام التشغيل:
+
+| الخطوة | Windows (PowerShell) | macOS / Linux (Bash/Zsh) | الأثر الهندسي |
+| :--- | :--- | :--- | :--- |
+| **تثبيت `uv`** | `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` | `curl -LsSf https://astral.sh/uv/install.sh \| sh` | تثبيت الأداة على مستوى النظام |
+| **تهيئة المستودع** | `uv init langchain-updated` | `uv init langchain-updated` | توليد `pyproject.toml` و `.python-version` |
+| **إنشاء البيئة الافتراضية** | `uv venv` | `uv venv` | إنشاء مجلد `.venv` *(احذر وضع `/` بعد `venv`)* |
+| **تفعيل البيئة** | `.venv\Scripts\activate` | `source .venv/bin/activate` | توجيه الطرفية للعمل داخل البيئة المعزولة |
+| **تثبيت الحزم من ملف** | `uv add -r requirements.txt` | `uv add -r requirements.txt` | التثبيت التلقائي وتسجيل النسخ في `pyproject.toml` |
+| **تثبيت نواة Jupyter** | `uv add ipykernel` | `uv add ipykernel` | إتاحة البيئة المعزولة لتشغيل ملفات `.ipynb` |
+
+#### 2. حزمة المكتبات القياسية لمشاريع Multi-Provider LangChain:
+عند تأسيس بيئة تدعم التبديل بين النماذج السحابية والمحلية، يُفضل تجميعها في `requirements.txt` (خارج مجلد `.venv`):
+```text
+langchain
+langchain-community
+langchain-openai
+langchain-groq
+langchain-google-genai
+python-dotenv
+```
+> **ميزة `uv add -r`**: بدلاً من التثبيت الصامت عبر `pip install -r` الذي لا يحدث ملف المشروع، يقوم الأمر `uv add -r requirements.txt` بقراءة كافة المكتبات، وتثبيت أحدث الإصدارات المتوافقة، وكتابتها تلقائياً داخل قسم `dependencies` في ملف `pyproject.toml` مع توثيق الشجرة الكاملة في `uv.lock`.
+
+#### 3. حوكمة وأمان مفاتيح الـ API (`.env` & `python-dotenv`):
+في المشاريع الإنتاجية التي تدمج نماذج متنوعة (`OpenAI GPT`, `Google Gemini`, `Groq LPU`):
+1. تُجمع المفاتيح الحساسة داخل ملف `.env` في جذر المشروع:
+   ```env
+   GOOGLE_API_KEY="AIzaSy..."
+   GROQ_API_KEY="gsk_..."
+   OPENAI_API_KEY="sk-proj-..."
+   ```
+2. يتم تحميلها آلياً في بايثون عبر `from dotenv import load_dotenv; load_dotenv()`.
+3. **قاعدة أمنية حتمية**: يجب إدراج ملف `.env` ومجلد `.venv/` دائماً داخل `.gitignore` لمنع تسرب مفاتيح الشركات عبر مستودعات Git.
 
 ---
 

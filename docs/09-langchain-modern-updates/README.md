@@ -10,12 +10,13 @@
 ## الدليل المعماري الموحد للمرحلة (Master Guide)
 
 📄 **[الدليل الشامل: تحديثات LangChain الحديثة وبيئة التطوير السريعة (01-langchain-v1-ecosystem-master-guide.md)](./01-langchain-v1-ecosystem-master-guide.md)**
-* **المحاضرات المشمولة**: المحاضرة 57 (وسيتم تحديث هذا الدليل تتابعياً مع باقي محاضرات السكشن).
+* **المحاضرات المشمولة**: المحاضرتان 57 و 58 (تحديثات LangChain v1+ وتأسيس بيئة UV والمفاتيح).
 * **المحتوى العلمي الموحد**:
   * التحول المعماري من سلاسل `LangChain 0.x` التقليدية إلى معمارية الوكلاء الموحدة (`create_agent`) ومحرك `LangGraph`.
   * المحاور الثمانية الجديدة: `init_chat_model`، الوكلاء الموحدين، الأدوات (`@tool`)، المخرجات المهيكلة (`Pydantic`)، أنواع الرسائل، الذاكرة القصيرة، البث اللحظي، والبرمجيات الوسيطة (`Middlewares`).
   * تشريح بنية الـ **Middleware** المدمجة والمخصصة (`AgentMiddleware`, `HumanInTheLoopMiddleware`).
-  * مدير الحزم السريع **`uv`** المكتوب بلغة Rust والمقارنة الشاملة مع `pip` و `conda` و `Poetry`.
+  * مدير الحزم السريع **`uv`** ودورة التأسيس الكاملة (`uv init`, `uv venv`, `.venv` activation, `uv add -r`, `ipykernel`).
+  * حوكمة مفاتيح الـ API عبر `.env` و `.gitignore` لمزودي الخدمة (`Google Gemini`, `Groq`, `OpenAI`).
   * بيئات التطوير الوكالية الحديثة (`Agentic IDEs: Google Antigravity, Cursor, VS Code`).
   * أسئلة المقابلات المتقدمة للـ Senior AI Engineers.
 
@@ -26,6 +27,7 @@
 | الرقم | عنوان الموضوع البرمجي | المحاضرة المقابلة | الكود المرجعي (`stages/`) | معمل التجربة (`playground/`) | الحالة |
 | :---: | :--- | :---: | :---: | :---: | :---: |
 | 01 | **استكشاف منظومة LangChain v1+ وإعداد بيئة UV** | Lecture 57 | [`01-langchain-uv-setup-and-ecosystem.ipynb`](../../stages/09-langchain-modern-updates/01-langchain-uv-setup-and-ecosystem/01-langchain-uv-setup-and-ecosystem.ipynb) | [`01-langchain-uv-setup-and-ecosystem.ipynb`](../../playground/09-langchain-modern-updates/01-langchain-uv-setup-and-ecosystem.ipynb) | مكتمل |
+| 02 | **تأسيس البيئة الافتراضية وحوكمة المكتبات والمفاتيح بـ UV** | Lecture 58 | [`02-uv-environment-and-keys-setup.ipynb`](../../stages/09-langchain-modern-updates/02-uv-environment-and-keys-setup/02-uv-environment-and-keys-setup.ipynb) | [`02-uv-environment-and-keys-setup.ipynb`](../../playground/09-langchain-modern-updates/02-uv-environment-and-keys-setup.ipynb) | مكتمل |
 
 ---
 
