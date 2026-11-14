@@ -41,4 +41,5 @@
 | **07** | [`07-multimodal-rag/`](./07-multimodal-rag/) | الـ RAG متعدد الوسائط واسترجاع وفهرسة الصور والرسوم البيانية مع النصوص | [README](./07-multimodal-rag/README.md) |
 | **08** | [`08-agentic-ai-foundations/`](./08-agentic-ai-foundations/) | أسس وكلاء الذكاء الاصطناعي، الأركان الإدراكية الأربعة، ومقارنة AI Agents ضد Agentic AI | [README](./08-agentic-ai-foundations/README.md) |
 | **09** | [`09-langchain-modern-updates/`](./09-langchain-modern-updates/) | تحديثات LangChain v1+ الحديثة، مدير الحزم السريع UV، وبنية الـ Middleware | [README](./09-langchain-modern-updates/README.md) |
+| **10** | [`10-langgraph-fundamentals/`](./10-langgraph-fundamentals/) | أساسيات LangGraph، معمارية Pregel/BSP، الرسوم البيانية الدائرية، والذاكرة المستمرة (HITL) | [README](./10-langgraph-fundamentals/README.md) |
 | **15** | [`capstone/`](./capstone/) | المعمارية الشاملة لمشروع التطبيق النهائي المتكامل | [README](./capstone/README.md) |
