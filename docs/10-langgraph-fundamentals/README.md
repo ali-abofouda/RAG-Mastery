@@ -9,6 +9,7 @@
 | رقم المحاضرة | عنوان المحاضرة | الدليل النظري والمعماري | الكود المرجعي (`stages/`) | المعمل التفاعلي (`playground/`) | الحالة |
 | :---: | :--- | :--- | :--- | :--- | :---: |
 | **68** | مقدمة LangGraph وهندسة النظم المعتمدة على الحالة (Stateful Multi-Actor Systems, Pregel, Checkpointing, HITL) | [`01-langgraph-foundations-master-guide.md`](./01-langgraph-foundations-master-guide.md) | [`01-langgraph-introduction.ipynb`](../../stages/10-langgraph-fundamentals/01-langgraph-introduction/01-langgraph-introduction.ipynb) | [`01-langgraph-introduction.ipynb`](../../playground/10-langgraph-fundamentals/01-langgraph-introduction.ipynb) | مكتمل |
+| **69** | إعداد بيئة عمل LangGraph وهندسة المراقبة والتتبع (Prefix Environments, VS Code Kernel, Secrets & Telemetry) | [`02-langgraph-environment-and-telemetry-master-guide.md`](./02-langgraph-environment-and-telemetry-master-guide.md) | [`02-environment-and-workspace-setup.ipynb`](../../stages/10-langgraph-fundamentals/02-environment-and-workspace-setup/02-environment-and-workspace-setup.ipynb) | [`02-environment-and-workspace-setup.ipynb`](../../playground/10-langgraph-fundamentals/02-environment-and-workspace-setup.ipynb) | مكتمل |
 
 ---
 
