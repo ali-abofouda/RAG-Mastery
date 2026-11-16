@@ -8,8 +8,8 @@
 
 | رقم المحاضرة | عنوان المحاضرة | الوثيقة المعمارية (`docs/`) | الكود المرجعي والتطبيقي (`projects/`) | المرحلة (Phase) |
 | :---: | :--- | :--- | :--- | :---: |
-| **142** | الترحيب بمشروع مساعد الـ HR واستعراض النظام الحي | [`01-hr-policy-assistant-architecture-and-overview.md`](./01-hr-policy-assistant-architecture-and-overview.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Kickoff & Overview |
-| **143** | مقدمة لمعمارية وهندسة المشروع | قيد المعالجة | قيد المعالجة | Architecture |
+| **142** | الترحيب بمشروع مساعد الـ HR واستعراض النظام الحي | [`01-hr-policy-assistant-architecture-and-overview.md`](./01-hr-policy-assistant-architecture-and-overview.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Kickoff & Overview (مكتمل) |
+| **143** | مقدمة لمعمارية المشروع ومراحل التطور الثلاث | [`02-project-architecture-and-three-phase-evolution.md`](./02-project-architecture-and-three-phase-evolution.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Architecture & Roadmap (مكتمل) |
 | **144 - 151** | الطور الأول: الاسترجاع الهجين المحلي وجراف الوكيل | قيد المعالجة | قيد المعالجة | Phase 1: Local Hybrid RAG |
 | **152 - 159** | الطور الثاني: أمان النماذج اللغوية واختبارات الاختراق | قيد المعالجة | قيد المعالجة | Phase 2: LLM Security & Evals |
 | **160 - 163** | الطور الثالث: الحاويات والنشر السحابي الكامل | قيد المعالجة | قيد المعالجة | Phase 3: Deployment |
