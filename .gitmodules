@@ -1,0 +1,3 @@
+[submodule "projects/01-rag-applications/01-hr-policy-rag-assistant"]
+	path = projects/01-rag-applications/01-hr-policy-rag-assistant
+	url = https://github.com/ali-abofouda/hr-policy-rag-assistant.git
