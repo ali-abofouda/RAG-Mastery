@@ -36,3 +36,7 @@ data/databases/
 data/chroma_sample_data/
 *.index
 *.faiss
+
+# Course raw reference source
+course_source/
+*.rar
