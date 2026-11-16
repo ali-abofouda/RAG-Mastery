@@ -1,4 +1,4 @@
-# HR Policy RAG Assistant with Enterprise AI Security
+# Section 30: HR Policy RAG Assistant with Enterprise AI Security
 
 An end-to-end, enterprise-grade Retrieval-Augmented Generation (RAG) assistant designed for Human Resources policy resolution in corporate multi-national environments. Engineered with defense-in-depth security, adversarial resilience, multi-model routing via a self-hosted gateway, and cloud containerization.
 

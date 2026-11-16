@@ -1,5 +1,5 @@
-# دليل المعمارية والمقدمة: مساعد سياسات الموارد البشرية المؤمن للشركات الكبرى
-# (HR Policy RAG Assistant with Enterprise AI Security - System Architecture & Kickoff)
+# القسم 30 / المحاضرة 142: الدليل المعماري والمقدمة - مساعد سياسات الموارد البشرية المؤمن للشركات الكبرى
+# (Section 30 / Lecture 142: HR Policy RAG Assistant with Enterprise AI Security - System Architecture & Kickoff)
 
 ---
 
