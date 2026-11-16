@@ -4,7 +4,7 @@
 
 ---
 
-## 🧭 خريطة وثائق ومحاضرات المشروع (Project Lectures Roadmap)
+## خريطة وثائق ومحاضرات المشروع (Project Lectures Roadmap)
 
 | رقم المحاضرة | عنوان المحاضرة | الوثيقة المعمارية (`docs/`) | الكود المرجعي والتطبيقي (`projects/`) | المرحلة (Phase) |
 | :---: | :--- | :--- | :--- | :---: |
@@ -13,12 +13,14 @@
 | **144** | الطور الأول: تأسيس الاسترجاع الهجين المحلي وهندسة البيانات المشوشة | [`03-phase-1-local-hybrid-rag-foundations.md`](./03-phase-1-local-hybrid-rag-foundations.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Foundations & Setup (مكتمل) |
 | **145** | إدارة الإعدادات المركزية وتكوين البيئة والمفاتيح | [`04-project-settings-and-configuration-management.md`](./04-project-settings-and-configuration-management.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Configuration Management (مكتمل) |
 | **146** | تحميل الوثائق وهندسة معالجة الصيغ المتعددة وموجهات النظام | [`05-document-loading-and-multi-format-processing.md`](./05-document-loading-and-multi-format-processing.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Document Loading & Multi-format (مكتمل) |
+| **147** | تقطيع المستندات وتوليد التضمينات والتخزين المتجهي الهجين | [`06-document-chunking-and-vector-store-ingestion.md`](./06-document-chunking-and-vector-store-ingestion.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Ingestion & Hybrid Vector Store (مكتمل) |
+| **148 - 151** | بناء خط أنابيب الإدخال والاسترجاع وإعادة الترتيب | قيد المعالجة | قيد المعالجة | Phase 1: Ingestion & Retrieval Pipeline |
 | **152 - 159** | الطور الثاني: أمان النماذج اللغوية واختبارات الاختراق | قيد المعالجة | قيد المعالجة | Phase 2: LLM Security & Evals |
 | **160 - 163** | الطور الثالث: الحاويات والنشر السحابي الكامل | قيد المعالجة | قيد المعالجة | Phase 3: Deployment |
 
 ---
 
-## 🎯 الأهداف المعمارية والعملية للمشروع
+## الأهداف المعمارية والعملية للمشروع
 1. **التعامل مع قواعد البيانات المشوشة (`Noisy Enterprise Databases`)** عبر تقنيات الـ `Re-ranking` لضمان دقة الاسترجاع حتى في بيئات البيانات غير المنتظمة.
 2. **بناء بوابة ذكاء اصطناعي ذاتية الاستضافة (`Self-Hosted LiteLLM Gateway`)** لتوحيد الاستدعاء وإدارة التبديل التلقائي بين النماذج وحساب التكاليف.
 3. **تطبيق دروع الحماية المتقدمة (`Google Model Armor & Guardrails`)** لمنع الـ Prompt Injection وتحديد نطاق التخصص.
