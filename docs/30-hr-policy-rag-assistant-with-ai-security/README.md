@@ -15,7 +15,8 @@
 | **146** | تحميل الوثائق وهندسة معالجة الصيغ المتعددة وموجهات النظام | [`05-document-loading-and-multi-format-processing.md`](./05-document-loading-and-multi-format-processing.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Document Loading & Multi-format (مكتمل) |
 | **147** | تقطيع المستندات وتوليد التضمينات والتخزين المتجهي الهجين | [`06-document-chunking-and-vector-store-ingestion.md`](./06-document-chunking-and-vector-store-ingestion.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Ingestion & Hybrid Vector Store (مكتمل) |
 | **148** | أتمتة وتنسيق خط إدخال البيانات والتحكم عبر الـ CLI | [`07-data-ingestion-pipeline-orchestration.md`](./07-data-ingestion-pipeline-orchestration.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Ingestion Pipeline Orchestration (مكتمل) |
-| **149 - 151** | بناء محرك الاسترجاع وإعادة الترتيب وسلسلة التوليد | قيد المعالجة | قيد المعالجة | Phase 1: Retrieval & Generation Pipeline |
+| **149** | بناء محرك الاسترجاع وإعادة الترتيب ووكيل المساعد | [`08-retrieval-and-agent-pipeline.md`](./08-retrieval-and-agent-pipeline.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Retrieval & Agent Pipeline (مكتمل) |
+| **150 - 151** | خط أنابيب الاستعلام التفاعلي وواجهة Streamlit | قيد المعالجة | قيد المعالجة | Phase 1: Query Pipeline & UI |
 | **152 - 159** | الطور الثاني: أمان النماذج اللغوية واختبارات الاختراق | قيد المعالجة | قيد المعالجة | Phase 2: LLM Security & Evals |
 | **160 - 163** | الطور الثالث: الحاويات والنشر السحابي الكامل | قيد المعالجة | قيد المعالجة | Phase 3: Deployment |
 
