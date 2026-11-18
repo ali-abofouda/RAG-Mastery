@@ -1,36 +1,42 @@
 # 00 - أساسيات ومفاهيم RAG (RAG Fundamentals)
+### Handbook Index & Overview (`docs/00-rag-fundamentals/`)
 
-مرحلة تمهيدية تأسيسية مخصصة لشرح وتوثيق فكرة الـ RAG، ودوافع استخدامها، والمقارنة المعيارية مع هندسة الأوامر وإعادة التدريب الدقيق، وصولاً لتفكيك المكونات الهيكلية لمنظومة الـ RAG.
+مرحلة تمهيدية تأسيسية مخصصة لشرح وتوثيق معمارية الـ **RAG**، دوافعها الهندسية، المقارنة المعيارية مع هندسة الأوامر والتدريب الدقيق، وتفكيك خطوط العمل المنفصلة (مسار الـ Ingestion غير المتزامن ومسار الـ Serving المتزامن)، مدعومة **بكود بايثون تطبيقي كامل وقابل للتشغيل**.
 
 ---
 
-## شروحات ومذكرات أساسيات الـ RAG:
+## فهرس الأدلة المفاهيمية والتطبيقية:
 
-1. 📄 **[01 - ما هو الـ RAG؟ (Introduction to RAG)](./01-introduction-to-rag.md)**
-   * تعريف الـ RAG وتشبيه الامتحان المفتوح/المغلق (Open vs Closed Book).
-   * مشكلات النماذج التقليدية: انقطاع المعرفة والبيانات الخاصة.
+1. 📄 **[01 - ما هو الـ RAG؟ والحدس الهندسي للمعمارية (Introduction to RAG)](./01-introduction-to-rag.md)**
+   * مفهوم الـ RAG وتشبيه الامتحان المفتوح والمغلق (Open vs Closed Book).
    * تفكيك الحروف الثلاثة: Retrieval و Augmentation و Generation.
-   * المراحل الثلاث الكبرى لمعمارية الـ RAG.
+   * المخطط المعماري الشامل (End-to-End Architectural Flow).
+   * **الكود التطبيقي**: بناء نظام RAG مصغر وشغال بالكامل من الصفر بالبايثون (`Minimal Working Pipeline`).
 
 2. 📄 **[02 - مميزات RAG وأثره في بيئة الأعمال (Advantages & Business Impact)](./02-examples-and-advantages-of-rag.md)**
    * تشبيه الشيف ومكتبة الوصفات ومعضلة الـ Hallucination.
-   * مقارنة عملية في خدمة العملاء (Customer Support: Without RAG vs With RAG).
-   * دراسات حالة وأرقام دقيقة: JP Morgan ($150M savings)، Microsoft Copilot (94% drop in hallucination)، Bloomberg.
-   * الامتثال والحوكمة (100% Source Attribution & Audit Trail)، والعائد الاستثماري (312% ROI).
+   * دراسة مقارنة في خدمة العملاء (Customer Support: Without RAG vs With RAG).
+   * أرقام ودراسات حالة واقعية من كبرى الشركات (JP Morgan, Microsoft Copilot).
+   * حوكمة البيانات، الامتثال (`GDPR / HIPAA`)، وإسناد المصادر (`Source Attribution`).
+   * **الكود التطبيقي**: أداة برمجية لفحص صحة الاستشهادات وحساب نسبة الـ Citation Faithfulness.
 
 3. 📄 **[03 - المقارنة الثلاثية: Prompting vs Fine-Tuning vs RAG](./03-prompt-engineering-vs-finetuning-vs-rag.md)**
-   * شجرة اتخاذ القرار ومصفوفة المقارنة الشاملة (Decision Tree & Comparison Matrix).
-   * تفكيك كل مسار: المفهوم، آلية العمل، الأوزان، والمزايا والعيوب.
-   * القاعدة الذهبية للاختيار بين الأساليب الثلاثة.
+   * شجرة اتخاذ القرار المعمارية (Decision Tree).
+   * تفكيك كل مسار: متى نعدل الأوزان (LoRA) ومتى نسترجع المعرفة ديناميكياً.
+   * مصفوفة المقارنة الهندسية الشاملة والمفاضلات (Trade-offs).
+   * **الكود التطبيقي**: مقارنة عملية بالبايثون بين استدعاءات المسارات الثلاثة.
+   * القاعدة الذهبية للاختيار بين الأساليب.
 
-4. 📄 **[04 - المكونات الأساسية للـ RAG ومرحلة إدخال البيانات (Data Ingestion & Pre-processing)](./04-data-ingestion-and-preprocessing.md)**
-   * المكونات الهيكلية الكبرى (Ingestion ➔ Query Processing ➔ Generation).
-   * خطوات خط معالجة البيانات: مصادر البيانات المتعددة، التجزئة (Chunking)، وأسبابها.
-   * نماذج التضمين الدلالي (Embedding Models: OpenAI & Hugging Face).
-   * قواعد البيانات المتجهة (Vector DBs: Chroma, FAISS, Pinecone, DataStax) وتقنيات البحث.
+4. 📄 **[04 - خط إدخال ومعالجة البيانات (Data Ingestion Pipeline)](./04-data-ingestion-and-preprocessing.md)**
+   * معمارية الـ Offline Ingestion: Loaders ➔ Splitters ➔ Embedders ➔ Vector DBs.
+   * استخراج وتثبيت الميتاداتا لضمان التوثيق وتطبيق الصلاحيات.
+   * مفهوم التقطيع النصي والتداخل (`Chunk Size & Overlap`) وأهميته لحفظ السياق.
+   * نماذج التضمين الدلالي وقواعد بيانات المتجهات وخوارزميات `ANN`.
+   * **الكود التطبيقي**: كلاس تقطيع نصوص ذكي بنمط Sliding Window مع حفظ الميتاداتا وتخزينها في Vector Store.
 
-5. 📄 **[05 - معالجة الاستعلام والتوليد (Query Processing & Generation Phases)](./05-query-processing-and-generation.md)**
-   * رحلة الاستعلام: تضمين السؤال (Query Embedding)، والبحث الدلالي عن أفضل الفقرات (Top-k Chunks).
-   * تعزيز وإثراء السياق بالميتا-داتا وبناء الـ Augmented Prompt.
-   * مرحلة التوليد عبر نماذج الـ LLM (OpenAI, Gemini, Llama 3 via Groq).
-   * جدول ملخص المعمارية الكاملة والتحضير للانتقال للتطبيق العملي في `01-ingestion`.
+5. 📄 **[05 - معالجة الاستعلام والتوليد المعزز (Query Processing & Generation)](./05-query-processing-and-generation.md)**
+   * مخطط التسلسل الزمني لرحلة الاستعلام اللحظية (`Sequence Diagram`).
+   * تضمين الاستعلام وأهمية مطابقة نموذج التضمين.
+   * البحث الدلالي مع فلاتر الميتاداتا المسبقة وتطبيق عتبة التشابه (`Similarity Thresholding`).
+   * صياغة البرومبت المعزز وفرض قيود منع الهلوسة (`Temperature = 0.0`).
+   * **الكود التطبيقي**: كلاس متكامل لخدمة الاستعلامات (`Query Serving Pipeline`) مع الفلترة والرفض التلقائي للأسئلة خارج النطاق.

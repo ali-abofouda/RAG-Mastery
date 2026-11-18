@@ -1,19 +1,19 @@
 # مميزات RAG وأثره في بيئة الأعمال (Advantages & Business Impact)
-### Architectural Guide (`docs/00-rag-fundamentals/02-examples-and-advantages-of-rag.md`)
+### Architectural & Implementation Guide (`docs/00-rag-fundamentals/02-examples-and-advantages-of-rag.md`)
 
-في البيئات المؤسسية والحكومية، لا يُقاس نجاح أنظمة الذكاء الاصطناعي ببلاغة الإجابة فحسب، بل بمدى **الدقة التوثيقية (`Factual Precision`)**، و**الامتثال التنظيمي (`Regulatory Compliance`)**، و**العائد على الاستثمار (`Return on Investment - ROI`)**.
+في بيئات الأعمال والمؤسسات الكبرى، لا يُقاس نجاح تطبيقات الذكاء الاصطناعي ببلاغة النص المولد فحسب، بل بمدى **الدقة التوثيقية (`Factual Precision`)**، و**الامتثال التنظيمي (`Regulatory Compliance`)**، و**العائد على الاستثمار (`Return on Investment - ROI`)**.
 
-في هذا الدليل، نستعرض كيف أحدثت معمارية الـ `RAG` ثورة في بيئات الأعمال بالأرقام ودراسات الحالة والتحليلات الاقتصادية.
+في هذا الدليل، نستعرض الأثر العملي لمعمارية الـ `RAG`، وحالات الاستخدام الواقعية، وكيفية التحقق البرمجي من إسناد المصادر (`Source Attribution`).
 
 ---
 
 ## 1. تشبيه الشيف ومكتبة الوصفات (The Executive Analogy)
 
-تخيل أن لديك شيفاً عبقرياً حائزاً على نجوم ميشلان (`LLM`)؛ يمتلك مهارات طهي خارقة وإدراكاً عميقاً لمزج النكهات وطرق التحضير.
-* **الوضع بدون RAG**: تطلب من الشيف إعداد طبق نادر بناءً على متطلبات غذائية طبية خاصة جداً لمريض دخل المطعم للتو. الشيف لا يعرف التاريخ الطبي للزبون، لكن بدافع الثقة والحرج، يبتكر وصفة من خياله، قد تحتوي على مكونات تسبب حساسية قاتلة للمريض!
-* **الوضع مع RAG**: توفر للشيف مساعداً خاصاً (`Retriever`) يقف بجانبه ومعه الملف الطبي للمريض وكتاب الوصفات المعتمدة من وزارة الصحة. المساعد يفتح فوراً الصفحة التي تحدد موانع الحساسية للمريض ويضعها أمام الشيف، قائلاً: *"أعد الطبق مستخدماً هذه المكونات فقط وبناءً على هذه القواعد الصارمة"*.
+تخيل أن لديك شيفاً عبقرياً حائزاً على أعلى التقييمات العالمية (`LLM`)؛ يمتلك مهارات طهي خارقة وإدراكاً عميقاً لمزج النكهات وطرق التحضير.
+* **الوضع بدون RAG**: تطلب من الشيف إعداد وجبة بناءً على متطلبات غذائية وطبية دقيقة لمريض دخل المطعم للتو. الشيف لا يعرف التاريخ الطبي للزبون، ولكن بدافع الثقة والحرج، يبتكر وجبة من خياله، قد تحتوي على مكونات تسبب حساسية شديدة للمريض!
+* **الوضع مع RAG**: توفر للشيف مساعداً خاصاً (`Retriever`) يقف بجانبه ومعه الملف الطبي للمريض ودليل الأغذية المصرح بها من وزارة الصحة. المساعد يفتح فوراً الصفحة التي تحدد موانع الحساسية للمريض ويضعها أمام الشيف، قائلاً: *"أعد الوجبة مستخدماً هذه المكونات المحددة فقط"*.
 
-النتيجة: إبداع الشيف التوليدي مسخّر بالكامل داخل إطار آمن، موثق، وخالٍ من المخاطر.
+النتيجة: إبداع الشيف التوليدي مسخّر بالكامل داخل إطار آمن، موثق، وخالٍ من المخاطر التشغيلية.
 
 ---
 
@@ -21,20 +21,20 @@
 
 ```mermaid
 flowchart TD
-    subgraph WithoutRAG ["❌ خدمة العملاء التقليدية بالـ LLM فقط (بدون RAG)"]
+    subgraph WithoutRAG ["خدمة العملاء التقليدية (بدون RAG)"]
         direction TB
-        C1["العميل: 'هل خطة التأمين الفضية تغطي زراعة الأسنان؟'"] --> L1["LLM خام (معرفة عامة قديمة)"]
+        C1["العميل: هل خطة التأمين الفضية تغطي زراعة الأسنان؟"] --> L1["LLM خام (معرفة عامة قديمة)"]
         L1 --> A1["إجابة هلوسة غير دقيقة:<br/>'نعم، تغطي خططنا زراعة الأسنان حتى 80%'"]
         A1 --> E1["كارثة تشغيلية:<br/>نزاع قضائي ومطالبة مالية وتشويه سمعة الشركة"]
     end
 
-    subgraph WithRAG ["✅ خدمة العملاء المؤسسية مع الـ RAG"]
+    subgraph WithRAG ["خدمة العملاء المؤسسية مع الـ RAG"]
         direction TB
-        C2["العميل: 'هل خطة التأمين الفضية تغطي زراعة الأسنان؟'"] --> R2["مسترجع الـ RAG"]
-        R2 --> V2["قاعدة وثائق وثائق الشروط والأحكام لعام 2026"]
+        C2["العميل: هل خطة التأمين الفضية تغطي زراعة الأسنان؟"] --> R2["مسترجع الـ RAG"]
+        R2 --> V2["قاعدة وثائق الشروط والأحكام لعام 2026"]
         V2 --> Ch2["المقطع المسترجع:<br/>'الخطة الفضية تستثني زراعة الأسنان وتغطي الحشو فقط'"]
         Ch2 & C2 --> L2["LLM مقيد بالسياق المسترجع"]
-        L2 --> A2["إجابة موثقة بدقة 100%:<br/>'لا تغطي الخطة الفضية زراعة الأسنان، وتقتصر التغطية على الحشو وعلاج العصب (بند 4.2)'"]
+        L2 --> A2["إجابة موثقة بدقة 100%:<br/>'لا تغطي الخطة الفضية زراعة الأسنان، وتقتصر التغطية على الحشو وعلاج العصب (وثيقة التأمين - بند 4.2)'"]
         A2 --> E2["ثقة العميل وامتثال قانوني كامل"]
     end
 
@@ -60,40 +60,97 @@ flowchart TD
 
 ## 4. الحوكمة والامتثال وإسناد المصادر (Governance & Audit Trail)
 
-في القطاعات المنظمة (كالقطاع المالي والصحي)، تشترط القوانين (مثل `GDPR`, `HIPAA`, `SOC-2`) إمكانية تتبع أصل كل قرار (`Auditability`). الـ RAG هو المعمارية الوحيدة التي توفر هذا المتطلب من خلال:
+في القطاعات المنظمة (كالقطاع المالي والصحي)، تشترط المعايير الدولية (مثل `GDPR`, `HIPAA`, `SOC-2`) إمكانية تتبع أصل كل قرار ومطابقة النص المولد مع دليله المكتوب (`Auditability`). الـ RAG هو المعمارية الوحيدة التي توفر هذا المتطلب عبر:
 
-$$\text{Attribution Rate} = \frac{|\text{Factual Statements Supported by Context}|}{|\text{Total Statements Generated}|} = 100\%$$
-
-* **دليل التوثيق الرقمي (`Source Attribution`)**: كل جملة يولدها النموذج تقترن برقم المعرف الفريد للوثيقة (`Document UUID`)، ورقم الصفحة، ونسبة التشابه الدلالي (`Cosine Distance`).
-* **صلاحيات الوصول الدقيقة (`Role-Based Access Control - RBAC`)**: إمكانية دمج فلاتر الأمان داخل محرك الاسترجاع؛ بحيث لا يرى الموظف العادي أي مستندات مصنفة كسرية حتى لو سأل عنها صراحة.
+1. **الاستشهاد المصدري الصريح (`Source Attribution`)**: كل جملة يولدها النموذج تقترن برقم الوثيقة ورقم الصفحة.
+2. **صلاحيات الوصول الدقيقة (`Role-Based Access Control - RBAC`)**: دمج فلاتر الأمان داخل محرك الاسترجاع؛ بحيث لا يرى الموظف العادي أي مستندات مصنفة كسرية حتى لو سأل عنها صراحة.
+3. **العائد الاقتصادي المباشر (`ROI`)**: خفض ساعات العمل البشرية المهدرة في البحث والتدقيق اليدوي، وتقليل الغرامات والتعويضات الناتجة عن أخطاء المعلومات غير الدقيقة.
 
 ---
 
-## 5. الحساب الرياضي للعائد على الاستثمار (ROI Formulation)
+## 5. الكود التطبيقي: فحص صحة الاستشهاد بالمصادر (Citation Faithfulness Checker)
 
-تُحسب الجدوى الاقتصادية لنظام الـ RAG عبر معادلة خفض التكلفة المباشرة:
+يوضح الكود التالي كيفية التحقق البرمجي من أن الإجابة الناتجة من نظام الـ RAG مستندة كلياً إلى السياق وتحتوي على استشهادات صحيحة بالمصادر:
 
-$$\text{ROI}_{\text{RAG}} = \frac{(\Delta T_{\text{manual}} \cdot C_{\text{labor}}) + C_{\text{error\_mitigation}} - (C_{\text{infra}} + C_{\text{tokens}})}{C_{\text{infra}} + C_{\text{tokens}}} \times 100\%$$
+```python
+import re
+from typing import Dict, List, Tuple
 
-حيث:
-* $\Delta T_{\text{manual}}$: ساعات العمل البشرية الموفرة في البحث والتدقيق.
-* $C_{\text{labor}}$: تكلفة ساعة العمل المتخصصة.
-* $C_{\text{error\_mitigation}}$: تكلفة التعويضات القانونية أو الخسائر التشغيلية الناتجة عن أخطاء المعلومات.
-* $C_{\text{infra}} + C_{\text{tokens}}$: تكلفة الخوادم، وقواعد بيانات المتجهات، وتوكنز الاستدلال.
+def verify_citations(
+    answer: str,
+    retrieved_contexts: Dict[str, str]
+) -> Tuple[bool, float, List[str]]:
+    """
+    Verify whether the generated answer contains valid document citations
+    and whether the cited snippets exist in the retrieved context pool.
+    """
+    # 1. Extract all citations in format [doc_id]
+    citation_pattern = r"\[([a-zA-Z0-9_\-]+)\]"
+    found_citations = re.findall(citation_pattern, answer)
+    
+    if not found_citations:
+        return False, 0.0, ["Answer contains zero source citations."]
 
-> في معظم التطبيقات المؤسسية المعتمدة، يتجاوز الـ ROI حاجز **300%** خلال أول 6 أشهر من الإطلاق.
+    valid_citations = []
+    invalid_citations = []
+    
+    # 2. Check existence of cited doc IDs in retrieved contexts
+    for cite in found_citations:
+        if cite in retrieved_contexts:
+            valid_citations.append(cite)
+        else:
+            invalid_citations.append(cite)
+            
+    score = len(valid_citations) / len(found_citations) if found_citations else 0.0
+    passed = (len(invalid_citations) == 0) and (score == 1.0)
+    
+    logs = [
+        f"Total citations detected: {len(found_citations)}",
+        f"Valid citations: {valid_citations}",
+        f"Invalid citations (hallucinated references): {invalid_citations}",
+        f"Citation Faithfulness Score: {score * 100:.1f}%"
+    ]
+    return passed, score, logs
+
+# Demonstration
+sample_contexts = {
+    "policy_dental_2026": "The Silver tier health plan covers dental cleanings and fillings, but explicitly excludes dental implants.",
+    "policy_leave_2026": "Employees receive 21 days of annual vacation."
+}
+
+# Scenario 1: Fully Grounded and Cited Answer
+good_answer = (
+    "According to the policy [policy_dental_2026], dental implants are not covered under the Silver plan. "
+    "However, cleanings and fillings remain fully covered."
+)
+
+# Scenario 2: Answer with Hallucinated Citation
+bad_answer = (
+    "Dental implants are 50% covered under the Gold tier [policy_gold_2026]."
+)
+
+print("=== Evaluating Compliant Answer ===")
+is_valid, score, details = verify_citations(good_answer, sample_contexts)
+for line in details:
+    print(line)
+
+print("\n=== Evaluating Non-Compliant Answer ===")
+is_valid, score, details = verify_citations(bad_answer, sample_contexts)
+for line in details:
+    print(line)
+```
 
 ---
 
 ## 6. أسئلة المقابلات الهندسية المتقدمة (Senior Interview Deep Dive)
 
-> **س1: كيف تدافع عن اختيار RAG أمام الـ CFO أو مجلس الإدارة بدلاً من الاعتماد على نماذج جاهزة رخيصة؟**  
+> **س1: كيف تدافع عن اختيار RAG أمام الإدارة المالية أو التقنية بدلاً من نماذج عامة جاهزة؟**  
 > **الإجابة الهندسية**:  
-> النماذج الجاهزة تقدم إجابات غير مضمونة قانونياً ومحملة بمخاطر الهلوسة التي تكلف ملايين الدولارات في النزاعات. معمارية الـ RAG تضمن:
-> 1. إسناداً قانونياً بنسبة 100% لكل حرف يُعرض للعميل.
-> 2. حماية بيانات المؤسسة من التسريب (بياناتنا لا تذهب لتدريب نماذج عامة).
-> 3. تحديثاً لحظياً للمعلومات دون تكاليف إعادة التدريب التي تتطلب ملايين الدولارات.
+> النماذج العامة تقدم إجابات غير مضمونة قانونياً ومحملة بمخاطر الهلوسة التي تكلف مبالغ طائلة في النزاعات التشغيلية. معمارية الـ RAG تضمن:
+> 1. إسناداً دقيقاً بنسبة 100% لكل جملة تُعرض للمستخدم.
+> 2. حماية بيانات المؤسسة من التسريب لأن البيانات لا تُرسل لتدريب نماذج خارجية.
+> 3. تحديثاً فورياً للمعلومات بمجرد تعديل الملف في قاعدة البيانات، دون الحاجة لانتظار دورات تدريبية جديدة.
 
-> **س2: ما هو مفهوم الـ Citation Faithfulness وكيف يتم قياسه برمجياً في الـ RAG؟**  
+> **س2: ما هو مفهوم الـ Citation Faithfulness وكيف يتم قياسه برمجياً؟**  
 > **الإجابة الهندسية**:  
-> هو مقياس يحدد مدى التزام النص المولد بالحقائق الواردة في الوثائق المسترجعة وعدم إدخال أي حقائق خارجية غير مسندة. يُقاس برمجياً عبر أطر عمل مثل `RAGAS` أو عبر استدعاء نموذج لغوي كمحكم (`LLM-as-a-Judge`) يقسم الإجابة إلى قضايا ذرية (`Atomic Claims`) ويطابق كل قضية مع مقاطع السياق المسترجع.
+> هو مقياس يحدد مدى التزام النص المولد بالحقائق الواردة في الوثائق المسترجعة وعدم إدخال أي حقائق خارجية غير مسندة. يُقاس برمجياً عبر أطر عمل مثل `RAGAS` أو عبر فحص مطابقة الاستشهادات وحساب نسبة الجمل الموثقة بمصادر موجودة بالفعل داخل السياق المسترجع.

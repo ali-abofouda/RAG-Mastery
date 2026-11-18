@@ -1,6 +1,7 @@
-# 04 - المكونات الأساسية للـ RAG ومرحلة إدخال البيانات (Data Ingestion & Preprocessing)
+# المكونات الأساسية للـ RAG ومرحلة إدخال البيانات (Data Ingestion Pipeline)
+### Architectural & Implementation Guide (`docs/00-rag-fundamentals/04-data-ingestion-and-preprocessing.md`)
 
-يمثل خط إدخال ومعالجة البيانات (`Data Ingestion & Preprocessing Pipeline`) البنية التحتية والعمود الفقري لأي منظومة `RAG` إنتاجية. وكما هو معروف في هندسة البيانات: *"القمامة في المدخلات تعني قمامة في المخرجات"* (`Garbage In, Garbage Out`). إذا تم تقطيع المستندات بشكل عشوائي أو تضمينها بنماذج ضعيفة، فلن يستطيع أي نموذج لغوي خارق (مهما كان ذكاؤه) تقديم إجابة دقيقة.
+يمثل خط إدخال ومعالجة البيانات (`Data Ingestion Pipeline`) العمود الفقري لأي منظومة `RAG` إنتاجية. وكما هو معروف في هندسة البيانات: *"القمامة في المدخلات تعني قمامة في المخرجات"* (`Garbage In, Garbage Out`). إذا تم تقطيع المستندات بشكل عشوائي أو تضمينها بنماذج ضعيفة، فلن يستطيع أي نموذج لغوي متقدم تقديم إجابة دقيقة.
 
 ---
 
@@ -25,8 +26,8 @@ flowchart LR
         direction TB
         UserQ["استعلام المستخدم<br/>(User Query)"]
         QEmbed["تضمين السؤال<br/>(Query Vector)"]
-        ANN["البحث التقريبي عن أقرب الجيران<br/>(ANN Semantic Search)"]
-        TopK["أفضل الفقرات المسترجعة<br/>(Top-K Chunks)"]
+        ANN["البحث التقريبي الدلالي<br/>(ANN Semantic Search)"]
+        TopK["أفضل المقاطع المسترجعة<br/>(Top-K Chunks)"]
         
         UserQ --> QEmbed --> ANN --> TopK
     end
@@ -47,117 +48,171 @@ flowchart LR
 
 ---
 
-## 2. تفكيك مرحلة إدخال ومعالجة البيانات (Data Ingestion Pipeline)
+## 2. تفكيك مرحلة إدخال ومعالجة البيانات (Data Ingestion Steps)
 
-تتم هذه المرحلة في الخلفية مسبقاً (`Offline / Asynchronous Indexing`)، وتتكون من 4 خطوات رئيسية:
+تتم هذه المرحلة مسبقاً في الخلفية (`Offline / Asynchronous Ingestion`)، وتتكون من 4 خطوات أساسية:
 
 ### الخطوة الأولى: استخراج البيانات والمحملات (`Document Loaders`)
-المستندات المؤسسية لا تأتي كنصوص نقية، بل تتوزع عبر تنسيقات شديدة التنوع:
-* **المستندات غير المهيكلة (`Unstructured`)**: ملفات `PDF`، مستندات `Word (DOCX)`، والعروض التقديمية `PPTX`.
-* **المستندات شبه المهيكلة (`Semi-Structured`)**: سجلات `JSON`، صفحات `HTML`، وملفات `Markdown`.
-* **البيانات المهيكلة (`Structured`)**: جداول `CSV`، مستندات `Excel`، وقواعد بيانات `SQL`.
+المستندات المؤسسية لا تأتي كنصوص نقية، بل تتوزع عبر تنسيقات متنوعة:
+* **غير مهيكلة (`Unstructured`)**: ملفات `PDF`، مستندات `Word (DOCX)`، وعروض `PPTX`.
+* **شبه مهيكلة (`Semi-Structured`)**: ملفات `JSON`، صفحات `HTML`، وملفات `Markdown`.
+* **مهيكلة (`Structured`)**: جداول `CSV`، مستندات `Excel`، وقواعد بيانات `SQL`.
 
 > [!IMPORTANT]
 > **الحفاظ على البيانات الوصفية (`Metadata Extraction`)**:
-> لا يقتصر دور المحمل (`Loader`) على استخراج النص الخام فقط، بل يجب عليه استخراج وتثبيت الميتا-داتا الحيوية المرتبطة بكل جزء:
-> * `source`: المسار الكامل للمستند الأصلي.
-> * `page_number`: رقم الصفحة الدقيق لتمكين الاستشهاد والمراجعة.
-> * `created_at / department / security_tier`: تصنيفات الصلاحيات والتواريخ لحوكمة البيانات.
+> لا يقتصر دور المحمل على استخراج النص الخام فقط، بل يجب استخراج وتثبيت الميتاداتا الحيوية المرتبطة بكل جزء:
+> * `source`: اسم ومسار المستند الأصلي لضمان التوثيق.
+> * `page_number`: رقم الصفحة الدقيق لتمكين المراجعة البشرية.
+> * `category / department`: تصنيف السياسة لتطبيق فلاتر الأمان والصلاحيات لاحقاً.
 
 ---
 
 ### الخطوة الثانية: التقطيع النصي الذكي (`Text Splitting & Chunking`)
 
-#### لماذا التقطيع النصي إلزامي وحتمي في RAG؟
-1. **محدودية نافذة السياق (`Context Window Limits`)**: حتى مع وجود نماذج ذات نوافذ مليونية، فإن إرسال كتاب كامل يستهلك تكلفة باهظة ويزيد زمن الاستجابة.
-2. **عجز نماذج التضمين (`Embedding Dilution`)**: نماذج التضمين لها حد أقصى للمدخلات (عادة 512 أو 8192 توكن). إذا حاولت تضمين مستند مكون من 100 صفحة في متجه واحد، ستتلاشى كل التفاصيل الدقيقة ويصبح المتجه مجرد متوسط هلامي لا يعبر عن أي تفصيلة دقيقة.
-3. **نسبة الإشارة إلى الضوضاء (`Signal-to-Noise Ratio - SNR`)**: إذا كان استفسار المستخدم عن رقم مالي في الصفحة 12، فإن استرجاع فقرة محددة مكونة من 300 كلمة يوفر للنموذج تركيزاً بنسبة 100% دون تشتيت انتباهه بـ 50 صفحة أخرى غير ذات صلة.
+#### لماذا التقطيع النصي إلزامي في RAG؟
+1. **تجنب تلاشي المعنى (`Embedding Dilution`)**: نماذج التضمين لها سعة محددة (عادة 512 إلى 8192 توكن). إذا حاولت تضمين مستند كامل من 50 صفحة في متجه واحد، ستتلاشى الأرقام والتفاصيل الدقيقة ويصبح المتجه مجرد متوسط هلامي لا يعبر عن شيء محدد.
+2. **رفع نسبة الإشارة إلى الضوضاء (`Signal-to-Noise Ratio`)**: استرجاع مقطع دقيق من 200 كلمة يحتوي على الإجابة مباشرة يوفر للنموذج تركيزاً تاماً دون تشتيته بعشرات الصفحات غير ذات الصلة.
+3. **التحكم في التكلفة والـ Latency**: تقليل عدد التوكنز المرسلة للنموذج في كل استعلام.
 
-#### الرياضيات الحاكمة للتقطيع (Chunk Size & Overlap):
-يتم تعريف عملية التقطيع بمعاملين رئيسيين:
-* **حجم القطعة (`Chunk Size - $C_s$`)**: عدد الأحرف أو الرموز في كل قطعة.
-* **التداخل (`Chunk Overlap - $C_o$`)**: عدد الأحرف أو الرموز المشتركة بين القطع المتتالية.
-
-تحسب الإزاحة الخطية (`Stride - $S$`) بين بداية كل قطعة والتالية بالمعادلة:
-$$S = C_s - C_o$$
-
-ويحسب العدد الإجمالي التقريبي للقطع $N$ لمستند طوله الإجمالي $L$ بالمعادلة:
-$$N = \left\lceil \frac{L - C_o}{C_s - C_o} \right\rceil$$
+#### فكرة التداخل (`Chunk Overlap`):
+يتم تحديد التقطيع بمعاملين رئيسيين:
+* **حجم المقطع (`Chunk Size`)**: عدد الأحرف أو التوكنز في كل مقطع.
+* **التداخل (`Overlap`)**: عدد الأحرف المشتركة بين المقطع والمقطع الذي يليه.
 
 ```
-[--- Chunk 1 (Size = 500) ---]
-                [--- Chunk 2 (Size = 500) ---]
-                                [--- Chunk 3 (Size = 500) ---]
-|<-- Stride -->|
-        |<- Overlap ->|
+[--- المقطع الأول (500 حرف) ---]
+                [--- المقطع الثاني (500 حرف) ---]
+                                [--- المقطع الثالث (500 حرف) ---]
+|<-- خطوة الانتقال -->|
+        |<-- التداخل (60 حرف) -->|
 ```
 
-> **وظيفة التداخل (`Overlap`)**: منع بتر الجمل والأفكار المترابطة عند الحدود الفاصلة للقطع، مما يضمن احتفاظ المتجه بالمعنى السياقي الكامل.
+> **وظيفة التداخل**: منع بتر الجمل والأفكار المترابطة عند الحدود الفاصلة للقطع، مما يضمن احتفاظ المتجه بالمعنى السياقي الكامل.
 
 ---
 
 ### الخطوة الثالثة: نماذج التضمين الدلالي (`Embedding Models`)
+نموذج التضمين هو نموذج ذكاء اصطناعي يحول النص البشري إلى متجه عددي عالي الأبعاد (`Dense Vector`). في هذا الفضاء المتجهي، تكون المتجهات القريبة من بعضها دلالة مباشرة على تقارب المعنى في سياق الحديث، حتى لو اختلفت الكلمات الحرفية تماماً (مثل: *"سيارة"* و *"مركبة"*).
 
-نموذج التضمين هو دالة رياضية تحول النص البشري من فضاء لغوي منفصل إلى فضاء متجهات مستمر عالي الأبعاد:
-$$f_{\text{embed}}: \text{Text} \longrightarrow \mathbb{R}^d$$
-
-حيث يمثل $d$ عدد أبعاد المتجه (مثل $d = 384$ في `all-MiniLM-L6-v2` أو $d = 1536$ في `text-embedding-3-small`).
-
-في هذا الفضاء، تكون المسافة الزاوية أو المسافة الإقليدية دالة مباشرة على التقارب الدلالي في المعنى، بغض النظر عن تطابق الكلمات الحرفية (`Semantic Closeness vs Lexical Match`):
-
-$$\text{Cosine Similarity}(u, v) = \frac{u \cdot v}{\|u\| \|v\|} = \frac{\sum_{i=1}^d u_i v_i}{\sqrt{\sum_{i=1}^d u_i^2} \sqrt{\sum_{i=1}^d v_i^2}}$$
-
-#### مقارنة بين فئات نماذج التضمين:
-* **نماذج محلية مفتوحة المصدر (`Local Hugging Face Models`)**: مثل `sentence-transformers/all-MiniLM-L6-v2` و `BAAI/bge-large-en-v1.5`. توفر أماناً وخصوصية تامة، وتعمل على خوادمك دون تكاليف API أو مخاطر انقطاع خدمة.
-* **نماذج سحابية مدارة (`Cloud API Models`)**: مثل `OpenAI text-embedding-3-large` و `Cohere Embed v3`. تقدم أبعاداً عالية ودعماً لتعدد اللغات، لكنها تتطلب إرسال البيانات عبر الإنترنت وتخضع لرسوم لكل مليون رمز.
+* **نماذج محلية مفتوحة المصدر (`Local Models`)**: مثل `sentence-transformers/all-MiniLM-L6-v2` و `BAAI/bge-small-en-v1.5`. توفر أماناً وخصوصية تامة، وتعمل على جهازك دون تكاليف API أو مخاطر انقطاع خدمة.
+* **نماذج سحابية مدارة (`Cloud APIs`)**: مثل `OpenAI text-embedding-3-small` و `Cohere Embed v3`.
 
 ---
 
-### الخطوة الرابعة: قواعد البيانات المتجهة ومؤشرات الفهرسة (`Vector Stores & Indexing`)
-
-تخزين واسترجاع ملايين المتجهات بكفاءة يتطلب تقنيات فهرسة متخصصة لأن البحث الخطي المباشر (`Exact k-NN Search`) يستغرق تعقيداً زمنياً $\mathcal{O}(N \cdot d)$، وهو بطيء جداً في قواعد البيانات الضخمة.
-
-لذلك تعتمد قواعد البيانات المتجهة على **خوارزميات البحث التقريبي عن أقرب الجيران (`Approximate Nearest Neighbors - ANN`)**:
-
-1. **`HNSW (Hierarchical Navigable Small World)`**:
-   * الفهرس الأكثر شيوعاً وكفاءة في بيئات الإنتاج.
-   * يبني شبكة رسومية هرمية متعددة الطبقات شبيهة بقوائم التخطي (`Skip Lists`).
-   * تعقيد البحث الزمني: $\mathcal{O}(\log N)$.
-   * الدقة (`Recall`): أعلى من 95-98%.
-2. **`IVF (Inverted File Index)`**:
-   * تقسيم الفضاء إلى عناقيد (`Voronoi Cells`) عبر خوارزمية $k$-means.
-   * تقليل عدد المتجهات التي يتم فحصها بشكل هائل، مع استهلاك ذاكرة أقل من `HNSW`.
-3. **`Flat Index`**:
-   * بحث خطي شامل دقيق بنسبة 100% دون أي تقريب.
-   * مناسب لقواعد البيانات الصغيرة (أقل من 10,000 متجه).
-
-#### تصنيف أشهر قواعد البيانات المتجهة في الإنتاج:
-* **محلية للتطوير والاختبار**: `Chroma`، `FAISS` (مكتبة خفيفة الوزن من Meta).
-* **سحابية مدارة وموزعة للأعمال الضخمة**: `Pinecone`، `Weaviate`، `Qdrant`، و `DataStax AstraDB`.
+### الخطوة الرابعة: قواعد البيانات المتجهة والفهرسة (`Vector Databases`)
+تخزين ملايين المتجهات واسترجاعها في أجزاء من الثانية يتطلب قواعد بيانات متخصصة (مثل `Qdrant`, `Chroma`, `Milvus`, `Pinecone`).
+* تعتمد هذه القواعد على خوارزميات **البحث التقريبي عن أقرب الجيران (`Approximate Nearest Neighbors - ANN`)** مثل `HNSW` للبحث فائق السرعة.
+* تخزن المتجهات جنباً إلى جنب مع النص الأصلي والبيانات الوصفية (`Payload`) لتمكين الفلترة الهجينة.
 
 ---
 
-## 3. مصفوفة المفاضلة في إعداد التقطيع والتضمين (Engineering Trade-Offs)
+## 3. الكود التطبيقي: خط أنابيب Ingestion كامل بالبايثون
 
-| المعيار | قطع صغيرة (`Small Chunks: 128 - 256 tokens`) | قطع متوسطة (`Medium Chunks: 512 - 1024 tokens`) | قطع كبيرة (`Large Chunks: 2048+ tokens`) |
-| :--- | :--- | :--- | :--- |
-| **الدقة الدلالية للمتجه (`Vector Precision`)** | عالية جداً (تركيز نقي على الفكرة المحددة) | متوازنة ومثالية لمعظم التطبيقات | منخفضة (المعنى الدقيق يضيع في سياق عام) |
-| **اكتمال السياق عند التوليد** | منخفض (قد يفتقد التفاصيل السابقة أو اللاحقة) | ممتاز (يوفر سياقاً متكاملاً للـ LLM) | ممتاز لكنه قد يحتوي على أجزاء مشتتة |
-| **استهلاك الذاكرة والرمز** | متجهات كثيرة وتكلفة تخزين وفهرسة أكبر | استهلاك متزن ومثالي للإنتاج | متجهات قليلة وتكلفة استدلال عالية للـ LLM |
-| **أفضل سيناريو استخدام** | الأسئلة المباشرة المحددة (`Factoid Q&A`) | المقالات والوثائق الفنية والأدلة | التلخيص والتحليل الشامل للوثائق (`Summarization`) |
+يوضح الكود التالي خط معالجة وتجهيز نصوص متكامل يشمل: استخراج النصوص، التقطيع بحجم وتداخل محدد، الحفاظ على الميتاداتا، وتوليد الفهارس:
+
+```python
+import hashlib
+from typing import List, Dict, Any
+
+class SimpleTextChunker:
+    """Sliding-window character chunker preserving sentence context and metadata."""
+    def __init__(self, chunk_size: int = 200, overlap: int = 40):
+        self.chunk_size = chunk_size
+        self.overlap = overlap
+        self.stride = chunk_size - overlap
+
+    def split_text(self, text: str, metadata: Dict[str, Any]) -> List[Dict[str, Any]]:
+        chunks = []
+        start = 0
+        text_len = len(text)
+        chunk_index = 0
+
+        while start < text_len:
+            end = min(start + self.chunk_size, text_len)
+            chunk_content = text[start:end].strip()
+
+            if chunk_content:
+                # Deterministic chunk ID based on source and content hash
+                content_hash = hashlib.md5(chunk_content.encode("utf-8")).hexdigest()[:8]
+                chunk_id = f"{metadata.get('doc_id', 'doc')}_chk_{chunk_index}_{content_hash}"
+
+                chunks.append({
+                    "chunk_id": chunk_id,
+                    "content": chunk_content,
+                    "metadata": {
+                        **metadata,
+                        "chunk_index": chunk_index,
+                        "char_start": start,
+                        "char_end": end,
+                    }
+                })
+                chunk_index += 1
+
+            if end == text_len:
+                break
+            start += self.stride
+
+        return chunks
+
+
+class InMemoryVectorStore:
+    """Lightweight in-memory vector store demonstrating payload indexing."""
+    def __init__(self):
+        self.storage = []
+
+    def add_records(self, records: List[Dict[str, Any]]) -> None:
+        """Ingest chunk records with metadata payloads."""
+        for r in records:
+            # Mock dense vector representation based on simple token hashes
+            mock_vector = [ord(c) % 50 for c in r["content"][:10]]
+            self.storage.append({
+                "id": r["chunk_id"],
+                "content": r["content"],
+                "metadata": r["metadata"],
+                "vector": mock_vector
+            })
+        print(f"[*] Successfully ingested {len(records)} chunks into vector store.")
+
+
+# Pipeline Execution Demonstration
+raw_documents = [
+    {
+        "doc_id": "hr_policy_01",
+        "title": "Corporate Health & Safety Standards 2026",
+        "category": "Health & Safety",
+        "text": (
+            "All enterprise employees must complete workplace safety orientation within 30 days of onboarding. "
+            "Ergonomic assessments are provided by the Facilities team upon request. Emergency evacuation drills "
+            "are conducted semi-annually across all regional headquarters."
+        )
+    }
+]
+
+chunker = SimpleTextChunker(chunk_size=120, overlap=30)
+vector_db = InMemoryVectorStore()
+
+# 1. Processing and Chunking
+all_chunks = []
+for doc in raw_documents:
+    doc_meta = {"doc_id": doc["doc_id"], "title": doc["title"], "category": doc["category"]}
+    chunks = chunker.split_text(doc["text"], doc_meta)
+    all_chunks.extend(chunks)
+
+# 2. Ingestion into Vector Store
+vector_db.add_records(all_chunks)
+
+# 3. Inspecting the indexed chunks
+print("\n--- Indexed Chunks Inspection ---")
+for chk in vector_db.storage:
+    print(f"ID: {chk['id']}")
+    print(f"Text: '{chk['content']}'")
+    print(f"Payload Category: {chk['metadata']['category']} | Start: {chk['metadata']['char_start']}\n")
+```
 
 ---
 
-## 4. أسئلة المقابلات المتقدمة (Senior AI Interview Questions)
+## 4. الممارسات الهندسية الفضلى في بيئات الإنتاج
 
-### س1: ما هو تأثير الـ Chunk Overlap على دقة الاسترجاع، وما عواقب زيادته بشكل مبالغ فيه؟
-**الإجابة:** 
-* **الفائدة الأساسية**: يضمن عدم بتر الكيانات المسماة (`Named Entities`) والمصطلحات القانونية أو التقنية التي قد تقع بالصدفة عند حد القطع، مما يحافظ على التماسك الدلالي للفقرة.
-* **عواقب الزيادة المفرطة**: إذا زاد الـ Overlap عن 30-40%، يؤدي ذلك إلى مضاعفة حجم قاعدة البيانات المتجهة، وتكرار استرجاع نفس الجمل في عدة قطع مختلفة (`Redundancy`)، مما يهدر مساحة نافذة سياق الـ LLM دون تقديم معلومات جديدة حقيقية.
-
-### س2: كيف تختار حجم القطعة (`Chunk Size`) عند بناء نظام RAG للوثائق القانونية أو الأكاديمية؟
-**الإجابة:**
-الوثائق القانونية تتسم بفقرات مترابطة طويلاً وبنود تشريعية تتطلب قراءة الشرط مع استثناءاته. لذلك:
-1. تجنب التقطيع العشوائي بالأحرف الثابتة (`Fixed Character Splitting`).
-2. استخدام التقطيع الهيكلي أو المتكرر (`Recursive Character Splitting`) بالاعتماد على الفواصل المنطقية للمستند (الفصول `\n\n`، ثم الفقرات `\n`، ثم الجمل `. `).
-3. اختيار حجم قطعة متوسط إلى كبير (بين 800 إلى 1200 توكن) مع تداخل 150 توكن لضمان بقاء الاستثناءات القانونية مرتبطة بالقواعد الأصلية التي تتبعها.
+1. **اعتماد مبدأ Parse Once to JSON**: لا تقم باستخراج وتفريغ الـ PDFs كل مرة يعمل فيها خط الـ Ingestion؛ استخرج النصوص مرة واحدة واحفظها بصيغة هيكلية نظيفة (`JSON / JSONL`) لتسريع إعادة الفهرسة.
+2. **توليد معرّفات حتمية ثابتة (`Deterministic UUID5`)**: استخدام خوارزميات مثل UUID5 المبنية على اسم المستند ورقم المقطع يضمن خاصية الـ `Idempotency`؛ بحيث لو أعدت تشغيل خط الـ Ingestion، يتم تحديث النقاط دون تكرارها.
+3. **فهرسة حقول الحمولة (`Payload Indexing`)**: في قواعد بيانات المتجهات مثل Qdrant، أنشئ دائماً فهارس على الحقول المستخدمة في الفلترة (مثل `category` أو `department`) لضمان سرعة البحث أثناء تطبيق صلاحيات الوصول.

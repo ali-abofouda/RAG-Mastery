@@ -1,45 +1,44 @@
-# الدليل النظري والمعماري الشامل لمسار إتقان الـ RAG
-### RAG Mastery Architecture & Theoretical Handbook (`docs/`)
+# الدليل المعماري والمفاهيمي الشامل لمسار إتقان الـ RAG
+### RAG Mastery Architecture & Engineering Handbook (`docs/`)
 
-مرحباً بك في مجلد **التوثيق والشرح النظري والمعماري (`docs/`)**.
-هذا المجلد مخصص بالكامل لتقديم الفهم النظري العميق، المعمارية الهندسية، المعادلات الرياضية، ومخططات التدفق لكل درس في المسار، **دون أي كود تنفيذي مشتت**.
+مرحباً بك في مجلد **التوثيق والشرح المعماري والمفاهيمي (`docs/`)**.
 
----
-
-## 🧭 هيكلية مجلدات المشروع الثلاثة (The 3-Pillar Repository Architecture)
-
-ينقسم المشروع إلى 3 مجلدات رئيسية واضحة ومستقلة:
-
-1. **`docs/` (الشرح النظري والمعماري)**:
-   - المفاهيم والأسس النظرية.
-   - المخططات المعمارية (`Mermaid Diagrams`).
-   - المعادلات والتحليلات الرياضية.
-   - المقارنات والـ `Trade-offs` الهندسية.
-
-2. **`stages/` (الكود النموذجي المرجعي)**:
-   - الكود النموذجي الكامل والمنفذ مسبقاً (`Production-ready reference code`).
-   - خلايا متسلسلة بتعليقات توضيحية احترافية (`Inline Comments`).
-   - خالي تماماً من الإيموجي ومجهز بمخرجات التحقق الحقيقية.
-
-3. **`playground/` (معمل التجارب والتطبيق العملي)**:
-   - معمل التجارب المخصص للمتدرب لكتابة الكود بنفسه.
-   - مساحات مخصصة للتجربة الحرة والتعديل العملي (`Hands-on Lab`).
+تم تصميم هذا المجلد ليكون **المرجع الهندسي الشامل والعملي** لأنظمة الـ RAG والوكلاء الأذكياء (Agentic AI). يعتمد التوثيق هنا على مبدأ **الشرح المرتكز على المعنى والمفاهيم (Concept-Driven Architecture)**؛ حيث يتم تفكيك كل مفهوم هندسي بعمق، توضيح دوافعه والبدائل المتاحة، ودعمه مباشرة **بكود بايثون تطبيقي كامل ومشروح**، بعيداً عن التعقيدات الرياضية النظرية المجردة.
 
 ---
 
-## 📚 فهرس الشرح المعماري للمراحل
+## المبادئ الأربعة للتوثيق الهندسي الحديث (Core Documentation Pillars)
 
-| المرحلة | المجلد الفرعي | موضوعات الشرح | الدليل التفصيلي |
-| :---: | :--- | :--- | :---: |
-| **00** | [`00-rag-fundamentals/`](./00-rag-fundamentals/) | مفاهيم وأساسيات أنظمة الـ RAG والفرق بين البحث التقليدي والدلالي | [README](./00-rag-fundamentals/README.md) |
-| **01** | [`01-ingestion/`](./01-ingestion/) | معمارية استخراج وتفريغ المستندات بمختلف أنواعها | [README](./01-ingestion/README.md) |
-| **02** | [`02-vector-embeddings/`](./02-vector-embeddings/) | نماذج التضمين، فضاء المتجهات، ومقاييس المسافة الدلالية | [README](./02-vector-embeddings/README.md) |
-| **03** | [`03-vector-stores-and-databases/`](./03-vector-stores-and-databases/) | المعمارية الداخلية لقواعد وبيانات المتجهات المحلية والسحابية | [README](./03-vector-stores-and-databases/README.md) |
-| **04** | [`04-advanced-chunking/`](./04-advanced-chunking/) | تقنيات التقطيع الدلالي المتقدم، قياس تشابه الجمل، ونقاط الانفصال | [README](./04-advanced-chunking/README.md) |
-| **05** | [`05-hybrid-search-and-retrieval/`](./05-hybrid-search-and-retrieval/) | البحث الهجين، دمج المصفوفات، خوارزميات Reranking و MMR | [README](./05-hybrid-search-and-retrieval/README.md) |
-| **06** | [`06-query-enhancement/`](./06-query-enhancement/) | تحسين وصياغة الاستعلامات وتوسيعها دلالياً (Query Expansion) | [README](./06-query-enhancement/README.md) |
-| **07** | [`07-multimodal-rag/`](./07-multimodal-rag/) | الـ RAG متعدد الوسائط واسترجاع وفهرسة الصور والرسوم البيانية مع النصوص | [README](./07-multimodal-rag/README.md) |
-| **08** | [`08-agentic-ai-foundations/`](./08-agentic-ai-foundations/) | أسس وكلاء الذكاء الاصطناعي، الأركان الإدراكية الأربعة، ومقارنة AI Agents ضد Agentic AI | [README](./08-agentic-ai-foundations/README.md) |
-| **09** | [`09-langchain-modern-updates/`](./09-langchain-modern-updates/) | تحديثات LangChain v1+ الحديثة، مدير الحزم السريع UV، وبنية الـ Middleware | [README](./09-langchain-modern-updates/README.md) |
-| **10** | [`10-langgraph-fundamentals/`](./10-langgraph-fundamentals/) | أساسيات LangGraph، معمارية Pregel/BSP، الرسوم البيانية الدائرية، والذاكرة المستمرة (HITL) | [README](./10-langgraph-fundamentals/README.md) |
-| **15** | [`capstone/`](./capstone/) | المعمارية الشاملة لمشروع التطبيق النهائي المتكامل | [README](./capstone/README.md) |
+1. **التركيز على المعنى والهدف الهندسي (Concept-Driven Intuition)**:
+   - تفكيك المشكلة الواقعية التي يعالجها كل مكون.
+   - استبدال المعادلات الرياضية الجافة بمخططات تدفق تفاعلية (`Mermaid Diagrams`) وشروحات حدسية مباشرة.
+
+2. **الكود التطبيقي الفعلي داخل التوثيق (Implementation in Action)**:
+   - كل ملف توثيقي يحتوي على كود بايثون متكامل ونظيف وقابل للتشغيل الفوري.
+   - تعليقات توضيحية احترافية (`Inline Comments`) توضح دور كل سطر وربطه بالمفهوم المعماري.
+
+3. **المقارنات والمفاضلات الهندسية (Trade-offs & Decision Frameworks)**:
+   - جداول مقارنة واضحة توضح متى نستخدم التقنية ومتى نفضل غيرها.
+   - حساب التكاليف، أزمنة الاستجابة (`Latency`)، ومتطلبات الموارد.
+
+4. **تحديات بيئات الإنتاج (Production Gotchas & Best Practices)**:
+   - توثيق الأخطاء الشائعة وحالات الحافة (`Edge Cases`) والحلول المعتمدة في كبرى الشركات.
+
+---
+
+## خريطة الأدلة المعمارية للأقسام (Handbook Roadmap)
+
+| القسم | المجلد | المفهوم الهندسي الشامل | الكود التطبيقي المدمج |
+| :---: | :--- | :--- | :--- |
+| **00** | [`00-rag-fundamentals/`](./00-rag-fundamentals/) | أسس معمارية الـ RAG، المقارنة مع Fine-Tuning، والمسار الكامل | Minimal End-to-End Working RAG Pipeline |
+| **01** | [`01-ingestion/`](./01-ingestion/) | استخراج وتجهيز المستندات متعددة الصيغ بنمط Parse-Once | Multi-Format Document Ingestion & Parsers |
+| **02** | [`02-vector-embeddings/`](./02-vector-embeddings/) | تمثيل المعاني دلالياً، فضاء المتجهات، ومقاييس المسافة عملياً | Dense Embeddings & Vector Similarity Engine |
+| **03** | [`03-vector-stores-and-databases/`](./03-vector-stores-and-databases/) | قواعد بيانات المتجهات، آليات الفهرسة السريعة (HNSW)، والـ Payloads | Local & Cloud Vector DB Setup & Indexing |
+| **04** | [`04-advanced-chunking/`](./04-advanced-chunking/) | استراتيجيات تقطيع النصوص وحفظ السياق والميتاداتا | Advanced Chunking Strategies Benchmark |
+| **05** | [`05-hybrid-search-and-retrieval/`](./05-hybrid-search-and-retrieval/) | البحث الهجين (Dense + BM25) وخوارزميات إعادة الترتيب (RRF) | Production Hybrid Retriever & Cross-Encoder |
+| **06** | [`06-query-enhancement/`](./06-query-enhancement/) | تحسين وصياغة الاستعلامات وتوليد الاستعلامات الفرعية و HyDE | Query Expansion & Rewriting Pipeline |
+| **07** | [`07-multimodal-rag/`](./07-multimodal-rag/) | الـ RAG متعدد الوسائط واسترجاع الصور والرسوم البيانية | Dual-Stream Vision-Enhanced Multimodal Pipeline |
+| **08** | [`08-agentic-ai-foundations/`](./08-agentic-ai-foundations/) | أسس وكلاء الذكاء الاصطناعي، الأركان الإدراكية، واستدعاء الأدوات | Tool-Using Autonomous Agent from Scratch |
+| **09** | [`09-langchain-modern-updates/`](./09-langchain-modern-updates/) | بنية LangChain الحديثة وإدارة الحزم بالـ UV | Production LCEL Pipeline & Middleware |
+| **10** | [`10-langgraph-fundamentals/`](./10-langgraph-fundamentals/) | معمارية Pregel/BSP، الرسوم البيانية الدائرية، والذاكرة المستمرة | Stateful Cyclic Graph Agent with Checkpointing |
+| **30** | [`30-hr-policy-rag-assistant-with-ai-security/`](./30-hr-policy-rag-assistant-with-ai-security/) | المشروع المؤسسي المتكامل مع دروع أمان الذكاء الاصطناعي | Enterprise HR Assistant with Guardrails & Evals |
