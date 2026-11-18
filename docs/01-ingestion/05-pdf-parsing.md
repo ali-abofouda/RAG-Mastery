@@ -1,6 +1,7 @@
-# 05 - أساسيات قراءة ومقارنة محملات PDF (PDF Parsing Foundations)
+# أساسيات قراءة ملفات الـ PDF والمقارنة الهندسية للمحملات (PDF Parsing Foundations & Engine Comparison)
+### Architectural & Implementation Guide (`docs/01-ingestion/05-pdf-parsing.md`)
 
-تشكل ملفات الـ `PDF (Portable Document Format)` أكثر من 70% إلى 80% من حجم البيانات غير المهيكلة داخل المؤسسات والشركات (التقارير المالية، السياسات، العقود، والأوراق البحثية). ومع ذلك، فإن ملفات الـ PDF تمثل أحد أكبر كوابيس مهندسي الـ RAG، نظراً لأن صيغة PDF لم تُصمم أصلاً لتخزين النصوص الدلالية، بل صُممت لتوجيه الطابعات وشاشات العرض لعرض الأحرف والخطوط بدقة بصرية ثابتة (`Visual Presentation`).
+تشكل ملفات الـ `PDF (Portable Document Format)` أكثر من 70% إلى 80% من حجم البيانات غير المهيكلة داخل المؤسسات والشركات (التقارير المالية، السياسات، العقود، والأوراق البحثية). ومع ذلك، فإن ملفات الـ PDF تمثل أحد أكبر تحديات مهندسي الـ RAG، نظراً لأن صيغة PDF لم تُصمم أصلاً لتخزين النصوص الدلالية، بل صُممت لتوجيه الطابعات وشاشات العرض لعرض الأحرف والخطوط بدقة بصرية ثابتة (`Visual Presentation`).
 
 ---
 
@@ -9,7 +10,7 @@
 ```mermaid
 flowchart LR
     Human["نظرة القارئ البشري<br/>(عنوان، فقرة، جدول منظم)"] 
-    Internal["حقيقة ملف الـ PDF الداخلي<br/>(أوامر رسم عشوائية وأرقام إحداثيات)"]
+    Internal["حقيقة ملف الـ PDF الداخلي<br/>(أوامر رسم ثنائية وإحداثيات عشوائية)"]
     
     Human -.->|خداع بصري| Internal
     
@@ -34,51 +35,67 @@ flowchart LR
 
 ---
 
-## 3. التنفيذ العملي لمقارنة المحملات في LangChain
+## 3. الكود التطبيقي: مقارنة عملية بين محركات استخراج الـ PDF
 
-### أ. التحميل باستخدام `PyPDFLoader` القياسي
+يوضح الكود التالي كيفية استخراج النصوص والبيانات الوصفية باستخدام محرك `PyMuPDF` (المعيار الإنتاجي المعتمد لسرعته الفائقة) ومحرك `pypdf`:
+
 ```python
-from langchain_community.document_loaders import PyPDFLoader
+import time
+from typing import Dict, Any, List
+from langchain_community.document_loaders import PyPDFLoader, PyMuPDFLoader
+from langchain_core.documents import Document
 
-pypdf_loader = PyPDFLoader("data/pdf/sample_paper.pdf")
-pages = pypdf_loader.load()
+def compare_pdf_extractors(pdf_path: str) -> Dict[str, Any]:
+    """Benchmark extraction time and extracted text metrics between PyPDF and PyMuPDF."""
+    results = {}
 
-print(f"تم تحميل {len(pages)} صفحة عبر PyPDF.")
-print(f"بيانات وصفية: {pages[0].metadata}")
-```
+    # 1. Benchmark PyMuPDF (fitz C++ engine)
+    start_time = time.time()
+    try:
+        pymupdf_loader = PyMuPDFLoader(pdf_path)
+        pymupdf_docs = pymupdf_loader.load()
+        pymupdf_time = time.time() - start_time
+        total_chars = sum(len(d.page_content) for d in pymupdf_docs)
+        results["PyMuPDF"] = {
+            "status": "Success",
+            "time_seconds": round(pymupdf_time, 4),
+            "pages_count": len(pymupdf_docs),
+            "total_chars": total_chars
+        }
+    except Exception as e:
+        results["PyMuPDF"] = {"status": f"Failed: {e}"}
 
-### ب. التحميل فائق السرعة باستخدام `PyMuPDFLoader` (المعيار الإنتاجي)
-```python
-from langchain_community.document_loaders import PyMuPDFLoader
+    # 2. Benchmark PyPDF (Pure Python engine)
+    start_time = time.time()
+    try:
+        pypdf_loader = PyPDFLoader(pdf_path)
+        pypdf_docs = pypdf_loader.load()
+        pypdf_time = time.time() - start_time
+        total_chars = sum(len(d.page_content) for d in pypdf_docs)
+        results["PyPDF"] = {
+            "status": "Success",
+            "time_seconds": round(pypdf_time, 4),
+            "pages_count": len(pypdf_docs),
+            "total_chars": total_chars
+        }
+    except Exception as e:
+        results["PyPDF"] = {"status": f"Failed: {e}"}
 
-pymupdf_loader = PyMuPDFLoader("data/pdf/sample_paper.pdf")
-pymupdf_pages = pymupdf_loader.load()
+    return results
 
-print(f"تم تحميل {len(pymupdf_pages)} صفحة عبر PyMuPDF بسرعة فائقة.")
-# تمتاز PyMuPDF بإرجاع إحداثيات وخصائص الصفحة بدقة
+# Example Execution
+if __name__ == "__main__":
+    sample_pdf = "sample_financial_report.pdf"
+    # To run this script, provide any existing PDF document path
+    print(f"[*] Comparing PDF Loaders for: {sample_pdf}")
+    # benchmark_results = compare_pdf_extractors(sample_pdf)
+    # print(benchmark_results)
 ```
 
 ---
 
-## 4. المقارنة المعيارية للأداء والسرعة (Benchmarking)
+## 4. الممارسات الهندسية الفضلى لاختيار محمل الـ PDF
 
-عند اختبار قراءة ملف PDF مؤلف من 100 صفحة:
-* استغرق `PyPDFLoader` حوالي **$4.8$ ثوانٍ** مع استهلاك $120\text{ MB}$ من الذاكرة.
-* استغرق `PyMuPDFLoader` حوالي **$0.28$ ثانية فقط** مع استهلاك $35\text{ MB}$ من الذاكرة.
-* **فارق الأداء**: أسرع بأكثر من **17 ضعفاً** مع توفير هائل في موارد الخادم!
-
----
-
-## 5. أسئلة المقابلات الهندسية (Senior AI Interview Questions)
-
-### س1: لماذا يفضل مهندسو الإنتاج محرك `PyMuPDF` على `pypdf` في خطوط إنتاج المؤسسات؟
-**الإجابة:** 
-1. **السرعة والإنتاجية**: مكتوب بلغة C/C++ عالية الكفاءة ومرتبط مباشرة بمحرك `MuPDF` فائق السرعة، مما يجعله قادراً على معالجة آلاف المستندات في دقائق.
-2. **استخراج الروابط والميتا-داتا الدقيقة**: يستخرج تفاصيل الصفحة، إحداثيات مربعات النصوص (`Bounding Boxes`)، والعناوين الفرعية الداخلية (`Bookmarks / Table of Contents`) بدقة متناهية.
-3. **الاستقرار تحت الضغط**: لا يعاني من مشاكل تسريب الذاكرة (`Memory Leaks`) الشائعة في مكتبات بايثون النقية عند معالجة ملفات مئات الميجابايت.
-
-### س2: كيف تتعامل إذا واجهت ملف PDF عبارة عن صور ممسوحة ضوئياً (`Scanned PDF`) لا تحتوي على نصوص حقيقية؟
-**الإجابة:**
-1. الفحص البرمجي أولاً: التحقق مما إذا كان متوسط طول النص المستخرج لكل صفحة أقل من 50 حرفاً (`len(page_content) < 50`).
-2. في حال ثبوت أنه ممسوح ضوئياً: تحويل صفحات الـ PDF إلى صور (`rasterization via pdf2image`) وتمريرها إلى محرك تعرف ضوئي على الحروف (`OCR Pipeline` مثل `Tesseract OCR`, `PaddleOCR`, أو `AWS Textract`).
-3. للمستندات المعقدة جداً: استخدام نماذج الرؤية المتعددة الوسائط (`Vision-Language Models - VLMs` مثل `ColPali` أو `GPT-4o Vision`) لقراءة الصفحة كصورة واستخراج محتواها مباشرة.
+1. **الاعتماد على PyMuPDF للمستندات النصية العامة**: يمنحك سرعة تفوق مكتبات بايثون النقية بـ 15 إلى 25 ضعفاً، مما يوفر ساعات طويلة في معالجة آلاف المستندات.
+2. **عزل مستندات الجداول إلى `pdfplumber`**: إذا كان المستند عبارة عن قوائم مالية معقدة متعددة الأعمدة والحدود، استخدم `pdfplumber` لاستخراج الجداول بصيغة جداول بيانات بدلاً من قراءتها كنص خام مشوه.
+3. **اعتماد نمط Parse-Once**: احفظ مخرجات الاستخراج بصيغة `JSON / JSONL` مع رقم الصفحة والميتاداتا، ولا تعد استخراج الملف الأصلي في كل مرة تحتاج فيها لإعادة الفهرسة.

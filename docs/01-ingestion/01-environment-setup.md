@@ -1,8 +1,9 @@
-# 01 - إعداد بيئة العمل والتحكم في الاعتماديات (Environment Setup & uv)
+# إدارة بيئة العمل والتحكم في الاعتماديات عبر UV (Modern Python Dependency Architecture)
+### Architectural & Implementation Guide (`docs/01-ingestion/01-environment-setup.md`)
 
 يمثل إعداد بيئة التطوير الأساس المتين لأي مشروع ذكاء اصطناعي إنتاجي. في تطبيقات الـ RAG، نتعامل مع منظومة مكتبات سريعة التطور وكثيفة التبعيات (`LangChain`, `PyMuPDF`, `HuggingFace`, `ChromaDB`, `Torch`). يؤدي الاعتماد على مديري الحزم التقليديين مثل `pip` و `virtualenv` إلى مشكلات مزمنة تتعلق ببطء التثبيت وتضارب التبعيات (`Dependency Hell`).
 
-في هذا الدليل، نعتمد أداة **`uv`** الحديثة المطورة بلغة Rust من شركة Astral، والتي أحدثت ثورة في إدارة بيئات بايثون.
+في هذا الدليل، نعتمد أداة **`uv`** الحديثة المطورة بلغة Rust من شركة Astral، والتي أحدثت ثورة في إدارة بيئات بايثون وحل التبعيات الحتمية.
 
 ---
 
@@ -24,9 +25,9 @@ flowchart TD
 | المعيار | أداة `pip + virtualenv` | أداة `Conda / Mamba` | أداة `uv` (المعتمدة في المشروع) |
 | :--- | :--- | :--- | :--- |
 | **لغة البناء** | بايثون (`Python`) | بايثون و C++ | رست (`Rust`) فائق السرعة والأمان |
-| **سرعة حل التبعيات** | بطيئة ($30\text{s} - 120\text{s}$) | متوسطة ($20\text{s} - 60\text{s}$) | فائقة جداً ($0.5\text{s} - 2\text{s}$) |
+| **سرعة حل التبعيات** | بطيئة (30 إلى 120 ثانية) | متوسطة (20 إلى 60 ثانية) | فائقة جداً (أقل من ثانية إلى ثانيتين) |
 | **سرعة تثبيت الحزم من الكاش** | بطيئة (إعادة فك الضغط) | متوسطة | لحظية عبر الروابط المادية (`Hardlinks`) |
-| **الملف الحتمي (`Lockfile`)** | غير مدعوم افتراضياً (`requirements.txt` يدوي) | `environment.yml` غير حتمي تماماً | `uv.lock` دقيق 100% ومشفر ببصمات SHA256 |
+| **الملف الحتمي (`Lockfile`)** | غير مدعوم افتراضياً | `environment.yml` غير حتمي تماماً | `uv.lock` دقيق 100% ومشفر ببصمات SHA256 |
 | **استهلاك القرص الصلب** | نسخ مكررة في كل بيئة | نسخ مكررة في مجلد pkgs | كاش مركزي موحد بروابط صلبة (`Global Cache`) |
 
 ---
@@ -55,43 +56,74 @@ uv run python -m ipykernel install --user --name rag-mastery --display-name "Pyt
 ```
 
 ### د. تشغيل الأكواد والاسكربتات عبر `uv run`
-الميزة الاستثنائية لـ `uv` هي إمكانية تنفيذ أي اسكربت داخل البيئة المنعزلة مباشرة دون الحاجة لتفعيل البيئة يدوياً (`source .venv/bin/activate`):
+الميزة الاستثنائية لـ `uv` هي إمكانية تنفيذ أي اسكربت داخل البيئة المنعزلة مباشرة دون الحاجة لتفعيل البيئة يدوياً:
 ```bash
 uv run python main.py
 ```
 
 ---
 
-## 4. بنية ملف `pyproject.toml` المعتمدة
+## 4. الكود التطبيقي: أداة فحص والتحقق من صحة بيئة الـ RAG (Environment Diagnostics)
 
-```toml
-[project]
-name = "rag-mastery"
-version = "0.1.0"
-description = "Production-grade RAG Curriculum from Scratch"
-readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "langchain>=0.2.0",
-    "langchain-community>=0.2.0",
-    "langchain-core>=0.2.0",
-    "pymupdf>=1.24.0",
-    "pypdf>=4.0.0",
-    "pandas>=2.2.0",
-    "openpyxl>=3.1.0",
-    "python-docx>=1.1.0",
-]
+يوضح الكود التالي أداة فحص برمجية متكاملة للتحقق من سلامة البيئة، إصدار بايثون، وتوافر جميع مكتبات استيعاب البيانات الضرورية قبل بدء تشغيل خطوط الإنتاج:
+
+```python
+import importlib
+import platform
+import sys
+from typing import Dict, List, Tuple
+
+def check_rag_environment() -> Dict[str, Any]:
+    """Inspect local Python runtime and verify core RAG dependencies."""
+    required_packages = [
+        "langchain_core",
+        "langchain_community",
+        "fitz",          # PyMuPDF
+        "pypdf",
+        "docx",          # python-docx
+        "pandas",
+        "openpyxl"
+    ]
+    
+    status_report = {
+        "python_version": sys.version.split()[0],
+        "os_platform": platform.platform(),
+        "packages": {},
+        "missing_packages": []
+    }
+    
+    for pkg in required_packages:
+        try:
+            mod = importlib.import_module(pkg)
+            version = getattr(mod, "__version__", "installed (no __version__)")
+            status_report["packages"][pkg] = {"status": "available", "version": version}
+        except ImportError:
+            status_report["packages"][pkg] = {"status": "missing", "version": None}
+            status_report["missing_packages"].append(pkg)
+            
+    status_report["is_ready"] = len(status_report["missing_packages"]) == 0
+    return status_report
+
+if __name__ == "__main__":
+    report = check_rag_environment()
+    print("=== RAG Runtime Diagnostics Report ===")
+    print(f"OS Platform: {report['os_platform']}")
+    print(f"Python Version: {report['python_version']}")
+    print(f"Environment Status: {'READY' if report['is_ready'] else 'INCOMPLETE'}\n")
+    
+    for pkg, info in report["packages"].items():
+        state = "[OK]" if info["status"] == "available" else "[FAILED]"
+        print(f"  {state} {pkg:<20}: {info['version']}")
+        
+    if report["missing_packages"]:
+        print(f"\nMissing dependencies: {report['missing_packages']}")
+        print(f"Run: uv add {' '.join(report['missing_packages'])}")
 ```
 
 ---
 
-## 5. أسئلة المقابلات الهندسية (Senior AI Interview Questions)
+## 5. أفضل الممارسات الهندسية لإدارة البيئة
 
-### س1: ما الفارق الجوهري بين `requirements.txt` وملف `uv.lock` في بيئات الإنتاج للـ LLM؟
-**الإجابة:** 
-* `requirements.txt` يسجل غالباً الحزم العليا فقط، أو يسجل أسماء الحزم مع تثبيت جزئي للإصدارات (`langchain>=0.2.0`). عندما تتحدث حزمة فرعية تابعة (`Transitive Dependency`)، قد ينهار التطبيق فجأة في بيئة الإنتاج (`Production Drift`).
-* `uv.lock` يخزن شجرة التبعيات المحلولة بالكامل حتى آخر حزمة فرعية، موثقة ببصمات تجزئة مشفرة (`Cryptographic Hashes`). هذا يضمن تطابق البيئة 100% بين جهاز مهندس الذكاء الاصطناعي وخادم الاستدلال السحابي وخطوط الـ CI/CD.
-
-### س2: كيف تسهم ميزة Hardlinks في `uv` في توفير مساحة التخزين أثناء تجربة نماذج متعددة؟
-**الإجابة:** 
-عند بناء عشرات البيئات الافتراضية لاختبار مكتبات مختلفة (مثل إصدارات مختلفة من PyTorch و Transformers)، يقوم `pip` بتحميل ونسخ كل مكتبة بحجم عدة جيجابايت في كل بيئة على حدة. في المقابل، يقوم `uv` بتحميل الحزمة مرة واحدة فقط في الكاش المركزي للنظام (`Global Cache`)، ثم ينشئ روابط مادية صلبة (`Hardlinks`) تشير إلى نفس كتل البيانات على القرص دون استهلاك أي مساحة إضافية.
+1. **الالتزام بملف `uv.lock` في مستودع Git**: احرص دائماً على إضافة `uv.lock` لـ Git لضمان أن كل مهندس أو خادم CI/CD يقوم ببناء نفس شجرة التبعيات بدقة بايت-ببايت.
+2. **استخدام مسارات نسبية داخل المشروع**: تجنب وضع مسارات مطلقة (`Hardcoded Absolute Paths`) في الأكواد؛ استخدم دائماً مكتبة `pathlib.Path` نسبة إلى جذر المشروع.
+3. **تحديث الكاش بانتظام**: استخدم `uv cache clean` دورياً إذا قمت بحذف حزم تجريبية كبيرة لتحرير مساحة القرص.

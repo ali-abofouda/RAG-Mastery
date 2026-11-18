@@ -1,6 +1,7 @@
-# 07 - قراءة وتحليل مستندات وورد (Word DOCX Documents Parsing)
+# معالجة مستندات الأوفيس: وورد وعروض الباوربوينت (Office Documents Parsing: DOCX & PPTX)
+### Architectural & Implementation Guide (`docs/01-ingestion/07-word-documents.md`)
 
-تُعد مستندات مايكروسوفت وورد (`Microsoft Word: .docx`) المعيار الفعلي لإعداد مسودات العقود، مقترحات المشاريع (`Proposals`)، ومستندات السياسات الداخلية في معظم المؤسسات والشركات. على عكس ملفات PDF، تتميز ملفات DOCX بأنها مبنية داخلياً على صيغة `Office Open XML (OOXML)`، وهي عبارة عن أرشيف مضغوط (`ZIP`) يحتوي على شجرة ملفات `XML` تصف البنية الدلالية للنص بدقة.
+تُعد مستندات مايكروسوفت وورد (`.docx`) وعروض الباوربوينت (`.pptx`) المعيار الفعلي لمسودات العقود، مقترحات المشاريع، واستراتيجيات الشركات. على عكس ملفات PDF، تتميز مستندات الأوفيس الحديثة بأنها مبنية على معيار `Office Open XML (OOXML)`، وهو عبارة عن أرشيف مضغوط (`ZIP`) يحتوي على شجرة ملفات `XML` تصف البنية الدلالية للنصوص والعناوين والجداول بدقة.
 
 ---
 
@@ -11,71 +12,130 @@ flowchart TD
     DocxFile["مستند Word (.docx)"] --> Archive["أرشيف OpenXML ZIP"]
     Archive --> DocXML["word/document.xml"]
     
-    DocXML --> Parser{"نوع المحمل المختار"}
+    DocXML --> Parser{"محرك الاستخراج"}
     
-    Parser -- "سريع وبسيط" --> Docx2txt["Docx2txtLoader<br/>(استخراج النص الخام والجداول كنصوص متباعدة)"]
-    Parser -- "دلالي هيكلي عميق" --> Unstructured["UnstructuredWordDocumentLoader<br/>(وضع العناصر: mode='elements')"]
+    Parser -- "سريع ومسطح" --> Docx2txt["Docx2txtLoader<br/>(استخراج النص الخام فقط)"]
+    Parser -- "هيكلي متقدم" --> Structured["Structured Python-docx<br/>(تمييز العناوين وتحويل الجداول لـ Markdown)"]
     
     Docx2txt --> FlatDoc["Document(page_content=نص مسطح)"]
-    
-    Unstructured --> Elements["تفكيك المستند لعناصر مصنفة:<br/>- Title (العناوين الرئيسية)<br/>- NarrativeText (الفقرات السردية)<br/>- Table -> تحويل لجداول Markdown<br/>- ListItem (قوائم نقطية)"]
+    Structured --> RichDoc["Document(page_content=عناوين وفقرات وجداول Markdown منظم)"]
 ```
 
 ---
 
-## 2. المقارنة الهندسية بين أشهر محملات DOCX
+## 2. المقارنة الهندسية لمحملات مستندات Office
 
-| المحمل البرمجي | التبعيات الخارجية | استخراج الجداول | الحفاظ على البنية الهرمية | السرعة والإنتاجية |
+| المحمل البرمجي | استخراج الجداول | الحفاظ على العناوين الهرمية | استخراج ملاحظات العرض (Notes) | متى نختاره؟ |
 | :--- | :--- | :--- | :--- | :--- |
-| **`Docx2txtLoader`** | مكتبة `docx2txt` خفيفة | يدمج الخلايا كنصوص عادية | ضعيف (يفقد مستويات العناوين) | فائقة جداً ومناسبة للنصوص السريعة |
-| **`UnstructuredWordDocumentLoader`** | مكتبة `unstructured` + `python-docx` | **يحول الجداول إلى كائنات وجداول Markdown** | **استثنائي (يميز H1, H2, الفقرات والقوائم)** | متوسطة وتتطلب موارد حوسبة أكبر |
+| **`Docx2txtLoader`** | يدمج الخلايا كنصوص عادية | ضعيف (يفقد مستويات العناوين) | غير متاح | النصوص البسيطة والسريعة |
+| **`python-docx` مخصص** | **يحول الجداول إلى Markdown** | **يميز بدقة العناوين (H1, H2, H3)** | غير متاح | **المعيار الإنتاجي لمستندات Word** |
+| **`python-pptx` مخصص** | يستخرج الجداول من الشرائح | يستخرج عناوين الشرائح كـ Metadata | **يستخرج Speaker Notes بدقة** | **المعيار الإنتاجي لعروض PPTX** |
 
 ---
 
-## 3. التنفيذ البرمجي لاستخراج مستندات Word في LangChain
+## 3. الكود التطبيقي: محرك استخراج مستندات وورد وباوربوينت متقدم (Office Parser)
 
-### أ. الاستخراج البسيط والسريع عبر `Docx2txtLoader`
-```python
-from langchain_community.document_loaders import Docx2txtLoader
-
-loader = Docx2txtLoader("data/docx/proposal.docx")
-documents = loader.load()
-
-print(f"تم تحميل المستند، الطول الكلي: {len(documents[0].page_content)} حرفاً.")
-```
-
-### ب. الاستخراج الهيكلي المتقدم وتحويل الجداول إلى Markdown
-في أنظمة الـ RAG، قراءة الجدول كنص مسطح بدون فواصل الأعمدة يدمر قدرة الـ LLM على فهم العلاقات بين الصفوف ورؤوس الأعمدة. لذلك نقوم بتحويل الجداول البرمجية داخل المستند إلى صيغة `Markdown Table`:
+يوضح الكود التالي كيفية استخراج مستندات Word مع تحويل الجداول إلى جداول Markdown، بالإضافة لاستخراج عروض الباوربوينت شريحة بشريحة مع تضمين ملاحظات المتحدث (`Speaker Notes`):
 
 ```python
-import docx
+from pathlib import Path
+from typing import List, Dict, Any
+from langchain_core.documents import Document
 
-def docx_table_to_markdown(table: docx.table.Table) -> str:
-    """تحويل جدول وورد إلى جدول ماركداون قياسي يفهمه الـ LLM بدقة."""
-    md_rows = []
-    headers = [cell.text.strip().replace("\n", " ") for cell in table.rows[0].cells]
-    md_rows.append("| " + " | ".join(headers) + " |")
-    md_rows.append("| " + " | ".join(["---"] * len(headers)) + " |")
-    
-    for row in table.rows[1:]:
-        row_cells = [cell.text.strip().replace("\n", " ") for cell in row.cells]
-        md_rows.append("| " + " | ".join(row_cells) + " |")
-        
-    return "\n".join(md_rows)
+class OfficeDocumentParser:
+    """Enterprise parser for Word (.docx) and PowerPoint (.pptx) documents."""
+
+    @staticmethod
+    def parse_docx(file_path: str) -> List[Document]:
+        """Extract paragraphs, preserve heading structure, and convert tables to Markdown."""
+        try:
+            import docx
+        except ImportError:
+            raise ImportError("Please install python-docx via: uv add python-docx")
+
+        doc = docx.Document(file_path)
+        content_blocks = []
+
+        # 1. Extract paragraphs and headings
+        for p in doc.paragraphs:
+            text = p.text.strip()
+            if not text:
+                continue
+            if p.style.name.startswith("Heading"):
+                content_blocks.append(f"\n### {text}\n")
+            else:
+                content_blocks.append(text)
+
+        # 2. Extract and format tables into Markdown
+        for t_idx, table in enumerate(doc.tables, 1):
+            if not table.rows:
+                continue
+            content_blocks.append(f"\n[Table {t_idx}]")
+            headers = [cell.text.strip().replace("\n", " ") for cell in table.rows[0].cells]
+            content_blocks.append("| " + " | ".join(headers) + " |")
+            content_blocks.append("| " + " | ".join(["---"] * len(headers)) + " |")
+            
+            for row in table.rows[1:]:
+                row_vals = [cell.text.strip().replace("\n", " ") for cell in row.cells]
+                content_blocks.append("| " + " | ".join(row_vals) + " |")
+            content_blocks.append("\n")
+
+        full_text = "\n".join(content_blocks).strip()
+        metadata = {
+            "source": str(file_path),
+            "doc_type": "docx",
+            "table_count": len(doc.tables)
+        }
+        return [Document(page_content=full_text, metadata=metadata)]
+
+    @staticmethod
+    def parse_pptx(file_path: str) -> List[Document]:
+        """Extract slides individually with slide title, body shapes, and speaker notes."""
+        try:
+            import pptx
+        except ImportError:
+            raise ImportError("Please install python-pptx via: uv add python-pptx")
+
+        prs = pptx.Presentation(file_path)
+        documents = []
+
+        for slide_idx, slide in enumerate(prs.slides, 1):
+            slide_texts = []
+            
+            # Extract shape text
+            for shape in slide.shapes:
+                if shape.has_text_frame:
+                    for paragraph in shape.text_frame.paragraphs:
+                        text = paragraph.text.strip()
+                        if text:
+                            slide_texts.append(text)
+
+            # Extract speaker notes if available
+            notes_text = ""
+            if slide.has_notes_slide and slide.notes_slide.notes_text_frame:
+                notes_text = slide.notes_slide.notes_text_frame.text.strip()
+
+            content = "\n".join(slide_texts).strip()
+            metadata = {
+                "source": str(file_path),
+                "doc_type": "pptx",
+                "slide_number": slide_idx,
+                "has_notes": bool(notes_text),
+                "speaker_notes": notes_text
+            }
+            documents.append(Document(page_content=content, metadata=metadata))
+
+        return documents
+
+
+# Demonstration execution
+if __name__ == "__main__":
+    print("[*] OfficeDocumentParser ready for DOCX and PPTX processing.")
 ```
 
 ---
 
-## 4. أسئلة المقابلات الهندسية (Senior AI Interview Questions)
+## 4. الممارسات الهندسية الفضلى
 
-### س1: لماذا يفضل تحويل الجداول في مستندات Word إلى Markdown بدلاً من تركها كنصوص مفصولة بمسافات؟
-**الإجابة:** 
-نماذج التوليد اللغوي الكبيرة (مثل GPT-4 و Llama-3) تم تدريبها بكثافة على ملايين المستودعات البرمجية ومستندات الويب التي تستخدم صيغة **Markdown**.  
-عند تمثيل الجدول بهيكل Markdown (`| Column 1 | Column 2 |`)، يستطيع الـ Attention Mechanism الخاص بالنموذج الربط الحتمي بين رأس العمود والخلية المقابلة في أي صف، بينما تؤدي المسافات أو الفواصل العشوائية إلى خلط البيانات وضياع العلاقة الإحصائية بين القيم.
-
-### س2: كيف تستغل مستويات العناوين (`Heading 1`, `Heading 2`) في مستندات Word لتحسين تقسيم النصوص؟
-**الإجابة:**
-بدلاً من التقطيع الأعمى بعدد الأحرف، نقوم بتطبيق استراتيجية **`Header-Based Chunking`**:
-1. قراءة أنماط الفقرات (`paragraph.style.name`).
-2. عندما يكون النمط `Heading 1` أو `Heading 2`، يتم بدء قطعة جديدة وتخزين نص العنوان في `metadata["section_title"]`.
-3. هذا يضمن أن كل قطعة تظل محتفظة بالسياق الموضوعي للقسم الذي تنتمي إليه، مما يرفع دقة الاسترجاع الدلالي بنسبة كبيرة.
+1. **التعامل مع الشريحة كوحدة مستند مستقلة (`Slide as Document`)**: في عروض الباوربوينت، لا تدمج كامل العرض في نص واحد؛ كل شريحة تمثل فكرة بصرية مستقلة ويجب أن تُعامل ككائن `Document` منفصل مع رقم الشريحة وملاحظات المتحدث في الميتاداتا.
+2. **تحويل الجداول إلى Markdown**: لا تترك جداول Word لتُستخرج كنص مسطح مشوش؛ يضمن تحويلها إلى Markdown فهم النموذج اللغوي لعلاقات الصفوف والأعمدة بدقة 100%.

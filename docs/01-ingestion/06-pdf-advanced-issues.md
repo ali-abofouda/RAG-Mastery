@@ -1,8 +1,7 @@
-# 06 - حل المشكلات المعقدة في الـ PDF وتنظيف النصوص (Advanced PDF Engineering)
+# معالجة التحديات المتقدمة في الـ PDF وتنظيف النصوص والجداول (Advanced PDF Engineering)
+### Architectural & Implementation Guide (`docs/01-ingestion/06-pdf-advanced-issues.md`)
 
-في بيئات الإنتاج الحقيقية، مجرد استخراج النص الخام من ملف الـ PDF لا يتجاوز 30% من المهمة. الـ 70% المتبقية تتمثل في **تنظيف وتطبيع النصوص (`Data Cleaning & Normalization`)** لمعالجة التشوهات المطبعية واللغوية التي تدمر تشابه المتجهات الدلالية (`Cosine Similarity`) وتخدع نماذج الـ LLM.
-
-يقدم هذا الدليل المعمارية الكاملة لخط المعالجة المتقدم **`SmartPDFProcessor`** المطبق في المشروع.
+في بيئات الإنتاج الحقيقية، مجرد استخراج النص الخام من ملف الـ PDF لا يتجاوز 30% من المهمة. الـ 70% المتبقية تتمثل في **تنظيف وتطبيع النصوص (`Data Cleaning & Normalization`)** لمعالجة التشوهات المطبعية واللغوية التي تدمر تشابه المتجهات الدلالية وتضلل نماذج الـ LLM.
 
 ---
 
@@ -25,90 +24,127 @@ flowchart TD
     
     subgraph DualRepresentation["هندسة التمثيل المزدوج للمستند (Dual Representation)"]
         CleanContent["page_content: النص الأصلي المنظف<br/>(يقدم للـ LLM في نافذة السياق)"]
-        SearchText["metadata['search_text']: النص المخفف والمطبع<br/>(يستخدم في التضمين والبحث الهجين BM25)"]
+        SearchText["metadata['search_text']: النص المطبع الموحد<br/>(يستخدم في التضمين والبحث الهجين BM25)"]
     end
     
     Cleanser --> DualRepresentation
-    
-    subgraph Deduplication["طبقة إزالة التكرار والحوكمة"]
-        HashCalc["حساب البصمة الرقمية SHA-256"]
-        DedupCheck{"هل البصمة مسجلة مسبقاً؟"}
-        DedupCheck -- "نعم (تكرار)" --> Drop["إسقاط القطعة ومنع هدر الفهرس"]
-        DedupCheck -- "لا (جديدة)" --> Store["تخزين المستند مع إحصائيات القراءة والميتا-داتا"]
-    end
-    
-    DualRepresentation --> HashCalc --> DedupCheck
 ```
 
 ---
 
-## 2. المشكلات السبع الحرجة وحلولها البرمجية
+## 2. المشكلات الحرجة وحلولها البرمجية
 
-### المشكلة 1: الوصلات والشرطات المنكسرة في نهايات الأسطر (`De-hyphenation`)
-* **المشكلة**: عند تنسيق النصوص الإنجليزية في أعمدة، تنكسر الكلمات الطويلة عند نهاية السطر بوضع شرطة (`infor-\nmation`).
-* **الأثر الكارثي**: يبحث المستخدم عن كلمة `information` فلا يجدها نموذج التضمين أو البحث المعجمي لأنها أصبحت كلمتين مشوهتين (`infor` و `mation`).
-* **الحل بالتعابير النمطية (`Regex`)**:
+### 1. الوصلات والشرطات المنكسرة في نهايات الأسطر (`De-hyphenation`)
+* **المشكلة**: عند تنسيق النصوص في أعمدة، تنكسر الكلمات الطويلة عند نهاية السطر بوضع شرطة (`infor-\nmation`).
+* **الأثر**: يبحث المستخدم عن كلمة `information` فلا يجدها نموذج التضمين أو البحث المعجمي لأنها تحولت لكلمتين مشوهتين.
+* **الحل بالتعابير النمطية**:
   ```python
-  import re
   text = re.sub(r'(\w+)-\n(\w+)', r'\1\2', text)
   ```
 
-### المشكلة 2: فك الرموز المطبعية المدمجة (`Ligatures`)
-* **المشكلة**: تقوم برامج التصميم بدمج حرفين متجاورين في رمز مطبعي واحد خاص لتجميل الخط (مثل: `ﬁ` بدلاً من `fi`، و `ﬂ` بدلاً من `fl`).
-* **الحل**: استبدال الرموز المدمجة بالحروف اللاتينية المنفصلة القياسية:
-  ```python
-  LIGATURES = {
-      'ﬁ': 'fi', 'ﬂ': 'fl', 'ﬀ': 'ff',
-      'ﬃ': 'ffi', 'ﬄ': 'ffl', 'ﬅ': 'ft'
-  }
-  for lig, repl in LIGATURES.items():
-      text = text.replace(lig, repl)
-  ```
+### 2. فك الرموز المطبعية المدمجة (`Ligatures`)
+* **المشكلة**: برامج التصميم تدمج حرفين متجاورين في رمز مطبعي واحد خاص لتجميل الخط (مثل: `ﬁ` بدلاً من `fi`، و `ﬂ` بدلاً من `fl`).
+* **الحل**: استبدال الرموز المدمجة بالحروف المنفصلة القياسية.
 
-### المشكلة 3: التطبيع الهندسي للغة العربية (`Arabic Text Normalization`)
-تحتوي اللغة العربية على تنوع هائل في أشكال الحروف التي تؤدي لتشتيت نماذج البحث الدلالي والمعجمي:
-1. **توحيد الهمزات والألفات**: تحويل (`أ, إ, آ`) إلى ألف مجردة (`ا`).
-2. **إزالة التشكيل (الحركات)**: إزالة الفتحة، الضمة، الكسرة، التنوين، والسكون:
-   ```python
-   arabic_diacritics = re.compile(r'[\u064B-\u0652]')
-   text = re.sub(arabic_diacritics, '', text)
-   ```
-3. **إزالة التطويل والكشيدة (`Tatweel`)**: إزالة رمز المد التجميلي `ـ` (`\u0640`).
-4. **توحيد الياء المقصورة والتاء المربوطة**: توحيد (`ى` $\to$ `ي`) و (`ة` $\to$ `ه`) في نص البحث.
+### 3. تطبيع النصوص العربية (`Arabic Text Normalization`)
+* **المشكلة**: تنوع رسم الحروف (أ، إ، آ، ا)، واستخدام التشكيل، وعلامات الكشيدة (`ـ`)، والتاء المربوطة والهاء.
+* **الحل**: إزالة التشكيل والكشيدة، وتوحيد الألف والياء في نص البحث لضمان تطابق الاستعلام مع الوثائق.
 
-### المشكلة 4: تصفية الترويسات والتذييلات المتكررة (`Header & Footer Stripping`)
-* تكرار اسم الشركة ورقم الصفحة في أعلى وأسفل كل صفحة يؤدي إلى:
-  * تلوث متجه التضمين بكلمات عامة لا علاقة لها بموضوع الصفحة.
-  * استرجاع تذييلات الصفحات المكررة وإهدار نافذة سياق الـ LLM.
-* **الحل**: حساب الأسطر المتكررة عبر كل الصفحات وحذفها بناءً على إحداثياتها الرأسية أو تردد ظهورها.
-
-### المشكلة 5: التمثيل المزدوج للمستند (`Dual-Representation Strategy`)
-في بيئات الإنتاج، لا نستخدم نصاً واحداً لكل الأغراض:
-* **`page_content`**: يحتفظ بالنص الأصلي المنظف (مع الهمزات والتشكيل الخفيف وعلامات الترقيم) ليقرأه النموذج اللغوي ويصيغ منه إجابة لغوية فصيحة.
-* **`metadata["search_text"]`**: النص المطبع بالكامل والمجرد من الحركات والموحد الهمزات ليستخدمه محرك التضمين والبحث الهجين `BM25`.
-
-### المشكلة 6: إزالة التكرار عبر البصمات المشفرة (`SHA-256 Deduplication`)
-حساب بصمة رقمية لمحتوى كل قطعة لمنع تكرار فهرسة نفس الفقرات عند وجود صفحات مكررة أو تذييلات عامة:
-```python
-import hashlib
-content_hash = hashlib.sha256(cleaned_text.encode('utf-8')).hexdigest()
-```
-
-### المشكلة 7: مؤشرات وإحصائيات القراءة المتقدمة (`Content Metrics`)
-تضمين حقول إحصائية تفيد في ترتيب النتائج وتحليل أداء الاسترجاع:
-* `word_count`: عدد الكلمات الفعلي.
-* `reading_time_minutes`: الوقت المقدر لقراءة الفقرة ($\text{words} / 200$).
+### 4. استخراج الجداول وتحويلها إلى Markdown
+* **المشكلة**: قراءة الجداول ككتلة نصية عادية تسقط حدود الأعمدة وتفصل رؤوس الجداول عن أرقامها.
+* **الحل**: استخراج الجداول بهيكلها وتحويلها إلى صيغة Markdown Table لتمكين الـ LLM من فهم العلاقات الأفقية والعمودية بين الخلايا.
 
 ---
 
-## 3. أسئلة المقابلات الهندسية (Senior AI Interview Questions)
+## 3. الكود التطبيقي: محرك تنظيف وتطبيع نصوص الـ PDF (Advanced Text Normalizer)
 
-### س1: لماذا يعتبر تطبيق الـ Normalization مباشرة على `page_content` ممارسة سيئة في تطبيقات الإنتاج؟
-**الإجابة:** 
-إذا جردنا `page_content` من الهمزات والتشكيل وعلامات الترقيم واستبدلنا التاء المربوطة بالهاء، فسوف يستلم النموذج اللغوي الكبير (`LLM`) نصاً مشوهاً وركيكاً لغوياً، مما يجعله يولد إجابات ذات جودة لغوية منخفضة ومليئة بالأخطاء الإملائية.  
-لذلك فإن الحل الهندسي المعتمد هو **التمثيل المزدوج (`Dual Representation`)**: يترك `page_content` سليماً وفصيحاً ليغذي الـ LLM، بينما يتم تخزين النسخة المطبعة داخل `metadata["search_text"]` لمحركات الفهرسة والبحث فقط.
+يوضح الكود التالي خط معالجة عملي ينفذ فك الوصلات، فك الرموز المدمجة، تطبيع الأبجدية العربية، واستخراج الجداول:
 
-### س2: كيف تكتشف الترويسات والتذييلات (`Headers & Footers`) في ملف PDF دون الاعتماد على قواعد نصية ثابتة؟
-**الإجابة:**
-1. **التحليل المكاني بالإحداثيات (`Spatial Coordinate Analysis`)**: فحص السطور التي تقع في أعلى 5% أو أسفل 5% من ارتفاع الصفحة البصري (`y-coordinates` عبر PyMuPDF).
-2. **التحليل الترددي الإحصائي (`Statistical Frequency Analysis`)**: فحص السطور التي تتكرر بنفس النص بالضبط في أكثر من 80% من صفحات المستند (مثل أسماء الفصول أو اسم المؤسسة)، وتصنيفها برمجياً كـ Running Headers وتصفيتها تلقائياً.
+```python
+import re
+from typing import Dict, Any
+
+class AdvancedDocumentCleaner:
+    """Enterprise text normalization engine resolving PDF typographic artifacts."""
+
+    LIGATURES_MAP = {
+        "ﬁ": "fi",
+        "ﬂ": "fl",
+        "ﬀ": "ff",
+        "ﬃ": "ffi",
+        "ﬄ": "ffl",
+        "ﬅ": "ft",
+        "ﬆ": "st"
+    }
+
+    @classmethod
+    def dehyphenate(cls, text: str) -> str:
+        """Merge words broken across linebreaks with hyphens."""
+        return re.sub(r"(\w+)-\n(\w+)", r"\1\2", text)
+
+    @classmethod
+    def unfold_ligatures(cls, text: str) -> str:
+        """Replace typographic ligatures with standard distinct character pairs."""
+        for lig, repl in cls.LIGATURES_MAP.items():
+            text = text.replace(lig, repl)
+        return text
+
+    @classmethod
+    def normalize_arabic(cls, text: str) -> str:
+        """Strip Arabic diacritics (tashkeel), tatweel, and normalize letter variants."""
+        # Remove Arabic tatweel / kashida (\u0640)
+        text = re.sub(r"\u0640", "", text)
+        # Remove Arabic diacritics / harakat (range: 064B to 0652)
+        text = re.sub(r"[\u064B-\u0652]", "", text)
+        # Normalize alef variants to bare alef
+        text = re.sub(r"[إأآا]", "ا", text)
+        # Normalize final yaa
+        text = re.sub(r"[ىي]", "ي", text)
+        # Normalize taa marbuta to haa for search indexing
+        text = re.sub(r"ة", "ه", text)
+        return text
+
+    @classmethod
+    def clean_pipeline(cls, raw_text: str) -> Dict[str, str]:
+        """Produce dual representation: clean for LLM context, normalized for embeddings."""
+        # 1. Unfold ligatures and dehyphenate
+        step1 = cls.unfold_ligatures(raw_text)
+        step2 = cls.dehyphenate(step1)
+        
+        # 2. Page Content representation (clean, preserving original language tone)
+        llm_context = re.sub(r"\n{3,}", "\n\n", step2).strip()
+        
+        # 3. Search Text representation (normalized for Arabic and keyword matching)
+        search_repr = cls.normalize_arabic(llm_context.lower())
+        
+        return {
+            "page_content": llm_context,
+            "search_text": search_repr
+        }
+
+
+# Demonstration
+raw_sample = (
+    "The financial infor-\nmation reflects signiﬁcant proﬁt growth.\n"
+    "تـطـبـيـقـاتُ الذكاءِ الاصْطِناعِيّ تُعَزِّزُ إِنْتاجِيَّةَ الشَّرِكَةِ."
+)
+
+cleaner = AdvancedDocumentCleaner()
+cleaned = cleaner.clean_pipeline(raw_sample)
+
+print("=== Raw Text ===")
+print(raw_sample)
+
+print("\n=== Cleaned for LLM Context (De-hyphenated & Unfolded) ===")
+print(cleaned["page_content"])
+
+print("\n=== Normalized Search Text (No Tashkeel / Normalized Arabic) ===")
+print(cleaned["search_text"])
+```
+
+---
+
+## 4. الممارسات الهندسية الفضلى
+
+1. **اعتماد مبدأ التمثيل المزدوج (`Dual Representation`)**: احفظ النص المنظف الطبيعي في `page_content` ليقرأه النموذج اللغوي بسلاسة، واحفظ النص المطبع والمخفف في `metadata["search_text"]` لاستخدامه في البحث المعجمي (`BM25`) لضمان العثور على الكلمات العربية مهما اختلف رسم الهمزات.
+2. **إزالة ترويسات وتذييلات الصفحات (`Headers & Footers`)**: تكرار جملة مثل *"تقرير الشركة السري - صفحة 5"* في كل مقطع يشتت نماذج التضمين ويهدر سياق الـ LLM؛ لذلك يجب حذف النصوص المتكررة في أعلى وأسفل الصفحات برمجياً.
