@@ -30,7 +30,7 @@ flowchart TD
 
 ## 🧩 2. فئة `HuggingFaceAPIEmbeddings` والفرق بين `embed_query` و `embed_documents`
 
-تم بناء الفئة في موديول مستقل: [`02-indexing/huggingface_api.py`](file:///d:/Code/AI/rag-mastery/02-indexing/huggingface_api.py).
+تم بناء الفئة في موديول مستقل: [`02-indexing/huggingface_api.py`](file:///D:/Code/ai-ml/rag-mastery/02-indexing/huggingface_api.py).
 
 ```python
 from huggingface_api import HuggingFaceAPIEmbeddings

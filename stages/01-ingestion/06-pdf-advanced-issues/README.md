@@ -125,8 +125,8 @@ class SmartPDFProcessor:
 ## 6. الدليل المعماري وكود الإنتاج المتقدم (Production Blueprint & Code)
 
 لمزيد من التعمق الهندسي وفهم كيفية التعامل مع ملفات الـ PDF في بيئات الإنتاج المعقدة (Enterprise RAG):
-* 📖 **[دليل التحديات المعمارية الـ 13 ومستويات النضج الثلاثة](file:///d:/Code/AI/rag-mastery/01-ingestion/06-pdf-advanced-issues/PDF_PRODUCTION_CHALLENGES.md)**: ملف معماري شامل يغطي الجداول، النصوص العربية، الترويسات المتكررة، ومعادلات LaTeX.
-* 🐍 **[الكود الإنتاجي الشامل (`production_pdf_pipeline.py`)](file:///d:/Code/AI/rag-mastery/01-ingestion/06-pdf-advanced-issues/production_pdf_pipeline.py)**: خط أنابيب متكامل يدعم إزالة الترويسات المتكررة آلياً، فك وصلات الحروف المقطوعة (De-hyphenation)، معالجة النصوص العربية، وبصمة الهاش (SHA-256) لمنع تكرار القطع.
+* 📖 **[دليل التحديات المعمارية الـ 13 ومستويات النضج الثلاثة](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/06-pdf-advanced-issues/PDF_PRODUCTION_CHALLENGES.md)**: ملف معماري شامل يغطي الجداول، النصوص العربية، الترويسات المتكررة، ومعادلات LaTeX.
+* 🐍 **[الكود الإنتاجي الشامل (`production_pdf_pipeline.py`)](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/06-pdf-advanced-issues/production_pdf_pipeline.py)**: خط أنابيب متكامل يدعم إزالة الترويسات المتكررة آلياً، فك وصلات الحروف المقطوعة (De-hyphenation)، معالجة النصوص العربية، وبصمة الهاش (SHA-256) لمنع تكرار القطع.
 
 ---
 

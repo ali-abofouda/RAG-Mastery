@@ -110,7 +110,7 @@ flowchart TD
 
 ## 4. التحكم عبر سطر الأوامر والتخطي الذكي (`CLI & Idempotency`)
 
-يوفر الملف [`ingest.py`](file:///d:/Code/AI/rag-mastery/projects/01-rag-applications/01-hr-policy-rag-assistant/ingest.py) واجهة سطر أوامر سهلة ومحمية:
+يوفر الملف [`ingest.py`](file:///D:/Code/ai-ml/rag-mastery/projects/01-rag-applications/01-hr-policy-rag-assistant/ingest.py) واجهة سطر أوامر سهلة ومحمية:
 
 ```bash
 # 1. إدخال لوائح الموارد البشرية فقط (الافتراضي - يتخطى الفهرسة إذا كانت المجموعة تحتوي نقاطاً بالفعل):

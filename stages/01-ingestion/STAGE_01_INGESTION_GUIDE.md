@@ -66,8 +66,8 @@ data_dir = Path("data") if Path("data").exists() else Path("../../data")
 ---
 
 ## 🛠️ الدرس 01: إعداد بيئة العمل والتحكم في الاعتماديات (01-environment-setup)
-* **المسار:** [`01-ingestion/01-environment-setup/`](file:///d:/Code/AI/rag-mastery/01-ingestion/01-environment-setup/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/01-environment-setup/README.md) | [01-environment-setup.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/01-environment-setup/01-environment-setup.ipynb)
+* **المسار:** [`01-ingestion/01-environment-setup/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/01-environment-setup/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/01-environment-setup/README.md) | [01-environment-setup.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/01-environment-setup/01-environment-setup.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 بناء بيئة عمل احترافية، فائقة السرعة، وقابلة لإعادة الإنتاج (Reproducible) لتطوير تطبيقات الذكاء الاصطناعي التوليدي والـ RAG باستخدام أداة **`uv`** الحديثة من Astral بدلاً من أدوات `pip` و `virtualenv` التقليدية.
@@ -91,8 +91,8 @@ uv run python -m ipykernel install --user --name rag-mastery --display-name "Pyt
 ---
 
 ## 📄 الدرس 02: بنية كائن المستند وهندسة البيانات الوصفية (02-document-structure)
-* **المسار:** [`01-ingestion/02-document-structure/`](file:///d:/Code/AI/rag-mastery/01-ingestion/02-document-structure/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/02-document-structure/README.md) | [02-document-structure.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/02-document-structure/02-document-structure.ipynb)
+* **المسار:** [`01-ingestion/02-document-structure/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/02-document-structure/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/02-document-structure/README.md) | [02-document-structure.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/02-document-structure/02-document-structure.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 فهم البنية التحتية لتمثيل النصوص داخل LangChain، وهي كائن **`Document`**، وكيفية استغلال حقل البيانات الوصفية (**`metadata`**) كأداة هندسية لحل مشكلات التتبع، الاسترجاع المفلتر (Filtered Retrieval)، والتحكم في الصلاحيات.
@@ -123,8 +123,8 @@ doc = Document(
 ---
 
 ## 🔤 الدرس 03: قراءة الملفات النصية واستراتيجيات الترميز (03-text-loaders)
-* **المسار:** [`01-ingestion/03-text-loaders/`](file:///d:/Code/AI/rag-mastery/01-ingestion/03-text-loaders/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/03-text-loaders/README.md) | [03-text-loaders.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/03-text-loaders/03-text-loaders.ipynb)
+* **المسار:** [`01-ingestion/03-text-loaders/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/03-text-loaders/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/03-text-loaders/README.md) | [03-text-loaders.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/03-text-loaders/03-text-loaders.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 استيعاب الملفات النصية الخام (`.txt`, `.md`, `.log`) بشكل فردي عبر `TextLoader` أو دفعة واحدة عبر المجلدات باستخدام `DirectoryLoader`، مع معالجة مصائد الترميز اللغوي (Encoding Pitfalls).
@@ -152,8 +152,8 @@ docs = loader.load()
 ---
 
 ## ✂️ الدرس 04: تقنيات تجزئة وتقطيع النصوص (04-text-splitting)
-* **المسار:** [`01-ingestion/04-text-splitting/`](file:///d:/Code/AI/rag-mastery/01-ingestion/04-text-splitting/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/04-text-splitting/README.md) | [04-text-splitting.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/04-text-splitting/04-text-splitting.ipynb)
+* **المسار:** [`01-ingestion/04-text-splitting/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/04-text-splitting/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/04-text-splitting/README.md) | [04-text-splitting.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/04-text-splitting/04-text-splitting.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 تقطيع المستندات الطويلة إلى أجزاء دلالية متوازنة (**Chunks**) تناسب نافذة سياق نماذج التضمين وتمنع فقدان المعاني عبر الحدود النصية.
@@ -184,8 +184,8 @@ chunks = text_splitter.split_documents(docs)
 ---
 
 ## 📑 الدرس 05: أساسيات قراءة ومقارنة محملات PDF (05-pdf-parsing)
-* **المسار:** [`01-ingestion/05-pdf-parsing/`](file:///d:/Code/AI/rag-mastery/01-ingestion/05-pdf-parsing/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/05-pdf-parsing/README.md) | [05-pdf-parsing.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/05-pdf-parsing/05-pdf-parsing.ipynb)
+* **المسار:** [`01-ingestion/05-pdf-parsing/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/05-pdf-parsing/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/05-pdf-parsing/README.md) | [05-pdf-parsing.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/05-pdf-parsing/05-pdf-parsing.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 التعامل مع ملفات الـ PDF التي تمثل أكثر من 70% من وثائق الشركات، ومقارنة أشهر محملات الـ PDF في منظومة LangChain.
@@ -204,8 +204,8 @@ chunks = text_splitter.split_documents(docs)
 ---
 
 ## 🛡️ الدرس 06: معالجة مشكلات PDF المعقدة والخط الإنتاجي (06-pdf-advanced-issues)
-* **المسار:** [`01-ingestion/06-pdf-advanced-issues/`](file:///d:/Code/AI/rag-mastery/01-ingestion/06-pdf-advanced-issues/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/06-pdf-advanced-issues/README.md) | [06-pdf-advanced-issues.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/06-pdf-advanced-issues/06-pdf-advanced-issues.ipynb) | [production_pdf_pipeline.py](file:///d:/Code/AI/rag-mastery/01-ingestion/06-pdf-advanced-issues/production_pdf_pipeline.py)
+* **المسار:** [`01-ingestion/06-pdf-advanced-issues/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/06-pdf-advanced-issues/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/06-pdf-advanced-issues/README.md) | [06-pdf-advanced-issues.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/06-pdf-advanced-issues/06-pdf-advanced-issues.ipynb) | [production_pdf_pipeline.py](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/06-pdf-advanced-issues/production_pdf_pipeline.py)
 
 ### 1. الهدف الهندسي (Goal)
 بناء خط معالجة إنتاجي متكامل (`SmartPDFProcessor` / `ProductionPipeline`) يعالج المشكلات الواقعية التي تدمر دقة أنظمة الـ RAG.
@@ -227,8 +227,8 @@ chunks = text_splitter.split_documents(docs)
 ---
 
 ## 📝 الدرس 07: قراءة وتحليل مستندات Word (07-word-documents)
-* **المسار:** [`01-ingestion/07-word-documents/`](file:///d:/Code/AI/rag-mastery/01-ingestion/07-word-documents/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/07-word-documents/README.md) | [07-word-documents.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/07-word-documents/07-word-documents.ipynb)
+* **المسار:** [`01-ingestion/07-word-documents/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/07-word-documents/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/07-word-documents/README.md) | [07-word-documents.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/07-word-documents/07-word-documents.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 استيعاب مستندات Microsoft Word بصيغة `.docx` التي تعد المعيار للتقارير، المقترحات، والسياسات الداخلية في الشركات.
@@ -246,8 +246,8 @@ chunks = text_splitter.split_documents(docs)
 ---
 
 ## 📊 الدرس 08: استيعاب البيانات الجدولية CSV و Excel (08-csv-excel)
-* **المسار:** [`01-ingestion/08-csv-excel/`](file:///d:/Code/AI/rag-mastery/01-ingestion/08-csv-excel/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/08-csv-excel/README.md) | [08-csv-excel.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/08-csv-excel/08-csv-excel.ipynb)
+* **المسار:** [`01-ingestion/08-csv-excel/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/08-csv-excel/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/08-csv-excel/README.md) | [08-csv-excel.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/08-csv-excel/08-csv-excel.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 تحويل البيانات المنظمة داخل ملفات الـ CSV و Excel إلى نصوص يفهمها نموذج التضمين، مع استخراج السمات الرقمية والتصنيفية إلى الميتا-داتا للفلترة.
@@ -284,8 +284,8 @@ def serialize_product_row(row):
 ---
 
 ## 🌳 الدرس 09: معالجة بيانات JSON شبه المهيكلة (09-json-processing)
-* **المسار:** [`01-ingestion/09-json-processing/`](file:///d:/Code/AI/rag-mastery/01-ingestion/09-json-processing/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/09-json-processing/README.md) | [09-json-processing.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/09-json-processing/09-json-processing.ipynb)
+* **المسار:** [`01-ingestion/09-json-processing/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/09-json-processing/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/09-json-processing/README.md) | [09-json-processing.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/09-json-processing/09-json-processing.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 تحليل ملفات الـ JSON المتداخلة المعقدة والناتجة من واجهات الـ REST APIs وسجلات التدقيق (Audit Logs) وتحويلها لمستندات بحثية دلالية.
@@ -309,8 +309,8 @@ docs = loader.load()
 ---
 
 ## 🗄️ الدرس 10: ربط واستخراج قواعد البيانات العلائقية (10-sql-databases)
-* **المسار:** [`01-ingestion/10-sql-databases/`](file:///d:/Code/AI/rag-mastery/01-ingestion/10-sql-databases/)
-* **الملفات:** [README.md](file:///d:/Code/AI/rag-mastery/01-ingestion/10-sql-databases/README.md) | [10-sql-databases.ipynb](file:///d:/Code/AI/rag-mastery/01-ingestion/10-sql-databases/10-sql-databases.ipynb)
+* **المسار:** [`01-ingestion/10-sql-databases/`](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/10-sql-databases/)
+* **الملفات:** [README.md](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/10-sql-databases/README.md) | [10-sql-databases.ipynb](file:///D:/Code/ai-ml/rag-mastery/01-ingestion/10-sql-databases/10-sql-databases.ipynb)
 
 ### 1. الهدف الهندسي (Goal)
 ردم الفجوة بين البيانات المقسمة حسب قواعد التطبيع العلائقي (**Normalized 3NF Tables**) في قواعد SQL، وبين طبيعة الـ RAG التي تحتاج إلى فقرات نصية متكاملة السياق.
