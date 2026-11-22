@@ -25,6 +25,7 @@
 | **Agentic RAG** | الـ RAG المعتمد على وكيل ذكي يتخذ قرارات الاسترجاع ذاتياً | `03-agentic-ai-and-workflows.md` |
 | **BM25** | خوارزمية بحث كلاسيكية مطورة بالكلمات المفتاحية (Sparse) | `01-rag-and-retrieval.md` |
 | **Checkpointer** | آلية حفظ حالة وسياق المحادثة في قاعدة بيانات دائمة | `03-agentic-ai-and-workflows.md` |
+| **Chat-Compatible** | التوافق مع معيار وبروتوكول واجهات المحادثة القياسية (OpenAI API) | `02-llm-foundations-and-inference.md` |
 | **Context Window** | نافذة السياق (الحد الأقصى للتوكنز التي يستوعبها النموذج) | `02-llm-foundations-and-inference.md` |
 | **Corrective RAG (CRAG)** | تقييم وتصحيح المستندات المسترجعة قبل توليد الإجابة | `01-rag-and-retrieval.md` |
 | **Cross-Encoder** | نموذج إعادة ترتيب دقيق يقارن السؤال بالمستند معاً | `01-rag-and-retrieval.md` |
