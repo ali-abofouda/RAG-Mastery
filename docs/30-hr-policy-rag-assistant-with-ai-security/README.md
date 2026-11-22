@@ -17,7 +17,9 @@
 | **148** | أتمتة وتنسيق خط إدخال البيانات والتحكم عبر الـ CLI | [`07-data-ingestion-pipeline-orchestration.md`](./07-data-ingestion-pipeline-orchestration.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Ingestion Pipeline Orchestration (مكتمل) |
 | **149** | بناء محرك الاسترجاع وإعادة الترتيب ووكيل المساعد | [`08-retrieval-and-agent-pipeline.md`](./08-retrieval-and-agent-pipeline.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 1: Retrieval & Agent Pipeline (مكتمل) |
 | **150 - 151** | خط أنابيب الاستعلام التفاعلي وواجهة Streamlit | قيد المعالجة | قيد المعالجة | Phase 1: Query Pipeline & UI |
-| **152 - 159** | الطور الثاني: أمان النماذج اللغوية واختبارات الاختراق | قيد المعالجة | قيد المعالجة | Phase 2: LLM Security & Evals |
+| **152 - 156** | الطور الثاني: دروع الأمان والـ Guardrails والكاش الدلالي وإدارة الجلسات | [`09-red-teaming-and-llm-evaluation-foundations.md`](./09-red-teaming-and-llm-evaluation-foundations.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 2: Security & Guardrails (مكتمل) |
+| **157** | فحص البايب لاين: الفريق الأحمر ومقدمة التقييم بنموذج الحَكَم | [`09-red-teaming-and-llm-evaluation-foundations.md`](./09-red-teaming-and-llm-evaluation-foundations.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/red_team_test.py`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/red_team_test.py) | Phase 2: Red Teaming & LLM-as-a-Judge (مكتمل) |
+| **158 - 159** | الطور الثاني: التقييم الكمي الشامل وثالوث الـ RAG عبر LangSmith | قيد المعالجة | قيد المعالجة | Phase 2: Quantitative LLM Evals |
 | **160 - 163** | الطور الثالث: الحاويات والنشر السحابي الكامل | قيد المعالجة | قيد المعالجة | Phase 3: Deployment |
 
 ---
