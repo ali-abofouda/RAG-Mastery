@@ -166,3 +166,32 @@ def verify_access_control() -> bool:
 1. **Cloud Run Free Tier:** تقدم جوجل شهرياً 2 مليون طلب (Requests) مجاني، و 360,000 جيجابايت-ثانية من الذاكرة، و 180,000 ثانية vCPU مجاناً، وهو ما يكفي لتشغيل تطبيق داخلي لمئات الموظفين دون دفع سنت واحد.
 2. **Artifact Registry Free Tier:** تمنح جوجل 0.5 جيجابايت شهرياً لتخزين صور الحاويات مجاناً.
 3. **Google OAuth 2.0:** خدمة التوثيق وتوليد الـ Client ID والـ Client Secret مجانية تماماً ولا تتطلب ربط أي بطاقة ائتمانية مفعلة بالدفع.
+
+---
+
+## 7. النشر السحابي الفعلي وحل معضلة الـ Redirect URI Mismatch
+
+عند النشر الفعلي للتطبيق على Google Cloud Run، تبرز عقبة تشغيلية شائعة جداً في مشاريع الذكاء الاصطناعي المؤسسية تتعلق بالمصادقة:
+
+### أ. إدارة المتغيرات والأسرار (Configuration & Secret Separation)
+يتم تقسيم إعدادات التشغيل إلى مستويين:
+1. **المتغيرات التشغيلية غير السرية (`deploy.env.yaml`):**
+   تُمرر عبر الفلاج `--env-vars-file=deploy.env.yaml` لضبط إعدادات Qdrant ونماذج Gemini ومستويات الحماية دون حرقها في الحاوية.
+2. **الأسرار الحساسة المشفرة (`Google Secret Manager`):**
+   يُحفظ ملف `.streamlit/secrets.toml` داخل خدمة الأسرار السحابية عبر:
+   ```bash
+   gcloud secrets versions add streamlit-auth --data-file=.streamlit/secrets.toml
+   ```
+   ويتم تركيبه لحظياً داخل الحاوية عند مسار `/app/.streamlit/secrets.toml`.
+
+### ب. تشخيص وحل خطأ `Error 400: redirect_uri_mismatch`
+عند الضغط على زر الدخول بـ Google، ترفض جوجل المصادقة إذا لم يكن مسار إعادة التوجيه مطابقاً 100% للمسار المسجل في Google Cloud Console:
+* **السبب:** خادم Streamlit مبرمج داخلياً على استقبال توكن المصادقة عبر المسار الفرعي الصارم:
+  $$\text{Redirect URI} = \text{https://<SERVICE\_URL>/oauth2callback}$$
+* **الحل المعماري:**
+  1. في صفحة **Google Auth Platform** -> إضافة `https://<SERVICE_URL>/oauth2callback` داخل `Authorized redirect URIs`.
+  2. في ملف `.streamlit/secrets.toml` -> ضبط `redirect_uri` على نفس الرابط تماماً.
+  3. تحديث السر في `Secret Manager` وإعادة النشر.
+
+عند نجاح المصادقة، يفتح المساعد واجهة الـ Streamlit ويبدأ الموظف في طرح استفسارات سياسات العمل مع تسجيل كامل للـ Traces على LangSmith.
+
