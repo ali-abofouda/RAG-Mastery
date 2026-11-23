@@ -53,8 +53,157 @@
 
 ---
 
-### 6. Containerization (Docker in AI Systems)
-* **المفهوم ببساطة:** تغليف كود تطبيق الذكاء الاصطناعي مع كل مكتباته واعتمادياته (Python, PyTorch, LangChain, CUDA drivers) في صورة معزولة وموحدة تسمى حاوية (Container).
-* **لماذا هو إلزامي لمهندس الـ AI؟**
-  - يحل مشكلة: *"الكود شغال على لابتوبي بس مش شغال على سيرفر العميل"*.
-  - يتيح لك رفع التطبيق بأكمله (الواجهة + محرك الـ RAG + قاعدة Qdrant) وتشغيله على أي سيرفر أو سحابة (GCP / AWS) بأمر واحد فقط: `docker compose up`.
+### 6. Containerization (الدوكر في أنظمة الذكاء الاصطناعي — Docker for AI Engineers)
+
+#### أ. المفهوم المعماري ببساطة (Core Concept)
+* **ما هو Docker؟** منصة برمجية لعزل وتغليف تطبيق الذكاء الاصطناعي مع كل ما يحتاجه ليعمل (إصدار بايثون المحدد، مكتبات C++، تعريفات CUDA، اعتمادات PyTorch، وملفات الكود) داخل وحدة قائمة بذاتها تسمى **حاوية (Container)**.
+* **الفرق بين الحاوية (Container) والآلة الافتراضية (VM):**
+  - **الـ VM:** يحمل نظام تشغيل كامل ضخم (Guest OS) بمساحات عشرات الجيجابايت وإقلاع يستغرق دقائق.
+  - **الـ Container:** يشترك مباشرة في نواة نظام التشغيل المضيف (Host OS Kernel)، مما يجعله فائق الخفة (بالميجابايت) ويبدأ التشغيل في أجزاء من الثانية.
+* **الفرق بين الـ Image والـ Container:**
+  - **Docker Image (الصورة):** هي "القالب / المخطط الثابت" المجمد الذي يحتوي على الكود والمكتبات (مثل وصفة الكيك).
+  - **Docker Container (الحاوية):** هي "النسخة الحية قيد التشغيل" من تلك الصورة (الكيكة بعد خبزها وتشغيلها في الذاكرة).
+
+---
+
+#### ب. لماذا يعتبر Docker إلزامياً وحيوياً لمهندس الذكاء الاصطناعي؟
+1. **القضاء على كابوس "الكود شغال عندي على اللابتوب":** في الذكاء الاصطناعي، تعتمد مكتبات مثل `torch`, `faiss`, `onnxruntime`, `pypdf` على امتدادات C++ ومكتبات نظام دقيقة؛ الدوكر يضمن أن التطبيق سيعمل بنفس النتيجة بالضبط على حاسوبك، سيرفر زميلك، وسحابة العميل (GCP / AWS).
+2. **عزل بيئات النماذج (Dependency Isolation):** إذا كان مشروع يتطلب `pydantic v1` ومشروع آخر يتطلب `pydantic v2`، الدوكر يعزل كل بيئة تماماً دون أي تعارض.
+3. **تعدد الخدمات (Microservices Orchestration):** نظام الـ RAG الحديث لا يتكون من كود بايثون فقط؛ بل يحتاج (تطبيق الـ API + قاعدة بيانات المتجهات Qdrant + كاش دلالي Redis). الدوكر يتيح تشغيل هذه المنظومة كاملة كشبكة واحدة منسقة.
+
+---
+
+#### ج. المكونات الأساسية لكتابة Docker
+
+##### 1. ملف الـ Dockerfile (تعليمات بناء الصورة):
+أهم الأوامر القياسية:
+- `FROM`: اختيار الصورة الأساسية (Base Image)، مثل `python:3.12-slim`.
+- `WORKDIR`: تحديد مجلد العمل الداخلي داخل الحاوية.
+- `COPY`: نسخ الملفات من جهازك إلى داخل الحاوية.
+- `RUN`: تنفيذ أوامر تثبيت الحزم (مثل `pip install` أو `apt-get`).
+- `ENV`: ضبط المتغيرات البيئية (مثل `PYTHONUNBUFFERED=1`).
+- `EXPOSE`: توثيق المنفذ (Port) الذي يفتحه التطبيق (مثل `8000` أو `8501`).
+- `CMD`: الأمر الافتراضي الذي يتم تنفيذه عند تشغيل الحاوية.
+
+##### 2. ملف الـ `.dockerignore`:
+يمنع نسخ الملفات الثقيلة وغير الضرورية إلى داخل الحاوية لتسريع البناء وتقليل حجم الصورة:
+```text
+__pycache__/
+*.py[oc]
+.venv/
+.git/
+.env
+data/databases/
+*.ipynb_checkpoints/
+```
+
+---
+
+#### د. نموذج Dockerfile إنتاجي لتطبيق RAG / LangGraph (Production-Grade Template)
+
+```dockerfile
+# 1. استخدام صورة بايثون خفيفة ورسمية
+FROM python:3.12-slim
+
+# 2. ضبط المتغيرات البيئية لمنع تخزين بافر البايثون وتوليد ملفات pyc
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+# 3. تثبيت الاعتماديات الأساسية للنظام (مكتبات C اللازمة لمعالجة المستندات)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 4. تحديد مجلد العمل
+WORKDIR /app
+
+# 5. استغلال الـ Docker Layer Caching: نسخ ملف المتطلبات وتثبيته أولاً
+# (حتى لا يعيد تثبيت المكتبات كلما عدلت سطراً في الكود)
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# 6. نسخ باقي ملفات المشروع
+COPY . .
+
+# 7. كشف المنفذ الخاص بالتطبيق (Streamlit 8501 أو FastAPI 8000)
+EXPOSE 8501
+
+# 8. تشغيل التطبيق
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+```
+
+---
+
+#### هـ. تنسيق المنظومة الكاملة بـ `docker-compose.yml` (App + Qdrant + Redis)
+
+في تطبيقات الـ RAG، نستخدم **Docker Compose** لربط التطبيق مع قاعدة بيانات المتجهات والكاش في ملف واحد:
+
+```yaml
+version: '3.8'
+
+services:
+  # 1. قاعدة بيانات المتجهات Qdrant
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant_storage
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage   # حفظ البيانات دائماً على الهارد
+    restart: always
+
+  # 2. تطبيق الـ RAG والمساعد الذكي (LangGraph / Streamlit)
+  hr_assistant:
+    build: .
+    container_name: hr_policy_app
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - QDRANT_URL=http://qdrant:6333  # الاتصال بقاعدة البيانات عبر اسم الخدمة الداخلي
+    depends_on:
+      - qdrant
+    volumes:
+      - ./data:/app/data               # مشاركة مجلد المستندات محلياً
+    restart: on-failure
+
+# حجز مساحة تخزين دائمة لقاعدة البيانات لا تمسح عند إيقاف الحاويات
+volumes:
+  qdrant_data:
+```
+
+---
+
+#### و. مفهوم الـ Volumes واستمرارية البيانات (Data Persistence)
+* **المشكلة:** الحاويات بطبيعتها زائلة (Ephemeral)؛ إذا أوقفت الحاوية أو حذفتها، ستفقد كل المتجهات التي قمت بإنشائها داخلها!
+* **الحل (Docker Volumes):** ربط مجلد تخزين من القرص الصلب الحقيقي للمضيف (Host) بمجلد التخزين الداخلي للحاوية، بحيث تظل بيانات الـ Vector DB ومجلدات الـ Cache (مثل `~/.cache/huggingface`) محفوظة للأبد حتى لو أعدت بناء الحاوية ألف مرة.
+
+---
+
+#### ز. تشغيل كروت الشاشة داخل الدوكر (NVIDIA GPU Support)
+إذا كان تطبيقك يشغل نماذج محلية (مثل `sentence-transformers` أو `Ollama` أو `vLLM`) ويحتاج كرت الشاشة:
+1. تثبيت أداة **NVIDIA Container Toolkit** على النظام المضيف.
+2. تشغيل الحاوية بتمرير معامل كروت الشاشة:
+   ```bash
+   docker run --gpus all -p 8000:8000 my-ai-model:latest
+   ```
+
+---
+
+#### ح. لوحة أهم أوامر Docker اليومية لمهندس الـ AI (Cheatsheet)
+
+| الأمر | الوظيفة |
+| :--- | :--- |
+| `docker build -t my-rag-app:v1 .` | بناء صورة Docker جديدة من الـ Dockerfile في المسار الحالي. |
+| `docker run -d -p 8501:8501 --name rag_live my-rag-app:v1` | تشغيل الحاوية في الخلفية (`-d`) وربط المنفذ بالخارج (`-p`). |
+| `docker compose up -d` | تشغيل منظومة الخدمات بالكامل (التطبيق + قواعد البيانات) بأمر واحد في الخلفية. |
+| `docker compose down` | إيقاف كل الخدمات وحذف الشبكات المؤقتة بأمان. |
+| `docker ps` | عرض الحاويات التي تعمل حالياً وحالتها والمنافذ المفتوحة. |
+| `docker logs -f <container_name>` | متابعة سجلات الأخطاء ومخرجات الـ Print والـ LLM اللحظية (`Live Stream`). |
+| `docker exec -it <container_name> /bin/bash` | الدخول المباشر بالـ Terminal داخل الحاوية لاختبار الكود والبيئة محلياً. |
+| `docker system prune -a` | تنظيف الذاكرة ومسح الصور والحاويات المهملة التي تستهلك مساحة القرص. |
