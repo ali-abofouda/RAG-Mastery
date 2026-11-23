@@ -19,8 +19,9 @@
 | **150 - 151** | خط أنابيب الاستعلام التفاعلي وواجهة Streamlit | قيد المعالجة | قيد المعالجة | Phase 1: Query Pipeline & UI |
 | **152 - 156** | الطور الثاني: دروع الأمان والـ Guardrails والكاش الدلالي وإدارة الجلسات | [`09-red-teaming-and-llm-evaluation-foundations.md`](./09-red-teaming-and-llm-evaluation-foundations.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/) | Phase 2: Security & Guardrails (مكتمل) |
 | **157** | فحص البايب لاين: الفريق الأحمر ومقدمة التقييم بنموذج الحَكَم | [`09-red-teaming-and-llm-evaluation-foundations.md`](./09-red-teaming-and-llm-evaluation-foundations.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/red_team_test.py`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/red_team_test.py) | Phase 2: Red Teaming & LLM-as-a-Judge (مكتمل) |
-| **158 - 159** | الطور الثاني: التقييم الكمي الشامل وثالوث الـ RAG عبر LangSmith | قيد المعالجة | قيد المعالجة | Phase 2: Quantitative LLM Evals |
-| **160 - 163** | الطور الثالث: الحاويات والنشر السحابي الكامل | قيد المعالجة | قيد المعالجة | Phase 3: Deployment |
+| **158 - 159** | الطور الثاني: التقييم الكمي الشامل وثالوث الـ RAG عبر LangSmith و OpenEvals | [`../stages/01-rag-applications/01-hr-policy-rag-assistant/`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/evaluate.py) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/evaluate.py`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/evaluate.py) | Phase 2: Quantitative LLM Evals (مكتمل) |
+| **160 - 161** | الطور الثالث: الحاويات و Docker Compose وبوابة Google OAuth والتحكم في الوصول | [`10-containerization-cloud-run-and-access-control.md`](./10-containerization-cloud-run-and-access-control.md) | [`projects/01-rag-applications/01-hr-policy-rag-assistant/Dockerfile`](../../projects/01-rag-applications/01-hr-policy-rag-assistant/Dockerfile) | Phase 3: Containerization & Auth (مكتمل) |
+| **162 - 163** | الطور الثالث: النشر السحابي الكامل على Google Cloud Run والتشغيل الحي | قيد المعالجة | قيد المعالجة | Phase 3: Live Cloud Deployment |
 
 ---
 
